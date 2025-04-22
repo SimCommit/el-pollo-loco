@@ -15,7 +15,13 @@ class MovableObject {
     console.log("Moving Right");
   }
 
-  moveLeft() {
-    console.log("Moving Left");
-  }
+  // moveLeft(x) {
+  //   console.log("Moving Left");
+
+  //   for (let i = 0; i < 100; i++) {
+  //     setTimeout((x) => {
+  //       x - i;
+  //     }, 100);
+  //   }
+  // }
 }

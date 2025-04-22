@@ -25,6 +25,10 @@ class World {
     this.addToMap(this.character);
     this.addObjectsToMap(this.enemies);
 
+    this.clouds.forEach((cloud) => {
+      cloud.moveLeft();
+    })
+
     // The function is repeatedly called via requestAnimationFrame
     let self = this;
     requestAnimationFrame(function () {
