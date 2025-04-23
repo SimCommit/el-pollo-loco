@@ -18,10 +18,19 @@ class Cloud extends MovableObject {
   //   }, 1000 / 60);
   // }
 
+  // animate() {
+  //   this.x--;
+  //   if (this.x < -550) {
+  //     this.x = 700;
+  //   }
+  // }
+
   animate() {
-    this.x--;
-    if (this.x < -550) {
-      this.x = 700;
-    }
+    setTimeout(() => {
+      this.x -= 0.15;
+      if (this.x < -200) {
+        this.x = 700;
+      }
+    }, 1000 / 60);
   }
 }
