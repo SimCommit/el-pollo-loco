@@ -25,9 +25,9 @@ class World {
     this.addToMap(this.character);
     this.addObjectsToMap(this.enemies);
 
-    this.clouds.forEach((cloud) => {
-      cloud.animate();
-    });
+    // this.clouds.forEach((cloud) => {
+    //   cloud.animate();
+    // });
 
     // The function is repeatedly called via requestAnimationFrame
     let self = this;
