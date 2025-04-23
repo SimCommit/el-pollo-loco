@@ -1,0 +1,4 @@
+# .prettierignore
+# **/*.js
+# **/*.ts
+# **/*.json

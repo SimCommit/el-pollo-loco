@@ -1,0 +1,7 @@
+{
+    "name": "el-pollo-loco",
+    "version": "0.0.13",
+    "prettier": {
+      "printWidth": 100
+    }
+  }
