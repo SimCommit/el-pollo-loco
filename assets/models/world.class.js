@@ -1,3 +1,5 @@
+// world.class.js
+
 class World {
   clouds = [new Cloud()];
   backgroundObjects = [
@@ -51,6 +53,26 @@ class World {
 
   // mo = movable object
   addToMap(mo) {
+    if (mo.otherDirection) {
+      this.flipImage(mo);
+    }
+
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.heigth);
+
+    if (mo.otherDirection) {
+      this.flipImageBack(mo);
+    }
+  }
+
+  flipImage(mo) {
+    this.ctx.save();
+    this.ctx.translate(mo.width, 0);  //  shift by object width to prevent "teleporting" when flipping (otherDirection)
+    this.ctx.scale(-1, 1);  
+    mo.x = mo.x * -1;
+  }
+
+  flipImageBack(mo){
+    mo.x = mo.x * -1;
+    this.ctx.restore();
   }
 }

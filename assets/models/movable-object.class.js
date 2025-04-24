@@ -1,12 +1,15 @@
+// movable-object.class.js
+
 class MovableObject {
-  x = 120;
-  y = 285;
+  // x = 120;
+  // y = 285;
+  // heigth = 150;
+  // width = 100;
   img;
-  heigth = 150;
-  width = 100;
   imageCache = {};
   currentImage = 0;
   speed = 0.15;
+  otherDirection = false;
 
   //   loadImage('img/test.png')
   loadImage(path) {

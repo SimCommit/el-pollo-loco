@@ -1,3 +1,5 @@
+// keyboard.class.js
+
 class Keyboard {
     LEFT = false;
     RIGHT = false;

@@ -1,3 +1,5 @@
+// cloud.class.js
+
 class Cloud extends MovableObject {
   y = 0;
   x = 200;

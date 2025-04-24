@@ -1,3 +1,5 @@
+// chicken.class.js
+
 class Chicken extends MovableObject {
   width = 50;
   heigth = 50;

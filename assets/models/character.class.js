@@ -1,6 +1,9 @@
+// character.class.js
+
 class Character extends MovableObject {
   x = 120;
   y = 230;
+  speed = 6;
   heigth = 200;
   width = 100;
   IMAGES_WALKING = [
@@ -21,23 +24,32 @@ class Character extends MovableObject {
   }
 
   animate() {
-
+    // Move character
     setInterval(() => {
-
       if (this.world.keyboard.RIGHT) {
-        let i = this.currentImage % this.IMAGES_WALKING.length 
+        this.x += this.speed;
+        this.otherDirection = false;
+      }
+
+      if (this.world.keyboard.LEFT) {
+        this.x -= this.speed;
+        this.otherDirection = true;
+      }
+    }, 1000 / 60);
+
+    // Walk animation
+    setInterval(() => {
+      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        let i = this.currentImage % this.IMAGES_WALKING.length;
         let path = this.IMAGES_WALKING[i];
         this.img = this.imageCache[path];
         this.currentImage++;
       }
-
-    }, 100);
-
+    }, 50);
 
     // if (this.world.character.world.keyboard.LEFT) {
     //   this.moveLeft();
     // }
-
   }
 
   jump() {}
