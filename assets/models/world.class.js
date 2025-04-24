@@ -10,11 +10,18 @@ class World {
   enemies = [new Chicken(), new Chicken(), new Chicken()];
   canvas;
   ctx;
+  keyboard;
 
-  constructor(canvas) {
+  constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???
     this.canvas = canvas;
+    this.keyboard = keyboard;
     this.draw();
+    this.setWorld();
+  }
+
+  setWorld() {
+    this.character.world = this;
   }
 
   draw() {
@@ -25,15 +32,15 @@ class World {
     this.addToMap(this.character);
     this.addObjectsToMap(this.enemies);
 
-    // this.clouds.forEach((cloud) => {
-    //   cloud.animate();
-    // });
-
     // The function is repeatedly called via requestAnimationFrame
-    let self = this;
-    requestAnimationFrame(function () {
-      self.draw();
+    requestAnimationFrame( () => {
+      this.draw();
     });
+
+    // let self = this;
+    // requestAnimationFrame(function () {
+    //   self.draw();
+    // });
   }
 
   addObjectsToMap(objects) {
