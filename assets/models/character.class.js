@@ -35,6 +35,8 @@ class Character extends MovableObject {
         this.x -= this.speed;
         this.otherDirection = true;
       }
+
+      this.world.camera_x = - this.x;
     }, 1000 / 60);
 
     // Walk animation
