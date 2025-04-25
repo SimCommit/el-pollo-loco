@@ -6,10 +6,6 @@ class World {
     new BackgroundObject("../assets/img/5_background/layers/3_third_layer/2.png", -719),
     new BackgroundObject("../assets/img/5_background/layers/2_second_layer/2.png", -719),
     new BackgroundObject("../assets/img/5_background/layers/1_first_layer/2.png", -719),
-    new BackgroundObject("../assets/img/5_background/layers/air.png", 0),
-    new BackgroundObject("../assets/img/5_background/layers/3_third_layer/1.png", 0),
-    new BackgroundObject("../assets/img/5_background/layers/2_second_layer/1.png", 0),
-    new BackgroundObject("../assets/img/5_background/layers/1_first_layer/1.png", 0),
   ];
   clouds = [new Cloud()];
   character = new Character();
@@ -33,17 +29,31 @@ class World {
   }
 
   extendBackgroundObjects() {
-    for (let i = 1; i < 3; i++) {
-      this.factor = i * 719;
+    this.segmentWidth = 719;
+
+    for (let i = 0; i < 3; i++) {
+      this.baseX = i * this.segmentWidth * 2;
       this.backgroundObjects.push(
-        new BackgroundObject("../assets/img/5_background/layers/air.png", 0 + this.factor),
-        new BackgroundObject("../assets/img/5_background/layers/3_third_layer/2.png", 0 + this.factor),
-        new BackgroundObject("../assets/img/5_background/layers/2_second_layer/2.png", 0 + this.factor),
-        new BackgroundObject("../assets/img/5_background/layers/1_first_layer/2.png", 0 + this.factor),
-        new BackgroundObject("../assets/img/5_background/layers/air.png", 719 + this.factor),
-        new BackgroundObject("../assets/img/5_background/layers/3_third_layer/1.png", 719 + this.factor),
-        new BackgroundObject("../assets/img/5_background/layers/2_second_layer/1.png", 719 + this.factor),
-        new BackgroundObject("../assets/img/5_background/layers/1_first_layer/1.png", 719 + this.factor),
+        new BackgroundObject("../assets/img/5_background/layers/air.png", this.baseX),
+        new BackgroundObject("../assets/img/5_background/layers/3_third_layer/1.png", this.baseX),
+        new BackgroundObject("../assets/img/5_background/layers/2_second_layer/1.png", this.baseX),
+        new BackgroundObject("../assets/img/5_background/layers/1_first_layer/1.png", this.baseX),
+        new BackgroundObject(
+          "../assets/img/5_background/layers/air.png",
+          this.baseX + this.segmentWidth
+        ),
+        new BackgroundObject(
+          "../assets/img/5_background/layers/3_third_layer/2.png",
+          this.baseX + this.segmentWidth
+        ),
+        new BackgroundObject(
+          "../assets/img/5_background/layers/2_second_layer/2.png",
+          this.baseX + this.segmentWidth
+        ),
+        new BackgroundObject(
+          "../assets/img/5_background/layers/1_first_layer/2.png",
+          this.baseX + this.segmentWidth
+        )
       );
     }
   }
