@@ -1,15 +1,8 @@
 // world.class.js
 
 class World {
-  backgroundObjects = [
-    new BackgroundObject("../assets/img/5_background/layers/air.png", -719),
-    new BackgroundObject("../assets/img/5_background/layers/3_third_layer/2.png", -719),
-    new BackgroundObject("../assets/img/5_background/layers/2_second_layer/2.png", -719),
-    new BackgroundObject("../assets/img/5_background/layers/1_first_layer/2.png", -719),
-  ];
-  clouds = [new Cloud()];
   character = new Character();
-  enemies = [new Chicken(), new Chicken(), new Chicken()];
+  level = level1;
   canvas;
   ctx;
   keyboard;
@@ -19,7 +12,6 @@ class World {
     this.ctx = canvas.getContext("2d"); // ???
     this.canvas = canvas;
     this.keyboard = keyboard;
-    this.extendBackgroundObjects();
     this.draw();
     this.setWorld();
   }
@@ -28,49 +20,19 @@ class World {
     this.character.world = this;
   }
 
-  extendBackgroundObjects() {
-    this.segmentWidth = 719;
-
-    for (let i = 0; i < 3; i++) {
-      this.baseX = i * this.segmentWidth * 2;
-      this.backgroundObjects.push(
-        new BackgroundObject("../assets/img/5_background/layers/air.png", this.baseX),
-        new BackgroundObject("../assets/img/5_background/layers/3_third_layer/1.png", this.baseX),
-        new BackgroundObject("../assets/img/5_background/layers/2_second_layer/1.png", this.baseX),
-        new BackgroundObject("../assets/img/5_background/layers/1_first_layer/1.png", this.baseX),
-        new BackgroundObject(
-          "../assets/img/5_background/layers/air.png",
-          this.baseX + this.segmentWidth
-        ),
-        new BackgroundObject(
-          "../assets/img/5_background/layers/3_third_layer/2.png",
-          this.baseX + this.segmentWidth
-        ),
-        new BackgroundObject(
-          "../assets/img/5_background/layers/2_second_layer/2.png",
-          this.baseX + this.segmentWidth
-        ),
-        new BackgroundObject(
-          "../assets/img/5_background/layers/1_first_layer/2.png",
-          this.baseX + this.segmentWidth
-        )
-      );
-    }
-  }
-
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.ctx.translate(this.camera_x, 0);
 
-    this.addObjectsToMap(this.backgroundObjects);
-    this.addObjectsToMap(this.clouds);
+    this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
-    this.addObjectsToMap(this.enemies);
 
     this.ctx.translate(-this.camera_x, 0);
 
-    // The function is repeatedly called via requestAnimationFrame
+    // The function is repeatedly called via requestAnimationFrame (thanks to Michelle)
     requestAnimationFrame(() => {
       this.draw();
     });
@@ -112,3 +74,33 @@ class World {
     this.ctx.restore();
   }
 }
+
+// extendBackgroundObjects() {
+//   this.segmentWidth = 719;
+
+//   for (let i = 0; i < 3; i++) {
+//     this.baseX = i * this.segmentWidth * 2;
+//     this.backgroundObjects.push(
+//       new BackgroundObject("../assets/img/5_background/layers/air.png", this.baseX),
+//       new BackgroundObject("../assets/img/5_background/layers/3_third_layer/1.png", this.baseX),
+//       new BackgroundObject("../assets/img/5_background/layers/2_second_layer/1.png", this.baseX),
+//       new BackgroundObject("../assets/img/5_background/layers/1_first_layer/1.png", this.baseX),
+//       new BackgroundObject(
+//         "../assets/img/5_background/layers/air.png",
+//         this.baseX + this.segmentWidth
+//       ),
+//       new BackgroundObject(
+//         "../assets/img/5_background/layers/3_third_layer/2.png",
+//         this.baseX + this.segmentWidth
+//       ),
+//       new BackgroundObject(
+//         "../assets/img/5_background/layers/2_second_layer/2.png",
+//         this.baseX + this.segmentWidth
+//       ),
+//       new BackgroundObject(
+//         "../assets/img/5_background/layers/1_first_layer/2.png",
+//         this.baseX + this.segmentWidth
+//       )
+//     );
+//   }
+// }
