@@ -2,7 +2,7 @@
 
 class Character extends MovableObject {
   x = 120;
-  y = 230;
+  y = 80;
   speed = 6;
   heigth = 200;
   width = 100;
@@ -14,12 +14,31 @@ class Character extends MovableObject {
     "../assets/img/2_character_pepe/2_walk/W-25.png",
     "../assets/img/2_character_pepe/2_walk/W-26.png",
   ];
+
+  IMAGES_JUMPING = [
+    
+  ];
   world;
+  speedY = 0;
+  acceleration = 1;
+
+  applyGravity() {
+    setInterval(() => {
+      if (this.isAboveGround()) {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      }
+    }, 1000 / 25);
+  }
+
+  isAboveGround() {
+    return this.y < 220;
+  }
 
   constructor() {
     super().loadImage("../assets/img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
-
+    this.applyGravity();
     this.animate();
   }
 
