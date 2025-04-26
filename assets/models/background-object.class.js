@@ -1,3 +1,5 @@
+// background-object.class.js
+
 class BackgroundObject extends MovableObject {
   width = 720;
   height = 480;

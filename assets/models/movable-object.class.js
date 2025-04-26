@@ -1,39 +1,11 @@
 // movable-object.class.js
 
-class MovableObject {
-  img;
-  imageCache = {};
-  currentImage = 0;
+class MovableObject extends DrawableObject {
   speed = 0.15;
-  otherDirection = false;
-  offset = {
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  };
   health = 100;
   // onCooldown = false;
   // isHurt = false;
   lastHit = 0;
-
-  //   loadImage('img/test.png')
-  loadImage(path) {
-    this.img = new Image(); // this.img = document.getElementById('image') <img id="image">
-    this.img.src = path;
-  }
-
-  /**
-   *
-   * @param {Array} arr - ['img/image1.png', 'img/image2.png', ...]
-   */
-  loadImages(arr) {
-    arr.forEach((path) => {
-      let img = new Image();
-      img.src = path;
-      this.imageCache[path] = img;
-    });
-  }
 
   applyGravity() {
     setInterval(() => {
@@ -60,13 +32,12 @@ class MovableObject {
     // console.log("Collision, new Health: ", this.health);
   }
 
-  
-    isHurt() {
-      let timePassed = new Date().getTime() - this.lastHit; // Difference in ms
-      timePassed = timePassed / 1000;                       // Difference in s
-      return timePassed < 1;
-    }
-  
+  isHurt() {
+    let timePassed = new Date().getTime() - this.lastHit; // Difference in ms
+    timePassed = timePassed / 1000; // Difference in s
+    return timePassed < 1;
+  }
+
   // hit() {
 
   //   if (this.onCooldown) return;
@@ -106,28 +77,7 @@ class MovableObject {
   //   }, 1000);
   // }
 
-  rebound() {
-    this.x -= 25;
-    setTimeout(() => {
-      this.x -= 50;
-    }, 100);
-    setTimeout(() => {
-      this.x -= 25;
-    }, 200);
-  }
-
-  // deadAnimation() {
-
-  // }
-
-  // isDead() {
-  //   if (this.health <= 0) this.dying = true;
-  // }
-
-  draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  }
-
+  
   // Real hitboxes (with gpt)
   drawFrame(ctx) {
     if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
@@ -144,6 +94,16 @@ class MovableObject {
 
       ctx.stroke();
     }
+  }
+
+  rebound() {
+    this.x -= 25;
+    setTimeout(() => {
+      this.x -= 50;
+    }, 100);
+    setTimeout(() => {
+      this.x -= 25;
+    }, 200);
   }
 
   isColliding(mo) {

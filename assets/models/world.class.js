@@ -3,11 +3,11 @@
 class World {
   character = new Character();
   level = level1;
-  statusBar = new StatusBar
   canvas;
   ctx;
   keyboard;
   camera_x = 0;
+  statusBar = new StatusBar();
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???
@@ -45,6 +45,8 @@ class World {
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
 
+    this.addToMap(this.statusBar);
+
     this.ctx.translate(-this.camera_x, 0);
 
     // The function is repeatedly called via requestAnimationFrame (thanks to Michelle for this)
@@ -67,8 +69,9 @@ class World {
 
     mo.draw(this.ctx);
 
-    mo.drawFrame(this.ctx);
-
+    if (mo instanceof MovableObject) {   // <- nur MovableObjects bekommen Frames
+      mo.drawFrame(this.ctx);
+    }
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
