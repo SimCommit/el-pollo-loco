@@ -13,8 +13,9 @@ class MovableObject {
     right: 0,
   };
   health = 100;
-  onCooldown = false;
-  isHurt = false;
+  // onCooldown = false;
+  // isHurt = false;
+  lastHit = 0;
 
   //   loadImage('img/test.png')
   loadImage(path) {
@@ -48,30 +49,47 @@ class MovableObject {
   }
 
   hit() {
-
-    if (this.onCooldown) return;
-
     this.health -= 5;
-    this.isHurt = true;
-    this.rebound();
-    this.onCooldown = true;
 
     if (this.health < 0) {
       this.health = 0;
+    } else {
+      this.lastHit = new Date().getTime();
     }
 
-    console.log("Collision, new Health: ", this.health);
-
-    setTimeout(() => {
-      this.isHurt = false;
-    }, 1000);
-
-    setTimeout(() => {
-      this.onCooldown = false;
-    }, 2000);
+    // console.log("Collision, new Health: ", this.health);
   }
 
-  // isHurt() {}
+  
+    isHurt() {
+      let timePassed = new Date().getTime() - this.lastHit; // Difference in ms
+      timePassed = timePassed / 1000;                       // Difference in s
+      return timePassed < 1;
+    }
+  
+  // hit() {
+
+  //   if (this.onCooldown) return;
+
+  //   this.health -= 5;
+  //   this.isHurt = true;
+  //   this.rebound();
+  //   this.onCooldown = true;
+
+  //   if (this.health < 0) {
+  //     this.health = 0;
+  //   }
+
+  //   console.log("Collision, new Health: ", this.health);
+
+  //   setTimeout(() => {
+  //     this.isHurt = false;
+  //   }, 1000);
+
+  //   setTimeout(() => {
+  //     this.onCooldown = false;
+  //   }, 2000);
+  // }
 
   isDead() {
     return this.health == 0;
