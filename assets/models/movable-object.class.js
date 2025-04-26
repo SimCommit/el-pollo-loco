@@ -6,7 +6,10 @@ class MovableObject {
   currentImage = 0;
   speed = 0.15;
   otherDirection = false;
+  offsetX = 0;
+  offsetRight = 0;
   offsetY = 0;
+  offsetBottom = 0;
 
   //   loadImage('img/test.png')
   loadImage(path) {
@@ -43,12 +46,20 @@ class MovableObject {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
+  // Real hitboxes (with gpt)
   drawFrame(ctx) {
     if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
       ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.lineWidth = "2";
+      ctx.strokeStyle = "red";
+  
+      ctx.rect(
+        this.x + this.offsetX,                           // X-Start (verschoben, wenn nötig)
+        this.y + this.offsetY,                           // Y-Start (verschoben)
+        this.width - this.offsetX - this.offsetRight,    // Breite angepasst
+        this.height - this.offsetY - this.offsetBottom   // Höhe angepasst
+      );
+  
       ctx.stroke();
     }
   }
@@ -56,22 +67,12 @@ class MovableObject {
   // NEW
   isColliding(mo) {
     return (
-      this.x + this.width >= mo.x &&
-      this.x <= mo.x + mo.width &&
-      this.y + this.offsetY + this.height >= mo.y &&
-      this.y + this.offsetY <= mo.y + mo.height
+      this.x + (this.width - this.offsetRight) >= mo.x &&
+      (this.x + this.offsetX) <= mo.x + mo.width &&
+      this.y + (this.height - this.offsetBottom) >= mo.y &&
+      (this.y + this.offsetY) <= mo.y + mo.height
     );
   }
-
-  // character.isColliding(chicken); e.g.
-  // isColliding(mo) {
-  //   return (
-  //     this.x + this.width >= mo.x &&
-  //     this.y + this.height >= mo.y &&
-  //     this.x < mo.x &&
-  //     this.y < mo.y + mo.height
-  //   );
-  // }
 
   playAnimation(images) {
     let i = this.currentImage % this.IMAGES_WALKING.length;

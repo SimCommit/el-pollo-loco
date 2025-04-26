@@ -30,8 +30,10 @@ class Character extends MovableObject {
   world;
   speedY = 0;
   acceleration = 1;
-  offsetY = 0;
-
+  offsetX = 12;
+  offsetRight = 18;
+  offsetY = 80;
+  offsetBottom = 8;
 
   constructor() {
     super().loadImage("../assets/img/2_character_pepe/2_walk/W-21.png");

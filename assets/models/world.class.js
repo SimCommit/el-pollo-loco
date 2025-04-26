@@ -43,15 +43,10 @@ class World {
 
     this.ctx.translate(-this.camera_x, 0);
 
-    // The function is repeatedly called via requestAnimationFrame (thanks to Michelle)
+    // The function is repeatedly called via requestAnimationFrame (thanks to Michelle for this)
     requestAnimationFrame(() => {
       this.draw();
     });
-
-    // let self = this;
-    // requestAnimationFrame(function () {
-    //   self.draw();
-    // });
   }
 
   addObjectsToMap(objects) {
