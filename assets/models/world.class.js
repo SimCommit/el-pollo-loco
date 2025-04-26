@@ -14,10 +14,21 @@ class World {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
+    this.checkCollisions();
   }
 
   setWorld() {
     this.character.world = this;
+  }
+
+  checkCollisions() {
+    setInterval(() => {
+      this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy)) {
+          console.log('Collision with Character ', enemy);
+        }
+      });
+    }, 200);
   }
 
   draw() {
@@ -55,7 +66,9 @@ class World {
       this.flipImage(mo);
     }
 
-    this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.heigth);
+    mo.draw(this.ctx);
+
+    mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);
@@ -73,7 +86,34 @@ class World {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
+
+  // character.isColliding(chicken); e.g.
+  // isColliding(mo) {
+  //   return (
+  //     this.x + this.width >= mo.x &&
+  //     this.y + this.height >= mo.y &&
+  //     this.x < mo.x &&
+  //     this.y < mo.y + mo.height
+  //   );
+  // }
+
+  // isColliding(mo) {
+  //   return (
+  //     this.x + this.width >= mo.x &&
+  //     this.x <= mo.x + mo.width &&
+  //     this.y + this.offsetY + this.height >= mo.y &&
+  //     this.y + this.offsetY <= mo.y + mo.height
+  //   );
+  // }
 }
+
+// Bessere Formel zur Kollisionsberechnung (Genauer)
+// isColliding (obj) {
+//   return  (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) &&
+//           (this.Y + this.offsetY + this.height) >= obj.Y &&
+//           (this.Y + this.offsetY) <= (obj.Y + obj.height) &&
+
+// }
 
 // extendBackgroundObjects() {
 //   this.segmentWidth = 719;

@@ -2,7 +2,7 @@
 
 class Character extends MovableObject {
   x = 120;
-  y = 80;
+  y = 220;
   speed = 6;
   heigth = 200;
   width = 100;
@@ -29,19 +29,7 @@ class Character extends MovableObject {
   world;
   speedY = 0;
   acceleration = 1;
-
-  applyGravity() {
-    setInterval(() => {
-      if (this.isAboveGround()) {
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
-      }
-    }, 1000 / 25);
-  }
-
-  isAboveGround() {
-    return this.y < 220;
-  }
+  walking_sound = new Audio("../assets/audio/character/walk2.mp3");
 
   constructor() {
     super().loadImage("../assets/img/2_character_pepe/2_walk/W-21.png");
@@ -55,13 +43,29 @@ class Character extends MovableObject {
     // Move character
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.x += this.speed;
         this.otherDirection = false;
+        this.moveRight();
+        if (!this.isAboveGround()) {
+          this.walking_sound.playbackRate = 4;
+          this.walking_sound.volume = 0.5;
+          this.walking_sound.play();
+        }
       }
 
       if (this.world.keyboard.LEFT && this.x > -100) {
-        this.x -= this.speed;
         this.otherDirection = true;
+        this.moveLeft();
+        if (!this.isAboveGround()) {
+          this.walking_sound.playbackRate = 4;
+          this.walking_sound.volume = 0.5;
+          this.walking_sound.play();
+        }
+      }
+
+      // console.log(this.speedY);
+
+      if (this.y >= 220 && (this.world.keyboard.UP || this.world.keyboard.SPACE)) {
+        this.jump();
       }
 
       this.world.camera_x = -this.x + 100;
@@ -72,11 +76,9 @@ class Character extends MovableObject {
       if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
-
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
           this.playAnimation(this.IMAGES_WALKING);
         }
-        
       }
     }, 50);
 
@@ -84,6 +86,4 @@ class Character extends MovableObject {
     //   this.moveLeft();
     // }
   }
-
-  jump() {}
 }
