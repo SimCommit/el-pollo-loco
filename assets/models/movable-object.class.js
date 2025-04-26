@@ -35,6 +35,7 @@ class MovableObject extends DrawableObject {
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit; // Difference in ms
     timePassed = timePassed / 1000; // Difference in s
+    // this.setPercentage(this.health);
     return timePassed < 1;
   }
 
@@ -77,24 +78,6 @@ class MovableObject extends DrawableObject {
   //   }, 1000);
   // }
 
-  
-  // Real hitboxes (with gpt)
-  drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
-      ctx.beginPath();
-      ctx.lineWidth = "2";
-      ctx.strokeStyle = "red";
-
-      ctx.rect(
-        this.x + this.offset.left,
-        this.y + this.offset.top,
-        this.width - this.offset.left - this.offset.right,
-        this.height - this.offset.top - this.offset.bottom
-      );
-
-      ctx.stroke();
-    }
-  }
 
   rebound() {
     this.x -= 25;

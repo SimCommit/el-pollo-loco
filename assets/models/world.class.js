@@ -44,7 +44,6 @@ class World {
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
-
     this.addToMap(this.statusBar);
 
     this.ctx.translate(-this.camera_x, 0);
@@ -68,10 +67,11 @@ class World {
     }
 
     mo.draw(this.ctx);
+    mo.drawFrame(this.ctx);
 
-    if (mo instanceof MovableObject) {   // <- nur MovableObjects bekommen Frames
-      mo.drawFrame(this.ctx);
-    }
+    // if (mo instanceof MovableObject) {   // <- nur MovableObjects bekommen Frames
+    //   mo.drawFrame(this.ctx);
+    // }
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
