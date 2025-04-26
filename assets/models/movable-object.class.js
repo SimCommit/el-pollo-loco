@@ -14,7 +14,7 @@ class MovableObject {
   };
   health = 100;
   onCooldown = false;
-  // dying = false;
+  isHurt = false;
 
   //   loadImage('img/test.png')
   loadImage(path) {
@@ -48,14 +48,30 @@ class MovableObject {
   }
 
   hit() {
+
+    if (this.onCooldown) return;
+
     this.health -= 5;
+    this.isHurt = true;
+    this.rebound();
+    this.onCooldown = true;
 
     if (this.health < 0) {
       this.health = 0;
     }
 
     console.log("Collision, new Health: ", this.health);
+
+    setTimeout(() => {
+      this.isHurt = false;
+    }, 1000);
+
+    setTimeout(() => {
+      this.onCooldown = false;
+    }, 2000);
   }
+
+  // isHurt() {}
 
   isDead() {
     return this.health == 0;
@@ -72,15 +88,15 @@ class MovableObject {
   //   }, 1000);
   // }
 
-  // rebound() {
-  //   this.x -= 25;
-  //   setTimeout(() => {
-  //     this.x -= 50;
-  //   }, 100);
-  //   setTimeout(() => {
-  //     this.x -= 25;
-  //   }, 200);
-  // }
+  rebound() {
+    this.x -= 25;
+    setTimeout(() => {
+      this.x -= 50;
+    }, 100);
+    setTimeout(() => {
+      this.x -= 25;
+    }, 200);
+  }
 
   // deadAnimation() {
 
@@ -145,13 +161,15 @@ class MovableObject {
     this.currentImage++;
   }
 
-  playSingleAnimation(images) {
-    let i = this.currentImage;
-    let path = images[i];
-    this.img = this.imageCache[path];
-    this.currentImage++;
-    this.dying = false;
-  }
+  // playSingleAnimation(images) {
+  //   let i = this.currentImage;
+  //   if (i >= images.length) {
+  //     return;
+  //   }
+  //   let path = images[i];
+  //   this.img = this.imageCache[path];
+  //   this.currentImage++;
+  // }
 
   moveRight() {
     this.x += this.speed;
