@@ -3,7 +3,7 @@
 class Cloud extends MovableObject {
   y = 0;
   x = 200;
-  heigth = 338;
+  height = 338;
   width = 600;
   speed = 0.15;
 

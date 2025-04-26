@@ -1,15 +1,12 @@
 // movable-object.class.js
 
 class MovableObject {
-  // x = 120;
-  // y = 285;
-  // heigth = 150;
-  // width = 100;
   img;
   imageCache = {};
   currentImage = 0;
   speed = 0.15;
   otherDirection = false;
+  offsetY = 0;
 
   //   loadImage('img/test.png')
   loadImage(path) {
@@ -43,7 +40,7 @@ class MovableObject {
   }
 
   draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.heigth);
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
   drawFrame(ctx) {
@@ -51,20 +48,30 @@ class MovableObject {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.heigth);
+      ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();
     }
   }
 
-  // character.isColliding(chicken); e.g.
+  // NEW
   isColliding(mo) {
     return (
       this.x + this.width >= mo.x &&
-      this.y + this.heigth >= mo.y &&
-      this.x < mo.x &&
-      this.y < mo.y + mo.heigth
+      this.x <= mo.x + mo.width &&
+      this.y + this.offsetY + this.height >= mo.y &&
+      this.y + this.offsetY <= mo.y + mo.height
     );
   }
+
+  // character.isColliding(chicken); e.g.
+  // isColliding(mo) {
+  //   return (
+  //     this.x + this.width >= mo.x &&
+  //     this.y + this.height >= mo.y &&
+  //     this.x < mo.x &&
+  //     this.y < mo.y + mo.height
+  //   );
+  // }
 
   playAnimation(images) {
     let i = this.currentImage % this.IMAGES_WALKING.length;

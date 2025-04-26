@@ -4,7 +4,7 @@ class Character extends MovableObject {
   x = 120;
   y = 220;
   speed = 6;
-  heigth = 200;
+  height = 200;
   width = 100;
   IMAGES_WALKING = [
     "../assets/img/2_character_pepe/2_walk/W-21.png",
@@ -26,10 +26,12 @@ class Character extends MovableObject {
     "../assets/img/2_character_pepe/3_jump/J-38.png",
     "../assets/img/2_character_pepe/3_jump/J-39.png",
   ];
+  walking_sound = new Audio("../assets/audio/character/walk2.mp3");
   world;
   speedY = 0;
   acceleration = 1;
-  walking_sound = new Audio("../assets/audio/character/walk2.mp3");
+  offsetY = 0;
+
 
   constructor() {
     super().loadImage("../assets/img/2_character_pepe/2_walk/W-21.png");
