@@ -74,7 +74,7 @@ class Character extends MovableObject {
         this.moveRight();
         if (!this.isAboveGround()) {
           this.walking_sound.playbackRate = 4;
-          this.walking_sound.volume = 0.5;
+          this.walking_sound.volume = 0.3;
           this.walking_sound.play();
         }
       }

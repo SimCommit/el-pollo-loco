@@ -3,6 +3,7 @@
 class World {
   character = new Character();
   level = level1;
+  statusBar = new StatusBar
   canvas;
   ctx;
   keyboard;
