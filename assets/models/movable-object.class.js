@@ -72,13 +72,18 @@ class MovableObject {
   getDamage(target) {
     if (this.onCooldown) return;
     target.health -= 25;
+    target.rebound();
     console.log('Collision, new HP: ', target.health);
     this.onCooldown = true;
     setTimeout(() => {
       this.onCooldown = false;
     }, 1000);
   }
-
+  
+  rebound() {
+    this.x -= 50;
+  }
+  
   isColliding(mo) {
     return (
       this.getHitboxRight() >= mo.getHitboxLeft() &&
@@ -123,4 +128,5 @@ class MovableObject {
   jump() {
     this.speedY = 24;
   }
+
 }
