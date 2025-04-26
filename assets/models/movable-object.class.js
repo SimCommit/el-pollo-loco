@@ -47,26 +47,40 @@ class MovableObject {
     return this.y < 220;
   }
 
-  getDamage(target) {
-    if (this.onCooldown) return;
-    target.health -= 25;
-    target.rebound();
-    console.log("Collision, new Health: ", target.health);
-    this.onCooldown = true;
-    setTimeout(() => {
-      this.onCooldown = false;
-    }, 1000);
+  hit() {
+    this.health -= 5;
+
+    if (this.health < 0) {
+      this.health = 0;
+    }
+
+    console.log("Collision, new Health: ", this.health);
   }
 
-  rebound() {
-    this.x -= 25;
-    setTimeout(() => {
-      this.x -= 50;
-    }, 100);
-    setTimeout(() => {
-      this.x -= 25;
-    }, 200);
+  isDead() {
+    return this.health == 0;
   }
+
+  // getDamage(target) {
+  //   if (this.onCooldown) return;
+  //   target.health -= 25;
+  //   target.rebound();
+  //   console.log("Collision, new Health: ", target.health);
+  //   this.onCooldown = true;
+  //   setTimeout(() => {
+  //     this.onCooldown = false;
+  //   }, 1000);
+  // }
+
+  // rebound() {
+  //   this.x -= 25;
+  //   setTimeout(() => {
+  //     this.x -= 50;
+  //   }, 100);
+  //   setTimeout(() => {
+  //     this.x -= 25;
+  //   }, 200);
+  // }
 
   // deadAnimation() {
 
@@ -132,7 +146,7 @@ class MovableObject {
   }
 
   playSingleAnimation(images) {
-    let i = this.currentImage
+    let i = this.currentImage;
     let path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;

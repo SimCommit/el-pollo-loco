@@ -31,6 +31,7 @@ class Character extends MovableObject {
     "../assets/img/2_character_pepe/5_dead/D-56.png",
     "../assets/img/2_character_pepe/5_dead/D-57.png",
   ];
+
   walking_sound = new Audio("../assets/audio/character/walk2.mp3");
   x = 120;
   y = 220;
@@ -90,18 +91,16 @@ class Character extends MovableObject {
 
     // Walk animation
     setInterval(() => {
-      if (this.isAboveGround()) {
+
+      if(this.isDead()) {
+        this.playAnimation(this.IMAGES_DYING)
+      } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
+
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
           this.playAnimation(this.IMAGES_WALKING);
         }
-
-        // this.isDead();
-
-        // if (this.dying) {
-        //   this.playSingleAnimation(this.IMAGES_DYING);
-        // }
       }
     }, 50);
 
