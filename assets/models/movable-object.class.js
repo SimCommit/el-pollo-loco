@@ -6,10 +6,13 @@ class MovableObject {
   currentImage = 0;
   speed = 0.15;
   otherDirection = false;
-  offsetX = 0;
-  offsetRight = 0;
-  offsetY = 0;
-  offsetBottom = 0;
+  offset = {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  };
+  health = 100;
 
   //   loadImage('img/test.png')
   loadImage(path) {
@@ -52,26 +55,54 @@ class MovableObject {
       ctx.beginPath();
       ctx.lineWidth = "2";
       ctx.strokeStyle = "red";
-  
+
       ctx.rect(
-        this.x + this.offsetX,                           // X-Start (verschoben, wenn nötig)
-        this.y + this.offsetY,                           // Y-Start (verschoben)
-        this.width - this.offsetX - this.offsetRight,    // Breite angepasst
-        this.height - this.offsetY - this.offsetBottom   // Höhe angepasst
+        this.x + this.offset.left,
+        this.y + this.offset.top,
+        this.width - this.offset.left - this.offset.right,
+        this.height - this.offset.top - this.offset.bottom
       );
-  
+
       ctx.stroke();
     }
   }
 
-  // NEW
+  onCooldown = false;
+
+  getDamage(target) {
+    if (this.onCooldown) return;
+    target.health -= 25;
+    console.log('Collision, new HP: ', target.health);
+    this.onCooldown = true;
+    setTimeout(() => {
+      this.onCooldown = false;
+    }, 1000);
+  }
+
   isColliding(mo) {
     return (
-      this.x + (this.width - this.offsetRight) >= mo.x &&
-      (this.x + this.offsetX) <= mo.x + mo.width &&
-      this.y + (this.height - this.offsetBottom) >= mo.y &&
-      (this.y + this.offsetY) <= mo.y + mo.height
+      this.getHitboxRight() >= mo.getHitboxLeft() &&
+      this.getHitboxLeft() <= mo.getHitboxRight() &&
+      this.getHitboxBottom() >= mo.getHitboxTop() &&
+      this.getHitboxTop() <= mo.getHitboxBottom()
     );
+  }
+
+  // Helpers for isColliding
+  getHitboxTop() {
+    return this.y + this.offset.top;
+  }
+
+  getHitboxBottom() {
+    return this.y + (this.height - this.offset.bottom);
+  }
+
+  getHitboxLeft() {
+    return this.x + this.offset.left;
+  }
+
+  getHitboxRight() {
+    return this.x + (this.width - this.offset.right);
   }
 
   playAnimation(images) {
@@ -90,6 +121,6 @@ class MovableObject {
   }
 
   jump() {
-    this.speedY = 20;
+    this.speedY = 24;
   }
 }
