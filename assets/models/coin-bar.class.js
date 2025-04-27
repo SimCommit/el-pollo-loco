@@ -9,12 +9,12 @@ class CoinBar extends StatusBar {
       "../assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png",
       "../assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png",
     ];
-    y = 40;
+    y = 45;
     percentage = 0;
   
     constructor() {
       super();
       this.loadImages(this.IMAGES);
-      this.setPercentage(0);
+      this.setPercentage(40);
     }
   }
