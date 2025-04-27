@@ -4,7 +4,6 @@ class MovableObject extends DrawableObject {
   speed = 0.15;
   health = 100;
   // onCooldown = false;
-  // isHurt = false;
   lastHit = 0;
 
   applyGravity() {
@@ -16,7 +15,7 @@ class MovableObject extends DrawableObject {
     }, 1000 / 25);
   }
 
-  applyHorizontalMovement()	{
+  applyHorizontalMovement() {
     setInterval(() => {
       if (this.isAboveGround) {
         this.x += this.speedX;
@@ -28,7 +27,11 @@ class MovableObject extends DrawableObject {
   }
 
   isAboveGround() {
-    return this.y < 220;
+    if (this instanceof ThrowableObject) { // Throwable objects should fall through ground
+      return true;
+    } else {
+      return this.y < 220;
+    }
   }
 
   hit() {
@@ -50,55 +53,19 @@ class MovableObject extends DrawableObject {
     return timePassed < 1;
   }
 
-  // hit() {
-
-  //   if (this.onCooldown) return;
-
-  //   this.health -= 5;
-  //   this.isHurt = true;
-  //   this.rebound();
-  //   this.onCooldown = true;
-
-  //   if (this.health < 0) {
-  //     this.health = 0;
-  //   }
-
-  //   console.log("Collision, new Health: ", this.health);
-
-  //   setTimeout(() => {
-  //     this.isHurt = false;
-  //   }, 1000);
-
-  //   setTimeout(() => {
-  //     this.onCooldown = false;
-  //   }, 2000);
-  // }
-
   isDead() {
     return this.health == 0;
   }
 
-  // getDamage(target) {
-  //   if (this.onCooldown) return;
-  //   target.health -= 25;
-  //   target.rebound();
-  //   console.log("Collision, new Health: ", target.health);
-  //   this.onCooldown = true;
+  // rebound() {
+  //   this.x -= 25;
   //   setTimeout(() => {
-  //     this.onCooldown = false;
-  //   }, 1000);
+  //     this.x -= 50;
+  //   }, 100);
+  //   setTimeout(() => {
+  //     this.x -= 25;
+  //   }, 200);
   // }
-
-
-  rebound() {
-    this.x -= 25;
-    setTimeout(() => {
-      this.x -= 50;
-    }, 100);
-    setTimeout(() => {
-      this.x -= 25;
-    }, 200);
-  }
 
   isColliding(mo) {
     return (
@@ -132,16 +99,6 @@ class MovableObject extends DrawableObject {
     this.img = this.imageCache[path];
     this.currentImage++;
   }
-
-  // playSingleAnimation(images) {
-  //   let i = this.currentImage;
-  //   if (i >= images.length) {
-  //     return;
-  //   }
-  //   let path = images[i];
-  //   this.img = this.imageCache[path];
-  //   this.currentImage++;
-  // }
 
   moveRight() {
     this.x += this.speed;

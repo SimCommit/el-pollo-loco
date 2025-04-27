@@ -50,7 +50,7 @@ document.addEventListener("keyup", (event) => {
       keyboard.SPACE = false;
       break;
     case "d":
-      keyboard.D = true;
+      keyboard.D = false;
       break;
   }
 });
