@@ -40,7 +40,7 @@ class MovableObject extends DrawableObject {
     if (this.health < 0) {
       this.health = 0;
     } else {
-      this.lastHit = new Date().getTime();
+      this.lastHit = new Date().getTime(); 
     }
 
     // console.log("Collision, new Health: ", this.health);
@@ -49,7 +49,6 @@ class MovableObject extends DrawableObject {
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit; // Difference in ms
     timePassed = timePassed / 1000; // Difference in s
-    // this.setPercentage(this.health);
     return timePassed < 1;
   }
 

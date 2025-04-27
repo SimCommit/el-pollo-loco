@@ -3,6 +3,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let lastInput = 0;
 
 function init() {
   canvas = getElementHelper("canvas");
@@ -33,6 +34,8 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
+  console.log(event);
+  lastInput = new Date().getTime();
   switch (event.key) {
     case "ArrowRight":
       keyboard.RIGHT = false;

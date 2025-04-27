@@ -55,6 +55,7 @@ class Character extends MovableObject {
   speedY = 0;
   acceleration = 1;
   health = 100;
+  longIdleThreshold = 5;
 
   constructor() {
     super().loadImage("../assets/img/2_character_pepe/2_walk/W-21.png");
@@ -110,5 +111,27 @@ class Character extends MovableObject {
         }
       }
     }, 1000 / 20);
+  }
+
+  updateState() {
+    if (this.isDead()) {
+      this.currentState = "dead";
+    } else if (this.isHurt()) {
+      this.currentState = "hurt";
+    } else if (this.isAboveGround()) {
+      this.currentState = "jumping";
+    } else if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround()) {
+      this.currentState = "walking";
+    } else if (this.isLongIdle()) {
+      this.currentState = "long_idle";
+    } else {
+      this.currentState = "idle";
+    }
+  }
+
+  isLongIdle() {
+    let timePassed = new Date().getTime() - lastInput; // Difference in ms
+    timePassed = timePassed / 1000; // Difference in s
+    return timePassed > this.longIdleThreshold; 
   }
 }
