@@ -9,7 +9,7 @@ class HealthBar extends StatusBar {
     "../assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png",
     "../assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png",
   ];
-  y = 10;
+  y = 0;
   percentage = 100;
 
   constructor() {

@@ -1,7 +1,7 @@
 // status-bar.class.js
 
 class StatusBar extends DrawableObject {
-  x = 50;
+  x = 20;
   width = 188;
   height = 50;
   percentage = 100;
