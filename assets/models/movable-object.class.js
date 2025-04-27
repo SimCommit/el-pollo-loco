@@ -16,6 +16,17 @@ class MovableObject extends DrawableObject {
     }, 1000 / 25);
   }
 
+  applyHorizontalMovement()	{
+    setInterval(() => {
+      if (this.isAboveGround) {
+        this.x += this.speedX;
+        if (this.speedX > 0) {
+          this.speedX -= this.acceleration;
+        }
+      }
+    }, 1000 / 25);
+  }
+
   isAboveGround() {
     return this.y < 220;
   }
