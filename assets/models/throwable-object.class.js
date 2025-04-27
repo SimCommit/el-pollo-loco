@@ -24,6 +24,7 @@ class ThrowableObject extends MovableObject {
     this.x = x;
     this.y = y;
     this.throw();
+    this.animate();
   }
 
   throw() {
@@ -33,18 +34,13 @@ class ThrowableObject extends MovableObject {
     this.speedX = 5;
     this.applyGravity();
     setInterval(() => {
-        this.x += this.speedX;
+      this.x += this.speedX;
     }, 25);
-
-
-    // this.applyHorizontalMovement();
-
-    // this.playAnimation(this.IMAGES_ROTATION);
   }
 
   animate() {
-    if (this.world.keyboard.D) {
-      this.throw();
-    }
+    setInterval(() => {
+      this.playAnimation(this.IMAGES_ROTATION);
+    }, 1000 / 12);
   }
 }
