@@ -54,7 +54,7 @@ class Character extends MovableObject {
   world;
   speedY = 0;
   acceleration = 1;
-  health = 1000;
+  health = 100;
 
   constructor() {
     super().loadImage("../assets/img/2_character_pepe/2_walk/W-21.png");

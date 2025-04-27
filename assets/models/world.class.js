@@ -25,9 +25,10 @@ class World {
   checkCollisions() {
     setInterval(() => {
       this.level.enemies.forEach((enemy) => {
-        if (this.character.isColliding(enemy)) {
+        if (this.character.isColliding(enemy) && !this.character.isHurt()) {
           this.character.hit();
-          // this.character.getDamage(this.character);
+          this.statusBar.setPercentage(this.character.health);
+          console.log(this.character.health);
         }
       });
     }, 200);
@@ -44,7 +45,11 @@ class World {
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
+
+    this.ctx.translate(-this.camera_x, 0); // back
+    // --- Space for fixed objects ---
     this.addToMap(this.statusBar);
+    this.ctx.translate(this.camera_x, 0); // forwards
 
     this.ctx.translate(-this.camera_x, 0);
 
