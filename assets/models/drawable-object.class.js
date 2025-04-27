@@ -31,7 +31,13 @@ class DrawableObject {
   }
   
   draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+
+    try {
+      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    } catch (error) {
+      console.warn(error);
+      debugger;
+    }
   }
 
   // Real hitboxes (with gpt)

@@ -27,7 +27,8 @@ class MovableObject extends DrawableObject {
   }
 
   isAboveGround() {
-    if (this instanceof ThrowableObject) { // Throwable objects should fall through ground
+    if (this instanceof ThrowableObject) {
+      // Throwable objects should fall through ground
       return true;
     } else {
       return this.y < 220;
@@ -35,12 +36,12 @@ class MovableObject extends DrawableObject {
   }
 
   hit() {
-    this.health -= 5;
+    this.health -= 20;
 
     if (this.health < 0) {
       this.health = 0;
     } else {
-      this.lastHit = new Date().getTime(); 
+      this.lastHit = new Date().getTime();
     }
 
     // console.log("Collision, new Health: ", this.health);
