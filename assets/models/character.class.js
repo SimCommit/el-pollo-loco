@@ -61,7 +61,7 @@ class Character extends MovableObject {
   walking_sound = new Audio("../assets/audio/character/walk2.mp3");
   x = 120;
   y = 220;
-  speed = 6;
+  speed = 8;
   height = 200;
   width = 100;
   world;
@@ -74,13 +74,16 @@ class Character extends MovableObject {
   frameDelayIdle = 10;
 
   constructor() {
-    super().loadImage("../assets/img/2_character_pepe/2_walk/W-21.png");
+    super().loadImage("../assets/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DYING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_IDLE);
     this.applyGravity();
+    this.currentState = "idle";
+    this.invincibleTrigger = new Date().getTime();
+
     this.animate();
   }
 
@@ -118,6 +121,10 @@ class Character extends MovableObject {
           this.moveLeft();
         }
 
+        if (this.world.keyboard.SPACE) {
+          this.jump();
+        }
+
         if (
           (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) ||
           (this.world.keyboard.LEFT && this.x > -100)
@@ -128,15 +135,30 @@ class Character extends MovableObject {
         }
       }
 
-      
+      if (this.currentState === "jumping") {
+        this.playAnimation(this.IMAGES_JUMPING);
+
+        if (this.world.keyboard.RIGHT) {
+          this.moveRight();
+        }
+
+        if (this.world.keyboard.LEFT) {
+          this.moveLeft();
+        }
+      }
 
       if (this.currentState === "idle") {
         if (this.skipFrame % this.frameDelayIdle === 0) {
           this.playAnimation(this.IMAGES_IDLE);
         }
+
+        if (this.world.keyboard.SPACE) {
+          this.jump();
+        }
+
         this.skipFrame += 1;
       }
-    }, 1000 / 20);
+    }, 1000 / 30);
 
     // setInterval(() => {
 

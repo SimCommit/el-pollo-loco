@@ -41,7 +41,7 @@ class World {
 
   checkCollisons() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && !this.character.isHurt()) {
+      if (this.character.isColliding(enemy) && !this.character.isInvincible()) {
         this.character.hit();
         this.healthBar.setPercentage(this.character.health);
         console.log(this.character.health);

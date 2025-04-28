@@ -5,7 +5,10 @@ class MovableObject extends DrawableObject {
   health = 100;
   // onCooldown = false;
   lastHit = 0;
+  invincibleTrigger = 0;
   reboundAcceleration = 1;
+  stunTime = 1;
+  invincibleTime = 2;
 
   applyGravity() {
     setInterval(() => {
@@ -37,12 +40,13 @@ class MovableObject extends DrawableObject {
   }
 
   hit() {
-    this.health -= 50;
+    this.health -= 20;
 
     if (this.health < 0) {
       this.health = 0;
     } else {
       this.lastHit = new Date().getTime();
+      this.invincibleTrigger = new Date().getTime();
     }
 
     // console.log("Collision, new Health: ", this.health);
@@ -51,7 +55,13 @@ class MovableObject extends DrawableObject {
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit; // Difference in ms
     timePassed = timePassed / 1000; // Difference in s
-    return timePassed < 1;
+    return timePassed < this.stunTime;
+  }
+
+  isInvincible() {
+    let timePassed = new Date().getTime() - this.invincibleTrigger; // Difference in ms
+    timePassed = timePassed / 1000; // Difference in s
+    return timePassed < this.invincibleTime;
   }
 
   isDead() {
