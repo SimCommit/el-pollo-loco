@@ -11,15 +11,15 @@ class Character extends MovableObject {
   ];
 
   IMAGES_JUMPING = [
-    "../assets/img/2_character_pepe/3_jump/J-31.png",
-    "../assets/img/2_character_pepe/3_jump/J-32.png",
+    // "../assets/img/2_character_pepe/3_jump/J-31.png",
+    // "../assets/img/2_character_pepe/3_jump/J-32.png",
     "../assets/img/2_character_pepe/3_jump/J-33.png",
     "../assets/img/2_character_pepe/3_jump/J-34.png",
     "../assets/img/2_character_pepe/3_jump/J-35.png",
     "../assets/img/2_character_pepe/3_jump/J-36.png",
     "../assets/img/2_character_pepe/3_jump/J-37.png",
-    "../assets/img/2_character_pepe/3_jump/J-38.png",
-    "../assets/img/2_character_pepe/3_jump/J-39.png",
+    // "../assets/img/2_character_pepe/3_jump/J-38.png",
+    // "../assets/img/2_character_pepe/3_jump/J-39.png",
   ];
 
   IMAGES_DYING = [
@@ -72,6 +72,7 @@ class Character extends MovableObject {
   skipFrame = 0;
   frameDelayDead = 5;
   frameDelayIdle = 10;
+  frameDelayJumping = 6;
 
   constructor() {
     super().loadImage("../assets/img/2_character_pepe/1_idle/idle/I-1.png");
@@ -136,8 +137,9 @@ class Character extends MovableObject {
       }
 
       if (this.currentState === "jumping") {
-        this.playAnimation(this.IMAGES_JUMPING);
-
+        if (this.skipFrame % this.frameDelayJumping === 0) {
+          this.playAnimation(this.IMAGES_JUMPING);
+        }
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
           this.moveRight();
         }
@@ -145,6 +147,7 @@ class Character extends MovableObject {
         if (this.world.keyboard.LEFT && this.x > -100) {
           this.moveLeft();
         }
+        this.skipFrame += 1;
       }
 
       if (this.currentState === "idle") {
