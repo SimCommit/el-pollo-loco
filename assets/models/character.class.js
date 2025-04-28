@@ -138,11 +138,11 @@ class Character extends MovableObject {
       if (this.currentState === "jumping") {
         this.playAnimation(this.IMAGES_JUMPING);
 
-        if (this.world.keyboard.RIGHT) {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
           this.moveRight();
         }
 
-        if (this.world.keyboard.LEFT) {
+        if (this.world.keyboard.LEFT && this.x > -100) {
           this.moveLeft();
         }
       }
