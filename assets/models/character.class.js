@@ -69,6 +69,9 @@ class Character extends MovableObject {
   acceleration = 1;
   health = 100;
   longIdleThreshold = 5;
+  skipFrame = 0;
+  frameDelayDead = 5;
+  frameDelayIdle = 10;
 
   constructor() {
     super().loadImage("../assets/img/2_character_pepe/2_walk/W-21.png");
@@ -88,10 +91,18 @@ class Character extends MovableObject {
 
       if (this.currentState === "dead") {
         if (this.currentImage < this.IMAGES_DYING.length) {
-          this.playAnimation(this.IMAGES_DYING);
+          if (this.skipFrame % this.frameDelayDead === 0) {
+            this.playAnimation(this.IMAGES_DYING);
+          }
         } else {
-          this.img = this.imageCache["../assets/img/2_character_pepe/5_dead/D-57.png"]
+          this.img = this.imageCache["../assets/img/2_character_pepe/5_dead/D-57.png"];
         }
+        this.skipFrame += 1;
+      }
+
+      if (this.currentState === "hurt") {
+        this.playAnimation(this.IMAGES_HURT);
+        // this.rebound();
       }
 
       if (this.currentState === "walking") {
@@ -117,8 +128,13 @@ class Character extends MovableObject {
         }
       }
 
-      if ((this.currentState === "idle")) {
-        this.playAnimation(this.IMAGES_IDLE);
+      
+
+      if (this.currentState === "idle") {
+        if (this.skipFrame % this.frameDelayIdle === 0) {
+          this.playAnimation(this.IMAGES_IDLE);
+        }
+        this.skipFrame += 1;
       }
     }, 1000 / 20);
 
@@ -145,19 +161,33 @@ class Character extends MovableObject {
   }
 
   updateState() {
+    let newState;
     if (this.isDead()) {
-      this.currentState = "dead";
+      newState = "dead";
     } else if (this.isHurt()) {
-      this.currentState = "hurt";
+      newState = "hurt";
     } else if (this.isAboveGround()) {
-      this.currentState = "jumping";
-    } else if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround()) {
-      this.currentState = "walking";
+      newState = "jumping";
+    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      newState = "walking";
     } else if (this.isLongIdle()) {
-      this.currentState = "long_idle";
+      newState = "long_idle";
     } else {
-      this.currentState = "idle";
+      newState = "idle";
     }
+    if (newState !== this.currentState) {
+      this.resetCurrentImage();
+      this.resetSkipFrame();
+    }
+    this.currentState = newState;
+  }
+
+  resetCurrentImage() {
+    return (this.currentImage = 0);
+  }
+
+  resetSkipFrame() {
+    return (this.skipFrame = 0);
   }
 
   isLongIdle() {

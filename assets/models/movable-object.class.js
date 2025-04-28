@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
   health = 100;
   // onCooldown = false;
   lastHit = 0;
+  reboundAcceleration = 1;
 
   applyGravity() {
     setInterval(() => {
@@ -36,7 +37,7 @@ class MovableObject extends DrawableObject {
   }
 
   hit() {
-    this.health -= 20;
+    this.health -= 50;
 
     if (this.health < 0) {
       this.health = 0;
@@ -57,15 +58,10 @@ class MovableObject extends DrawableObject {
     return this.health == 0;
   }
 
-  // rebound() {
-  //   this.x -= 25;
-  //   setTimeout(() => {
-  //     this.x -= 50;
-  //   }, 100);
-  //   setTimeout(() => {
-  //     this.x -= 25;
-  //   }, 200);
-  // }
+  rebound() {
+    this.x -= 5 ;
+
+  }
 
   isColliding(mo) {
     return (
@@ -77,20 +73,20 @@ class MovableObject extends DrawableObject {
   }
 
   // Helpers for isColliding
-  getHitboxTop() {
-    return this.y + this.offset.top;
+  getHitboxRight() {
+    return this.x + (this.width - this.offset.right);
   }
-
-  getHitboxBottom() {
-    return this.y + (this.height - this.offset.bottom);
-  }
-
+  
   getHitboxLeft() {
     return this.x + this.offset.left;
   }
-
-  getHitboxRight() {
-    return this.x + (this.width - this.offset.right);
+  
+  getHitboxBottom() {
+    return this.y + (this.height - this.offset.bottom);
+  }
+  
+  getHitboxTop() {
+    return this.y + this.offset.top;
   }
 
   playAnimation(images) {
