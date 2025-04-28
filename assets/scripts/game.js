@@ -34,7 +34,6 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
-  console.log(event);
   lastInput = new Date().getTime();
   switch (event.key) {
     case "ArrowRight":

@@ -46,6 +46,12 @@ class World {
         this.healthBar.setPercentage(this.character.health);
         console.log(this.character.health);
       }
+
+      for (let i = 0; i < this.throwableObjects.length; i++) {
+        if (this.throwableObjects[i].isColliding(enemy)) {
+          console.log("PENG");
+        }
+      }
     });
   }
 

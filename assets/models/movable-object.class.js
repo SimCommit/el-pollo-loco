@@ -48,7 +48,7 @@ class MovableObject extends DrawableObject {
     } else {
       this.lastHit = new Date().getTime();
       this.invincibleTrigger = new Date().getTime();
-      this.lastInput = new Date().getTime();
+      lastInput = new Date().getTime();
     }
 
     // console.log("Collision, new Health: ", this.health);
