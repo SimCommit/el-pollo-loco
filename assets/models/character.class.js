@@ -83,7 +83,6 @@ class Character extends MovableObject {
   speedY = 0;
   acceleration = 1;
   health = 100;
-  longIdleThreshold = 5;
   skipFrame = 0;
 
   frameDelay = {
@@ -242,11 +241,5 @@ class Character extends MovableObject {
 
   resetSkipFrame() {
     return (this.skipFrame = 0);
-  }
-
-  isLongIdle() {
-    let timePassed = new Date().getTime() - lastInput; // Difference in ms
-    timePassed = timePassed / 1000; // Difference in s
-    return timePassed > this.longIdleThreshold;
   }
 }
