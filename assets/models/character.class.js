@@ -111,12 +111,27 @@ class Character extends MovableObject {
     setInterval(() => {
       this.updateState();
       this.world.camera_x = -this.x + 100;
-      this.handleDead();
-      this.handleHurt();
-      this.handleWalking();
-      this.handleJumping();
-      this.handleLongIdle();
-      this.handleIdle();
+
+      switch (this.currentState) {
+        case "dead":
+          this.handleDead();
+          break;
+        case "hurt":
+          this.handleHurt();
+          break;
+        case "walking":
+          this.handleWalking();
+          break;
+        case "jumping":
+          this.handleJumping();
+          break;
+        case "long_idle":
+          this.handleLongIdle();
+          break;
+        case "idle":
+          this.handleIdle();
+          break;
+      }
     }, 1000 / 30);
   }
 

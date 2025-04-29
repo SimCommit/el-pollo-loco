@@ -29,7 +29,7 @@ class World {
     setInterval(() => {
       this.checkCollisons();
       this.checkThrowObjects();
-    }, 200);
+    }, 1000 / 5);
   }
 
   checkThrowObjects() {
@@ -49,7 +49,8 @@ class World {
 
       for (let i = 0; i < this.throwableObjects.length; i++) {
         if (this.throwableObjects[i].isColliding(enemy)) {
-          console.log("PENG");
+          this.throwableObjects[i].isBroken = true;
+          console.log("isBroken", this.throwableObjects[i].isBroken);
         }
       }
     });
