@@ -48,12 +48,21 @@ class World {
       }
 
       for (let i = 0; i < this.throwableObjects.length; i++) {
-        if (this.throwableObjects[i].isColliding(enemy)) {
+        if (this.throwableObjects[i].isBroken === false && this.throwableObjects[i].isColliding(enemy)) {
           this.throwableObjects[i].isBroken = true;
           console.log("isBroken", this.throwableObjects[i].isBroken);
+          this.despawnThrowableObject(this.throwableObjects[i]);
         }
       }
     });
+  }
+
+  despawnThrowableObject(bottle){
+    setTimeout(()=>{
+      let index = this.throwableObjects.indexOf(bottle);
+      this.throwableObjects.splice(index, 1);
+      console.log("despawned");
+    }, 600);
   }
 
   draw() {

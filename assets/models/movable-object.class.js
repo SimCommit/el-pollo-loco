@@ -10,6 +10,7 @@ class MovableObject extends DrawableObject {
   stunTime = 1;
   invincibleTime = 2;
   longIdleThreshold = 8;
+  skipFrame = 0;
 
   applyGravity() {
     setInterval(() => {
@@ -118,5 +119,13 @@ class MovableObject extends DrawableObject {
 
   jump() {
     this.speedY = 15;
+  }
+  
+  resetCurrentImage() {
+    return (this.currentImage = 0);
+  }
+
+  resetSkipFrame() {
+    return (this.skipFrame = 0);
   }
 }

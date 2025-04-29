@@ -7,7 +7,7 @@ class ThrowableObject extends MovableObject {
     "assets/img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
     "assets/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png",
   ];
-  
+
   IMAGES_SPLASH = [
     "assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",
     "assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png",
@@ -19,6 +19,7 @@ class ThrowableObject extends MovableObject {
 
   acceleration = 1;
   isBroken = false;
+  frameDelayIsBroken = 2;
 
   constructor(x, y) {
     super();
@@ -42,17 +43,58 @@ class ThrowableObject extends MovableObject {
     }, 25);
   }
 
-  animate() {
+  // animate() {
+  //   setInterval(() => {
+  //     if (this.isBroken) {
+  //       if (this.skipFrame % this.frameDelayIsBroken === 0) {
+  //       this.playAnimation(this.IMAGES_SPLASH);
+  //     }
+  //     } else {
+  //       this.playAnimation(this.IMAGES_ROTATION);
+  //     }
+  //     this.skipFrame += 1;
+  //   }, 1000 / 12);
+  // }
 
-    // 
-    if (this.isBroken) {
-      setInterval(() => {
-        this.playAnimation(this.IMAGES_SPLASH);
-      }, 1000 / 12);
-    } else {
-      setInterval(() => {
-        this.playAnimation(this.IMAGES_ROTATION);
-      }, 1000 / 12);
+  handleBroken(){
+    if (this.skipFrame % this.frameDelayIsBroken === 0) {
+      this.playAnimation(this.IMAGES_SPLASH);
     }
+    this.skipFrame += 1;
+  }
+
+  handleThrown() {
+    this.playAnimation(this.IMAGES_ROTATION);
+  }
+
+  animate() {
+    setInterval(() => {
+      this.updateState();
+
+      switch (this.currentState) {
+        case "broken":
+          this.handleBroken();
+          break;
+        case "thrown":
+          this.handleThrown();
+          break;
+      }
+
+    }, 1000 / 12);
+  }
+
+  updateState() {
+    let newState;
+    if (this.isBroken) {
+      newState = "broken";
+    } else {
+      newState = "thrown";
+    }
+    if (newState !== this.currentState) {
+      this.resetCurrentImage();
+      this.resetSkipFrame();
+    }
+    this.currentState = newState;
   }
 }
+//  SPLICE

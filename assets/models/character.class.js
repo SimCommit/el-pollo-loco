@@ -83,7 +83,6 @@ class Character extends MovableObject {
   speedY = 0;
   acceleration = 1;
   health = 100;
-  skipFrame = 0;
 
   frameDelay = {
     dead: 5,
@@ -247,13 +246,5 @@ class Character extends MovableObject {
       this.resetSkipFrame();
     }
     this.currentState = newState;
-  }
-
-  resetCurrentImage() {
-    return (this.currentImage = 0);
-  }
-
-  resetSkipFrame() {
-    return (this.skipFrame = 0);
   }
 }
