@@ -41,7 +41,7 @@ class MovableObject extends DrawableObject {
   }
 
   hit() {
-    this.health -= 2;
+    this.health -= 20;
 
     if (this.health < 0) {
       this.health = 0;
@@ -84,35 +84,28 @@ class MovableObject extends DrawableObject {
 
   isColliding(mo) {
     return (
-      this.getHitboxRight() >= mo.getHitboxLeft() &&
-      this.getHitboxLeft() <= mo.getHitboxRight() &&
-      this.getHitboxBottom() >= mo.getHitboxTop() &&
-      this.getHitboxTop() <= mo.getHitboxBottom()
+      this.getHitboxBorderRight() >= mo.getHitboxBorderLeft() &&
+      this.getHitboxBorderLeft() <= mo.getHitboxBorderRight() &&
+      this.getHitboxBorderBottom() >= mo.getHitboxBorderTop() &&
+      this.getHitboxBorderTop() <= mo.getHitboxBorderBottom()
     );
   }
 
   // Helpers for isColliding
-  getHitboxRight() {
+  getHitboxBorderRight() {
     return this.x + (this.width - this.offset.right);
   }
   
-  getHitboxLeft() {
+  getHitboxBorderLeft() {
     return this.x + this.offset.left;
   }
   
-  getHitboxBottom() {
+  getHitboxBorderBottom() {
     return this.y + (this.height - this.offset.bottom);
   }
   
-  getHitboxTop() {
+  getHitboxBorderTop() {
     return this.y + this.offset.top;
-  }
-
-  playAnimation(images) {
-    let i = this.currentImage % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
-    this.currentImage++;
   }
 
   moveRight() {
