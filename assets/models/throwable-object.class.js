@@ -43,30 +43,6 @@ class ThrowableObject extends MovableObject {
     }, 25);
   }
 
-  // animate() {
-  //   setInterval(() => {
-  //     if (this.isBroken) {
-  //       if (this.skipFrame % this.frameDelayIsBroken === 0) {
-  //       this.playAnimation(this.IMAGES_SPLASH);
-  //     }
-  //     } else {
-  //       this.playAnimation(this.IMAGES_ROTATION);
-  //     }
-  //     this.skipFrame += 1;
-  //   }, 1000 / 12);
-  // }
-
-  handleBroken(){
-    if (this.skipFrame % this.frameDelayIsBroken === 0) {
-      this.playAnimation(this.IMAGES_SPLASH);
-    }
-    this.skipFrame += 1;
-  }
-
-  handleThrown() {
-    this.playAnimation(this.IMAGES_ROTATION);
-  }
-
   animate() {
     setInterval(() => {
       this.updateState();
@@ -79,8 +55,18 @@ class ThrowableObject extends MovableObject {
           this.handleThrown();
           break;
       }
-
     }, 1000 / 12);
+  }
+
+  handleBroken() {
+    if (this.skipFrame % this.frameDelayIsBroken === 0) {
+      this.playAnimation(this.IMAGES_SPLASH);
+    }
+    this.skipFrame += 1;
+  }
+
+  handleThrown() {
+    this.playAnimation(this.IMAGES_ROTATION);
   }
 
   updateState() {
@@ -97,4 +83,3 @@ class ThrowableObject extends MovableObject {
     this.currentState = newState;
   }
 }
-//  SPLICE

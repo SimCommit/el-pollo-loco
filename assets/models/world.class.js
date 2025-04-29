@@ -53,6 +53,10 @@ class World {
           console.log("isBroken", this.throwableObjects[i].isBroken);
           this.despawnThrowableObject(this.throwableObjects[i]);
         }
+        if (this.throwableObjects[i].isBroken === false && this.throwableObjects[i].y > 420) {
+          this.throwableObjects[i].isBroken = true;
+          this.despawnThrowableObject(this.throwableObjects[i]);
+        }
       }
     });
   }
@@ -64,6 +68,8 @@ class World {
       console.log("despawned");
     }, 600);
   }
+
+
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
