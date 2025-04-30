@@ -69,13 +69,14 @@ class Character extends MovableObject {
   offset = {
     top: 96,
     bottom: 16,
-    left: 32,
-    right: 32,
+    left: 24,
+    right: 24,
   };
 
   walking_sound = new Audio("assets/audio/character/walk2.mp3");
   x = 120;
   y = 220;
+  lastY = 220;
   speed = 8;
   height = 200;
   width = 100;
@@ -131,6 +132,8 @@ class Character extends MovableObject {
           this.handleIdle();
           break;
       }
+
+      this.lastY = this.y;
     }, 1000 / 30);
   }
 

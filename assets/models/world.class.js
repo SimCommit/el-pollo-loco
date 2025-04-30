@@ -29,27 +29,32 @@ class World {
     setInterval(() => {
       this.checkCollisons();
       this.checkThrowObjects();
-    }, 1000 / 5);
+    }, 1000 / 120);
   }
 
   checkThrowObjects() {
     if (this.keyboard.D) {
       let bottle = new ThrowableObject(this.character.x + 30, this.character.y + 70);
-      // bottle.world = this;
       this.throwableObjects.push(bottle);
     }
   }
-  
+
   checkCollisons() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !this.character.isInvincible()) {
-        this.character.hit();
+        this.checkTopImpact(enemy);
+        if (!this.character.isHigher(enemy)) {
+          this.character.hit();
+        }
         this.healthBar.setPercentage(this.character.health);
         console.log(this.character.health);
       }
 
       for (let i = 0; i < this.throwableObjects.length; i++) {
-        if (this.throwableObjects[i].isBroken === false && this.throwableObjects[i].isColliding(enemy)) {
+        if (
+          this.throwableObjects[i].isBroken === false &&
+          this.throwableObjects[i].isColliding(enemy)
+        ) {
           this.throwableObjects[i].isBroken = true;
           console.log("isBroken", this.throwableObjects[i].isBroken);
           this.despawnThrowableObject(this.throwableObjects[i]);
@@ -63,15 +68,24 @@ class World {
     });
   }
 
-  despawnThrowableObject(bottle){
-    setTimeout(()=>{
+  checkTopImpact(enemy) {
+    if (this.character.isHigher(enemy)) {
+      console.log("ZACK lastY:", this.character.lastY + this.character.height - this.character.offset.bottom + " < " + (enemy.y + enemy.offset.top));
+      // debugger;
+      this.character.invincibleTrigger = new Date().getTime();
+      this.character.jump();
+    }
+  }
+
+  despawnThrowableObject(bottle) {
+    setTimeout(() => {
       let index = this.throwableObjects.indexOf(bottle);
       this.throwableObjects.splice(index, 1);
       console.log("despawned");
     }, 600);
   }
 
-  killMomentum(o){
+  killMomentum(o) {
     o.speedX = 0;
     o.speedY = 0;
   }

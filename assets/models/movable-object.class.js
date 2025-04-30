@@ -9,7 +9,7 @@ class MovableObject extends DrawableObject {
   // reboundAcceleration = 1;
   stunTime = 1;
   invincibleTime = 2;
-  longIdleThreshold = 8;
+  longIdleThreshold = 10;
   skipFrame = 0;
 
   applyGravity() {
@@ -92,6 +92,11 @@ class MovableObject extends DrawableObject {
       this.getHitboxBorderBottom() >= mo.getHitboxBorderTop() &&
       this.getHitboxBorderTop() <= mo.getHitboxBorderBottom()
     );
+  }
+
+  
+  isHigher(mo) {
+    return this.lastY + this.height - this.offset.bottom <= mo.y + mo.offset.top;
   }
 
   // Helpers for isColliding
