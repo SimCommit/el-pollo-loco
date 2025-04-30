@@ -48,7 +48,7 @@ class MovableObject extends DrawableObject {
 
     if (!this.onCooldown) {
       this.health -= damage;
-      console.log("Hit on: ", target.health); 
+      console.log("Hit! New target healt: ", target.health); 
       this.onCooldown = true;
       setTimeout(() => {
         this.onCooldown = false;

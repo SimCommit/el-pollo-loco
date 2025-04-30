@@ -84,7 +84,7 @@ class Character extends MovableObject {
   speedY = 0;
   acceleration = 1;
   health = 100;
-  damage = 20;
+  damage = 50;
 
   frameDelay = {
     dead: 5,
@@ -232,7 +232,7 @@ class Character extends MovableObject {
 
   updateState() {
     let newState;
-    
+
     if (this.isDead()) {
       newState = "dead";
     } else if (this.isHurt()) {

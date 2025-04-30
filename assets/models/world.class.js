@@ -95,6 +95,7 @@ class World {
 
   collisionCollectible(item) {
     if (this.character.isColliding(item) && this.bottleAmmo < 5) {
+      this.playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.4, 1000)
       this.despawnCollectibleObject(item);
       this.bottleAmmo++;
       this.bottleBar.setPercentage(this.bottleAmmo * 20);

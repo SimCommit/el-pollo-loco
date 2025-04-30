@@ -2,7 +2,7 @@
 
 let level1 = new Level(
   [new Chicken(200), new Chicken(300), new Chicken(400), new Chicken(500), new Endboss()],
-  [new Cloud()],
+  [new Cloud(200, 1), new Cloud(900, 2), new Cloud(1400, 1)],
   [
     new BackgroundObject("assets/img/5_background/layers/air.png", -719),
     new BackgroundObject("assets/img/5_background/layers/3_third_layer/2.png", -719),
