@@ -44,9 +44,11 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  hit(damage) {
+  hit(damage, target) {
+
     if (!this.onCooldown) {
       this.health -= damage;
+      console.log("Hit on: ", target.health); 
       this.onCooldown = true;
       setTimeout(() => {
         this.onCooldown = false;
@@ -63,6 +65,10 @@ class MovableObject extends DrawableObject {
     }
 
     // console.log("Collision, new Health: ", this.health);
+  }
+
+  disableHitbox() {
+    this.offset.top = 504;
   }
 
   rebound() {

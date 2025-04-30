@@ -33,16 +33,6 @@ class Chicken extends MovableObject {
     this.animate();
   }
 
-  // animate() {
-  //   setInterval(() => {
-  //     this.moveLeft();
-  //   }, 1000 / 60);
-
-  //   setInterval(() => {
-  //     this.playAnimation(this.IMAGES_WALKING);
-  //   }, 200);
-  // }
-
   animate() {
     setInterval(() => {
       this.updateState();
@@ -60,8 +50,7 @@ class Chicken extends MovableObject {
 
   handleDeadChicken() {
     this.playAnimation(this.IMAGES_DEAD);
-    this.offset.top = 38;
-    this.offset.left = 44;
+    this.disableHitbox();
   }
 
   handleWalkingChicken() {

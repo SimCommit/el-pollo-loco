@@ -63,12 +63,12 @@ class World {
     if (this.character.isColliding(enemy)) {
       this.checkTopImpact(enemy);
       if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
-        this.character.hit(20);
+        this.character.hit(20, this.character);
         this.healthBar.setPercentage(this.character.health);
         console.log("Character Health: ", this.character.health);
       }
       if (this.character.isHigher(enemy)) {
-        enemy.hit(this.character.damage);
+        enemy.hit(this.character.damage, enemy);
       }
     }
   }
@@ -81,7 +81,7 @@ class World {
       ) {
         this.throwableObjects[i].isBroken = true;
         this.playSound("assets/audio/salsa_bottle/break_1.mp3", 1, 0.3, 200);
-        enemy.hit(this.throwableObjects[i].damage);
+        enemy.hit(this.throwableObjects[i].damage, enemy);
         console.log("isBroken", this.throwableObjects[i].isBroken);
         this.despawnThrowableObject(this.throwableObjects[i]);
         this.killMomentum(this.throwableObjects[i]);

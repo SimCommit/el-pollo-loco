@@ -232,6 +232,7 @@ class Character extends MovableObject {
 
   updateState() {
     let newState;
+    
     if (this.isDead()) {
       newState = "dead";
     } else if (this.isHurt()) {
@@ -245,6 +246,7 @@ class Character extends MovableObject {
     } else {
       newState = "idle";
     }
+
     if (newState !== this.currentState) {
       this.resetCurrentImage();
       this.resetSkipFrame();
