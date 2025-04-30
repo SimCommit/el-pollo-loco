@@ -12,7 +12,7 @@ class World {
   bottleBar = new BottleBar();
   throwableObjects = [];
   onCooldown = false;
-  bottleAmmo = 5;
+  bottleAmmo = 4;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???
@@ -40,6 +40,7 @@ class World {
       this.bottleAmmo--;
       let bottle = new ThrowableObject(this.character.x + 30, this.character.y + 70);
       this.throwableObjects.push(bottle);
+      this.bottleBar.setPercentage(this.bottleAmmo * 20);
       setTimeout(() => {
         this.onCooldown = false;
       }, 1000 / 2);
@@ -55,19 +56,6 @@ class World {
     this.level.collectibleObjects.forEach((item) => {
       this.collisionCollectible(item);
     });
-  }
-
-  collisionCollectible(item) {
-    if (this.character.isColliding(item)) {      
-      this.despawnCollectibleObject(item);
-    }
-  }
-
-  despawnCollectibleObject(item) {
-    let index = this.level.collectibleObjects.indexOf(item);
-    this.level.collectibleObjects.splice(index, 1);
-    this.bottleAmmo++;
-    console.log("Ammo: ", this.bottleAmmo);  
   }
 
   collisionEnemy(enemy) {
@@ -97,6 +85,20 @@ class World {
         this.despawnThrowableObject(this.throwableObjects[i]);
       }
     }
+  }
+
+  collisionCollectible(item) {
+    if (this.character.isColliding(item) && this.bottleAmmo < 5) {
+      this.despawnCollectibleObject(item);
+      this.bottleBar.setPercentage(this.bottleAmmo * 20);
+    }
+  }
+
+  despawnCollectibleObject(item) {
+    let index = this.level.collectibleObjects.indexOf(item);
+    this.level.collectibleObjects.splice(index, 1);
+    this.bottleAmmo++;
+    console.log("Ammo: ", this.bottleAmmo);
   }
 
   checkTopImpact(enemy) {
