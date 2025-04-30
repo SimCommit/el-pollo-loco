@@ -6,8 +6,8 @@ class Endboss extends MovableObject {
   y = 145;
 
   offset = {
-    top: 92,
-    bottom: 24,
+    top: 108,
+    bottom: 48,
     left: 48,
     right: 48,
   }
@@ -26,7 +26,7 @@ class Endboss extends MovableObject {
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
-    this.x = 1400;
+    this.x = 1200;
     this.animate();
   }
 

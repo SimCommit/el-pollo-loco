@@ -12,7 +12,7 @@ class World {
   bottleBar = new BottleBar();
   throwableObjects = [];
   onCooldown = false;
-  bottleAmmo = 15;
+  bottleAmmo = 5;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???
@@ -58,9 +58,16 @@ class World {
   }
 
   collisionCollectible(item) {
-    if (this.character.isColliding(item)) {
-      // this.despawnCollectibleObject
+    if (this.character.isColliding(item)) {      
+      this.despawnCollectibleObject(item);
     }
+  }
+
+  despawnCollectibleObject(item) {
+    let index = this.level.collectibleObjects.indexOf(item);
+    this.level.collectibleObjects.splice(index, 1);
+    this.bottleAmmo++;
+    console.log("Ammo: ", this.bottleAmmo);  
   }
 
   collisionEnemy(enemy) {
@@ -164,9 +171,6 @@ class World {
     mo.draw(this.ctx);
     mo.drawFrame(this.ctx);
 
-    // if (mo instanceof MovableObject) {   // <- nur MovableObjects bekommen Frames
-    //   mo.drawFrame(this.ctx);
-    // }
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
