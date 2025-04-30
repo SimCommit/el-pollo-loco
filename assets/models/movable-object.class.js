@@ -21,19 +21,21 @@ class MovableObject extends DrawableObject {
     }, 1000 / 25);
   }
 
-  applyHorizontalMovement() {
-    setInterval(() => {
-      if (this.isAboveGround) {
-        this.x += this.speedX;
-        if (this.speedX > 0) {
-          this.speedX -= this.acceleration;
-        }
-      }
-    }, 1000 / 25);
-  }
+  // applyHorizontalMovement() {
+  //   setInterval(() => {
+  //     if (this.isAboveGround) {
+  //       this.x += this.speedX;
+  //       if (this.speedX > 0) {
+  //         this.speedX -= this.acceleration;
+  //       }
+  //     }
+  //   }, 1000 / 25);
+  // }
 
   isAboveGround() {
-    if (this instanceof ThrowableObject) {
+    if (this.isBroken) {
+      return false;
+    } else if (this instanceof ThrowableObject) {
       // Throwable objects should fall through ground
       return true;
     } else {
@@ -50,7 +52,7 @@ class MovableObject extends DrawableObject {
       this.lastHit = new Date().getTime();
       this.invincibleTrigger = new Date().getTime();
       lastInput = new Date().getTime();
-      this.rebound();
+      // this.rebound();
     }
 
     // console.log("Collision, new Health: ", this.health);
@@ -128,4 +130,20 @@ class MovableObject extends DrawableObject {
   resetSkipFrame() {
     return (this.skipFrame = 0);
   }
+      
+  throw() {
+    this.width = 50;
+    this.height = 50;
+    this.speedY = 15;
+    this.speedX = 5;
+    this.applyGravity();
+    if (world.character.otherDirection) {
+      this.speedX = this.speedX * -1;
+      console.log("OI");
+      
+    }
+    setInterval(() => {
+      this.x += this.speedX;
+    }, 25);
+  }  
 }

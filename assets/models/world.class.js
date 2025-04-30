@@ -34,11 +34,12 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D) {
-      let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 70);
+      let bottle = new ThrowableObject(this.character.x + 30, this.character.y + 70);
+      // bottle.world = this;
       this.throwableObjects.push(bottle);
     }
   }
-
+  
   checkCollisons() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !this.character.isInvincible()) {
@@ -52,8 +53,9 @@ class World {
           this.throwableObjects[i].isBroken = true;
           console.log("isBroken", this.throwableObjects[i].isBroken);
           this.despawnThrowableObject(this.throwableObjects[i]);
+          this.killMomentum(this.throwableObjects[i]);
         }
-        if (this.throwableObjects[i].isBroken === false && this.throwableObjects[i].y > 420) {
+        if (this.throwableObjects[i].isBroken === false && this.throwableObjects[i].y > 480) {
           this.throwableObjects[i].isBroken = true;
           this.despawnThrowableObject(this.throwableObjects[i]);
         }
@@ -69,7 +71,10 @@ class World {
     }, 600);
   }
 
-
+  killMomentum(o){
+    o.speedX = 0;
+    o.speedY = 0;
+  }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
