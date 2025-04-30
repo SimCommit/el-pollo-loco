@@ -73,7 +73,7 @@ class Character extends MovableObject {
     right: 24,
   };
 
-  walking_sound = new Audio("assets/audio/character/walk2.mp3");
+  walking_sound = new Audio("assets/audio/character/walk_2.mp3");
   x = 120;
   y = 220;
   lastY = 220;
@@ -84,6 +84,7 @@ class Character extends MovableObject {
   speedY = 0;
   acceleration = 1;
   health = 100;
+  damage = 20;
 
   frameDelay = {
     dead: 5,

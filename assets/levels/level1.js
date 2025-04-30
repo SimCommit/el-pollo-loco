@@ -1,7 +1,7 @@
 // level1.js
 
 let level1 = new Level(
-  [new Chicken(), new Chicken(), new Chicken(), new Endboss()],
+  [new Chicken(200), new Chicken(300), new Chicken(400), new Chicken(500), new Endboss()],
   [new Cloud()],
   [
     new BackgroundObject("assets/img/5_background/layers/air.png", -719),

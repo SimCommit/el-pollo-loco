@@ -7,34 +7,81 @@ class Chicken extends MovableObject {
     "assets/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
 
+  IMAGES_DEAD = ["assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
+
   offset = {
     top: 0,
     bottom: 12,
     left: 0,
     right: 2,
-  }
+  };
 
   width = 50;
   height = 50;
   y = 375;
+  frameDelayWalking = 5;
+  health = 30;
 
-  constructor() {
-    super().loadImage("../assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
+  constructor(x) {
+    super().loadImage("assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
     this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_DEAD);
 
-    this.x = 800 + Math.random() * 500;
+    this.x = x + Math.random() * 500;
     this.speed = 0.15 + Math.random() * 0.35;
 
     this.animate();
   }
 
+  // animate() {
+  //   setInterval(() => {
+  //     this.moveLeft();
+  //   }, 1000 / 60);
+
+  //   setInterval(() => {
+  //     this.playAnimation(this.IMAGES_WALKING);
+  //   }, 200);
+  // }
+
   animate() {
     setInterval(() => {
-      this.moveLeft();  
-    }, 1000 / 60);
+      this.updateState();
 
-    setInterval(() => {
+      switch (this.currentState) {
+        case "dead":
+          this.handleDeadChicken();
+          break;
+        case "walking":
+          this.handleWalkingChicken();
+          break;
+      }
+    }, 1000 / 60);
+  }
+
+  handleDeadChicken() {
+    this.playAnimation(this.IMAGES_DEAD);
+    this.offset.top = 38;
+    this.offset.left = 44;
+  }
+
+  handleWalkingChicken() {
+    this.moveLeft();
+
+    if (this.skipFrame % this.frameDelayWalking === 0) {
       this.playAnimation(this.IMAGES_WALKING);
-    }, 200);
+    }
+    this.skipFrame += 1;
+  }
+
+  updateState() {
+    let newState;
+
+    if (this.isDead()) {
+      newState = "dead";
+    } else {
+      newState = "walking";
+    }
+
+    this.currentState = newState;
   }
 }

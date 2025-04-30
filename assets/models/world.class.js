@@ -13,6 +13,7 @@ class World {
   throwableObjects = [];
   onCooldown = false;
   bottleAmmo = 4;
+  readyToPlay = true;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???
@@ -31,7 +32,7 @@ class World {
     setInterval(() => {
       this.checkThrowObjects();
       this.checkCollisions();
-    }, 1000 / 120);
+    }, 1000 / 60);
   }
 
   checkThrowObjects() {
@@ -62,10 +63,13 @@ class World {
     if (this.character.isColliding(enemy)) {
       this.checkTopImpact(enemy);
       if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
-        this.character.hit();
+        this.character.hit(20);
+        this.healthBar.setPercentage(this.character.health);
+        console.log("Character Health: ", this.character.health);
       }
-      this.healthBar.setPercentage(this.character.health);
-      console.log(this.character.health);
+      if (this.character.isHigher(enemy)) {
+        enemy.hit(this.character.damage);
+      }
     }
   }
 
@@ -76,6 +80,8 @@ class World {
         this.throwableObjects[i].isColliding(enemy)
       ) {
         this.throwableObjects[i].isBroken = true;
+        this.playSound("assets/audio/salsa_bottle/break_1.mp3", 1, 0.3, 200);
+        enemy.hit(this.throwableObjects[i].damage);
         console.log("isBroken", this.throwableObjects[i].isBroken);
         this.despawnThrowableObject(this.throwableObjects[i]);
         this.killMomentum(this.throwableObjects[i]);
@@ -90,30 +96,36 @@ class World {
   collisionCollectible(item) {
     if (this.character.isColliding(item) && this.bottleAmmo < 5) {
       this.despawnCollectibleObject(item);
+      this.bottleAmmo++;
       this.bottleBar.setPercentage(this.bottleAmmo * 20);
+      console.log("Ammo: ", this.bottleAmmo);
     }
   }
 
   despawnCollectibleObject(item) {
     let index = this.level.collectibleObjects.indexOf(item);
     this.level.collectibleObjects.splice(index, 1);
-    this.bottleAmmo++;
-    console.log("Ammo: ", this.bottleAmmo);
   }
 
   checkTopImpact(enemy) {
     if (this.character.isHigher(enemy)) {
-      console.log(
-        "ZACK lastY:",
-        this.character.lastY +
-          this.character.height -
-          this.character.offset.bottom +
-          " < " +
-          (enemy.y + enemy.offset.top)
-      );
       this.character.invincibleTrigger = new Date().getTime();
       this.character.jump();
+      this.playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
     }
+  }
+
+  playSound(path, rate, volume, cooldown) {
+    let sound = new Audio(path);
+    sound.playbackRate = rate;
+    sound.volume = volume;
+    if (this.readyToPlay) {
+      sound.play();
+      this.readyToPlay = false;
+    }
+    setTimeout(() => {
+      this.readyToPlay = true;
+    }, cooldown);
   }
 
   despawnThrowableObject(bottle) {
