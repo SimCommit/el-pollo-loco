@@ -1,7 +1,7 @@
 // movable-object.class.js
 
 class MovableObject extends DrawableObject {
-  speed = 0.15;
+  // speed = 0.15;
   health = 100;
   // onCooldown = false;
   lastHit = 0;
@@ -11,6 +11,7 @@ class MovableObject extends DrawableObject {
   invincibleTime = 2;
   longIdleThreshold = 10;
   skipFrame = 0;
+  onCooldown = false;
 
   applyGravity() {
     setInterval(() => {
@@ -44,10 +45,14 @@ class MovableObject extends DrawableObject {
   }
 
   hit(damage) {
-
+    if (!this.onCooldown) {
+      this.health -= damage;
+      this.onCooldown = true;
+      setTimeout(() => {
+        this.onCooldown = false;
+      }, 1000);
+    }
     
-    this.health -= damage;
-
     if (this.health < 0) {
       this.health = 0;
     } else {
