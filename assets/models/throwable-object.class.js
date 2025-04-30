@@ -16,6 +16,13 @@ class ThrowableObject extends MovableObject {
     "assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png",
     "assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
+  
+  offset = {
+    top: 6,
+    bottom: 6,
+    left: 6,
+    right: 6,
+  }
 
   acceleration = 1;
   isBroken = false;
