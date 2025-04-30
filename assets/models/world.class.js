@@ -11,6 +11,8 @@ class World {
   coinBar = new CoinBar();
   bottleBar = new BottleBar();
   throwableObjects = [];
+  onCooldown = false;
+  bottleAmmo = 5;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???
@@ -27,15 +29,20 @@ class World {
 
   run() {
     setInterval(() => {
-      this.checkCollisons();
       this.checkThrowObjects();
+      this.checkCollisons();
     }, 1000 / 120);
   }
 
   checkThrowObjects() {
-    if (this.keyboard.D) {
+    if (this.keyboard.D && !this.onCooldown && this.bottleAmmo > 0) {
+      this.onCooldown = true;
+      this.bottleAmmo--;
       let bottle = new ThrowableObject(this.character.x + 30, this.character.y + 70);
       this.throwableObjects.push(bottle);
+      setTimeout(() => {
+        this.onCooldown = false;
+      }, 1000 / 2);
     }
   }
 
@@ -70,7 +77,14 @@ class World {
 
   checkTopImpact(enemy) {
     if (this.character.isHigher(enemy)) {
-      console.log("ZACK lastY:", this.character.lastY + this.character.height - this.character.offset.bottom + " < " + (enemy.y + enemy.offset.top));
+      console.log(
+        "ZACK lastY:",
+        this.character.lastY +
+          this.character.height -
+          this.character.offset.bottom +
+          " < " +
+          (enemy.y + enemy.offset.top)
+      );
       // debugger;
       this.character.invincibleTrigger = new Date().getTime();
       this.character.jump();
