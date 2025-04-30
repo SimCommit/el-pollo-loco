@@ -84,36 +84,9 @@ class MovableObject extends DrawableObject {
     timePassed = timePassed / 1000; // Difference in s
     return timePassed > this.longIdleThreshold;
   }
-
-  isColliding(mo) {
-    return (
-      this.getHitboxBorderRight() >= mo.getHitboxBorderLeft() &&
-      this.getHitboxBorderLeft() <= mo.getHitboxBorderRight() &&
-      this.getHitboxBorderBottom() >= mo.getHitboxBorderTop() &&
-      this.getHitboxBorderTop() <= mo.getHitboxBorderBottom()
-    );
-  }
-
-  
+ 
   isHigher(mo) {
     return this.lastY + this.height - this.offset.bottom <= mo.y + mo.offset.top;
-  }
-
-  // Helpers for isColliding
-  getHitboxBorderRight() {
-    return this.x + (this.width - this.offset.right);
-  }
-  
-  getHitboxBorderLeft() {
-    return this.x + this.offset.left;
-  }
-  
-  getHitboxBorderBottom() {
-    return this.y + (this.height - this.offset.bottom);
-  }
-  
-  getHitboxBorderTop() {
-    return this.y + this.offset.top;
   }
 
   moveRight() {

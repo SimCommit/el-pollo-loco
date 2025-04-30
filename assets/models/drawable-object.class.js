@@ -29,9 +29,8 @@ class DrawableObject {
       this.imageCache[path] = img;
     });
   }
-  
-  draw(ctx) {
 
+  draw(ctx) {
     try {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     } catch (error) {
@@ -42,7 +41,12 @@ class DrawableObject {
 
   // Real hitboxes (with gpt)
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+    if (
+      this instanceof Character ||
+      this instanceof Chicken ||
+      this instanceof Endboss ||
+      this instanceof CollectibleObject
+    ) {
       ctx.beginPath();
       ctx.lineWidth = "2";
       ctx.strokeStyle = "red";
@@ -63,5 +67,31 @@ class DrawableObject {
     let path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;
+  }
+
+  isColliding(mo) {
+    return (
+      this.getHitboxBorderRight() >= mo.getHitboxBorderLeft() &&
+      this.getHitboxBorderLeft() <= mo.getHitboxBorderRight() &&
+      this.getHitboxBorderBottom() >= mo.getHitboxBorderTop() &&
+      this.getHitboxBorderTop() <= mo.getHitboxBorderBottom()
+    );
+  }
+
+  // Helpers for isColliding
+  getHitboxBorderRight() {
+    return this.x + (this.width - this.offset.right);
+  }
+
+  getHitboxBorderLeft() {
+    return this.x + this.offset.left;
+  }
+
+  getHitboxBorderBottom() {
+    return this.y + (this.height - this.offset.bottom);
+  }
+
+  getHitboxBorderTop() {
+    return this.y + this.offset.top;
   }
 }

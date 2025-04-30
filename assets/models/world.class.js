@@ -12,7 +12,7 @@ class World {
   bottleBar = new BottleBar();
   throwableObjects = [];
   onCooldown = false;
-  bottleAmmo = 5;
+  bottleAmmo = 15;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???
@@ -30,7 +30,7 @@ class World {
   run() {
     setInterval(() => {
       this.checkThrowObjects();
-      this.checkCollisons();
+      this.checkCollisions();
     }, 1000 / 120);
   }
 
@@ -46,33 +46,50 @@ class World {
     }
   }
 
-  checkCollisons() {
+  checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && !this.character.isInvincible()) {
-        this.checkTopImpact(enemy);
-        if (!this.character.isHigher(enemy)) {
-          this.character.hit();
-        }
-        this.healthBar.setPercentage(this.character.health);
-        console.log(this.character.health);
-      }
-
-      for (let i = 0; i < this.throwableObjects.length; i++) {
-        if (
-          this.throwableObjects[i].isBroken === false &&
-          this.throwableObjects[i].isColliding(enemy)
-        ) {
-          this.throwableObjects[i].isBroken = true;
-          console.log("isBroken", this.throwableObjects[i].isBroken);
-          this.despawnThrowableObject(this.throwableObjects[i]);
-          this.killMomentum(this.throwableObjects[i]);
-        }
-        if (this.throwableObjects[i].isBroken === false && this.throwableObjects[i].y > 480) {
-          this.throwableObjects[i].isBroken = true;
-          this.despawnThrowableObject(this.throwableObjects[i]);
-        }
-      }
+      this.collisionEnemy(enemy);
+      this.collisionThrowable(enemy);
     });
+
+    this.level.collectibleObjects.forEach((item) => {
+      this.collisionCollectible(item);
+    });
+  }
+
+  collisionCollectible(item) {
+    if (this.character.isColliding(item)) {
+      // this.despawnCollectibleObject
+    }
+  }
+
+  collisionEnemy(enemy) {
+    if (this.character.isColliding(enemy)) {
+      this.checkTopImpact(enemy);
+      if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
+        this.character.hit();
+      }
+      this.healthBar.setPercentage(this.character.health);
+      console.log(this.character.health);
+    }
+  }
+
+  collisionThrowable(enemy) {
+    for (let i = 0; i < this.throwableObjects.length; i++) {
+      if (
+        this.throwableObjects[i].isBroken === false &&
+        this.throwableObjects[i].isColliding(enemy)
+      ) {
+        this.throwableObjects[i].isBroken = true;
+        console.log("isBroken", this.throwableObjects[i].isBroken);
+        this.despawnThrowableObject(this.throwableObjects[i]);
+        this.killMomentum(this.throwableObjects[i]);
+      }
+      if (this.throwableObjects[i].isBroken === false && this.throwableObjects[i].y > 480) {
+        this.throwableObjects[i].isBroken = true;
+        this.despawnThrowableObject(this.throwableObjects[i]);
+      }
+    }
   }
 
   checkTopImpact(enemy) {
@@ -85,7 +102,6 @@ class World {
           " < " +
           (enemy.y + enemy.offset.top)
       );
-      // debugger;
       this.character.invincibleTrigger = new Date().getTime();
       this.character.jump();
     }
