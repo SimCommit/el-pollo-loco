@@ -116,11 +116,18 @@ class World {
   collisionCollectible(item) {
     if (this.character.isColliding(item)) {
     
-      if (item instanceof Coin && this.coinAmount < 5) {
+      if (item instanceof Coin && (this.coinAmount < 5 || this.character.health < 100)) {
         playSound("assets/audio/coin/collect_1.mp3", 1, 0.05, 200);
         this.despawnCollectibleObject(item);
-        this.coinAmount++;
-        this.coinBar.setPercentage(this.coinAmount * 20);
+        if (this.coinAmount < 5) {
+          this.coinAmount++;
+          this.coinBar.setPercentage(this.coinAmount * 20);
+        }
+        if (this.character.health < 100) {
+          this.character.health += 20;
+          this.healthBar.setPercentage(this.character.health);
+        }
+
       } 
       if (item instanceof Bottle && this.bottleAmmo < 5) {
         playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200);
