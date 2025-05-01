@@ -3,7 +3,15 @@
 let level1 = new Level(
   [new Chicken(200), new Chicken(300), new Chicken(400), new Chicken(500)],
   [new Endboss()],
-  [new Cloud(-480, 1), new Cloud(200, 1), new Cloud(900, 2), new Cloud(1400, 1), new Cloud(2100, 1), new Cloud(2700, 2), new Cloud(3400, 1)],
+  [
+    new Cloud(-480, 1),
+    new Cloud(200, 1),
+    new Cloud(900, 2),
+    new Cloud(1400, 1),
+    new Cloud(2100, 1),
+    new Cloud(2700, 2),
+    new Cloud(3400, 1),
+  ],
   [
     new BackgroundObject("assets/img/5_background/layers/air.png", -719),
     new BackgroundObject("assets/img/5_background/layers/3_third_layer/2.png", -719),
@@ -34,5 +42,13 @@ let level1 = new Level(
     new Bottle(900, 375),
     new Bottle(1000, 375),
     new Bottle(1900, 375),
+    new Coin(-100, 225),
+    new Coin(400, 225),
+    new Coin(600, 225),
+    new Coin(800, 225),
+    new Coin(1000, 225),
+    new Coin(1200, 225),
+    new Coin(1400, 225),
+    new Coin(1600, 225),
   ]
 );

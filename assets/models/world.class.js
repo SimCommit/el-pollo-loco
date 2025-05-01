@@ -13,6 +13,7 @@ class World {
   throwableObjects = [];
   onCooldown = false;
   bottleAmmo = 4;
+  coinAmount = 0;
   readyToPlay = true;
   bossTrigger = false;
 
@@ -113,12 +114,21 @@ class World {
   }
 
   collisionCollectible(item) {
-    if (this.character.isColliding(item) && this.bottleAmmo < 5) {
-      playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200);
-      this.despawnCollectibleObject(item);
-      this.bottleAmmo++;
-      this.bottleBar.setPercentage(this.bottleAmmo * 20);
-      console.log("Ammo: ", this.bottleAmmo);
+    if (this.character.isColliding(item)) {
+    
+      if (item instanceof Coin && this.coinAmount < 5) {
+        playSound("assets/audio/coin/collect_1.mp3", 1, 0.05, 200);
+        this.despawnCollectibleObject(item);
+        this.coinAmount++;
+        this.coinBar.setPercentage(this.coinAmount * 20);
+      } 
+      if (item instanceof Bottle && this.bottleAmmo < 5) {
+        playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200);
+        this.despawnCollectibleObject(item);
+        this.bottleAmmo++;
+        this.bottleBar.setPercentage(this.bottleAmmo * 20);
+        console.log("Ammo: ", this.bottleAmmo);
+      }
     }
   }
 
