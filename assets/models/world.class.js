@@ -32,7 +32,7 @@ class World {
     setInterval(() => {
       this.checkThrowObjects();
       this.checkCollisions();
-    }, 1000 / 60);
+    }, 1000 / 120);
   }
 
   checkThrowObjects() {
@@ -95,7 +95,7 @@ class World {
 
   collisionCollectible(item) {
     if (this.character.isColliding(item) && this.bottleAmmo < 5) {
-      this.playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200)
+      playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200)
       this.despawnCollectibleObject(item);
       this.bottleAmmo++;
       this.bottleBar.setPercentage(this.bottleAmmo * 20);

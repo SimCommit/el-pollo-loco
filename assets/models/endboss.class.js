@@ -102,6 +102,8 @@ class Endboss extends MovableObject {
       if (this.currentImage < this.IMAGES_DEAD.length) {
         if (this.skipFrame % this.frameDelay.dead === 0) {
           this.playAnimation(this.IMAGES_DEAD);
+          playSound("assets/audio/endboss/hurt_1.mp3", 1, 0.3, 10000)
+          playSound("assets/audio/endboss/dead_1.mp3", 1, 0.3, 1000);
         }
       } else {
         this.img = this.imageCache["assets/img/4_enemie_boss_chicken/5_dead/G26.png"];
@@ -114,7 +116,7 @@ class Endboss extends MovableObject {
   handleHurt() {
     if (this.currentState === "hurt") {
       this.playAnimation(this.IMAGES_HURT);
-      
+      playSound("assets/audio/endboss/hurt_1.mp3", 1, 0.3, 1000)
     }
   }
 

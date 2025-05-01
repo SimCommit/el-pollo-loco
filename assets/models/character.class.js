@@ -73,7 +73,6 @@ class Character extends MovableObject {
     right: 24,
   };
 
-  walking_sound = new Audio("assets/audio/character/walk_2.mp3");
   x = 120;
   y = 220;
   lastY = 220;
@@ -179,9 +178,7 @@ class Character extends MovableObject {
         (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) ||
         (this.world.keyboard.LEFT && this.x > -100)
       ) {
-        this.walking_sound.playbackRate = 4;
-        this.walking_sound.volume = 0.3;
-        this.walking_sound.play();
+        playSound("assets/audio/character/walk_2.mp3", 4, 0.3, 160);       
       }
     }
   }

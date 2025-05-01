@@ -1,22 +1,18 @@
 // helpers.js
-let readyToPlay = true;
+let soundCooldowns = new Map();
 
 // helper for playing sounds
  function playSound(path, rate, volume, cooldown) {
-  let sound = new Audio(path);
+  if(soundCooldowns.get(path)) return;
+
+  const sound = new Audio(path);
   sound.playbackRate = rate;
   sound.volume = volume;
-  setCooldown(sound.play(), cooldown);
-}
+  sound.play();
 
-// sets cooldown for a function
-function setCooldown(fn, cooldown) {
-  if (readyToPlay) {
-    fn;
-    readyToPlay = false;
-  }
+  soundCooldowns.set(path, true);
   setTimeout(() => {
-    readyToPlay = true;
+    soundCooldowns.set(path, false);
   }, cooldown);
 }
 
