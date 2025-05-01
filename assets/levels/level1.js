@@ -1,7 +1,14 @@
 // level1.js
 
 let level1 = new Level(
-  [new Chicken(300), new Chicken(400), new Chicken(500), new Chicken(550), new Chicken(750), new Chicken(1000)],
+  [
+    new Chicken(300),
+    new Chicken(400),
+    new Chicken(500),
+    new Chicken(550),
+    new Chicken(750),
+    new Chicken(1000),
+  ],
   [new Endboss()],
   [
     new Cloud(-480, 1),
@@ -51,6 +58,8 @@ let level1 = new Level(
     new Coin(1400, 225),
     new Coin(1600, 225),
   ],
-  [new Obstacle("assets/img/0_obstacles/obstacle_1.png", -235, 210)],
-  // [new Obstacle("assets/img/0_obstacles/obstacle_1.png", 2200, 210)]
+  [
+    new Obstacle("assets/img/0_obstacles/obstacle_1.png", -235, 210),
+    new Obstacle("assets/img/0_obstacles/obstacle_1.png", 2100, 210),
+  ]
 );
