@@ -3,7 +3,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let lastInput = new Date().getTime() + 20000;
+let lastInput = new Date().getTime() + 15000;
 
 function init() {
   canvas = getElementHelper("canvas");

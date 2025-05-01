@@ -9,7 +9,7 @@ class MovableObject extends DrawableObject {
   // reboundAcceleration = 1;
   stunTime = 1;
   invincibleTime = 2;
-  longIdleThreshold = 15;
+  longIdleThreshold = 10;
   skipFrame = 0;
   onCooldown = false;
 

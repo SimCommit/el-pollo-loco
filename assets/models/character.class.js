@@ -209,7 +209,7 @@ class Character extends MovableObject {
     if (this.currentState === "long_idle") {
       if (this.skipFrame % this.frameDelay.longIdle === 0) {
         this.playAnimation(this.IMAGES_LONG_IDLE);
-        // playSound();
+        playSound("assets/audio/character/long_idle_1.mp3", 1, 0.3, 3700);
       }
 
       if (this.world.keyboard.SPACE) {
