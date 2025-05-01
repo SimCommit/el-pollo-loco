@@ -1,7 +1,7 @@
 // level1.js
 
 let level1 = new Level(
-  [new Chicken(200), new Chicken(300), new Chicken(400), new Chicken(500)],
+  [new Chicken(200), new Chicken(300), new Chicken(400), new Chicken(500), new Chicken(750), new Chicken(1000)],
   [new Endboss()],
   [
     new Cloud(-480, 1),

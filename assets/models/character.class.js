@@ -144,6 +144,7 @@ class Character extends MovableObject {
   handleDead() {
     if (this.currentState === "dead") {
       if (this.currentImage < this.IMAGES_DYING.length) {
+        playSound("assets/audio/character/dead_1.mp3", 1, 0.3, 2000)
         if (this.skipFrame % this.frameDelay.dead === 0) {
           this.playAnimation(this.IMAGES_DYING);
         }
@@ -157,6 +158,7 @@ class Character extends MovableObject {
   handleHurt() {
     if (this.currentState === "hurt") {
       this.playAnimation(this.IMAGES_HURT);
+      playSound("assets/audio/character/hurt_2.mp3", 1, 0.4, 1500);
       // this.rebound();
     }
   }
@@ -207,6 +209,7 @@ class Character extends MovableObject {
     if (this.currentState === "long_idle") {
       if (this.skipFrame % this.frameDelay.longIdle === 0) {
         this.playAnimation(this.IMAGES_LONG_IDLE);
+        // playSound();
       }
 
       if (this.world.keyboard.SPACE) {
