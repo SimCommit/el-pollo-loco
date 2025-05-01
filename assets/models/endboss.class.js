@@ -114,6 +114,7 @@ class Endboss extends MovableObject {
   handleHurt() {
     if (this.currentState === "hurt") {
       this.playAnimation(this.IMAGES_HURT);
+      
     }
   }
 

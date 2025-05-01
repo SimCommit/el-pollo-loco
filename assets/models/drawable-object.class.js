@@ -69,6 +69,23 @@ class DrawableObject {
     this.currentImage++;
   }
 
+  playSound(path, rate, volume, cooldown) {
+    let sound = new Audio(path);
+    sound.playbackRate = rate;
+    sound.volume = volume;
+    this.setCooldown(sound.play(), cooldown);
+  }
+
+  setCooldown(fn, cooldown){
+    if (this.readyToPlay) {
+      fn;
+      this.readyToPlay = false;
+    }
+    setTimeout(() => {
+      this.readyToPlay = true;
+    }, cooldown);
+  }
+
   isColliding(mo) {
     return (
       this.getHitboxBorderRight() >= mo.getHitboxBorderLeft() &&

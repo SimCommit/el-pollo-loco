@@ -44,7 +44,7 @@ class World {
       this.bottleBar.setPercentage(this.bottleAmmo * 20);
       setTimeout(() => {
         this.onCooldown = false;
-      }, 1000 / 2);
+      }, 500);
     }
   }
 
@@ -80,7 +80,7 @@ class World {
         this.throwableObjects[i].isColliding(enemy)
       ) {
         this.throwableObjects[i].isBroken = true;
-        this.playSound("assets/audio/salsa_bottle/break_1.mp3", 1, 0.3, 200);
+        playSound("assets/audio/salsa_bottle/break_1.mp3", 1, 0.3, 200);
         enemy.hit(this.throwableObjects[i].damage, enemy);
         console.log("isBroken", this.throwableObjects[i].isBroken);
         this.despawnThrowableObject(this.throwableObjects[i]);
@@ -95,7 +95,7 @@ class World {
 
   collisionCollectible(item) {
     if (this.character.isColliding(item) && this.bottleAmmo < 5) {
-      this.playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.4, 1000)
+      this.playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200)
       this.despawnCollectibleObject(item);
       this.bottleAmmo++;
       this.bottleBar.setPercentage(this.bottleAmmo * 20);
@@ -112,22 +112,26 @@ class World {
     if (this.character.isHigher(enemy)) {
       this.character.invincibleTrigger = new Date().getTime();
       this.character.jump();
-      this.playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
+      playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
     }
   }
 
-  playSound(path, rate, volume, cooldown) {
-    let sound = new Audio(path);
-    sound.playbackRate = rate;
-    sound.volume = volume;
-    if (this.readyToPlay) {
-      sound.play();
-      this.readyToPlay = false;
-    }
-    setTimeout(() => {
-      this.readyToPlay = true;
-    }, cooldown);
-  }
+  // playSound(path, rate, volume, cooldown) {
+  //   let sound = new Audio(path);
+  //   sound.playbackRate = rate;
+  //   sound.volume = volume;
+  //   this.setCooldown(sound.play(), cooldown);
+  // }
+
+  // setCooldown(fn, cooldown){
+  //   if (this.readyToPlay) {
+  //     fn;
+  //     this.readyToPlay = false;
+  //   }
+  //   setTimeout(() => {
+  //     this.readyToPlay = true;
+  //   }, cooldown);
+  // }
 
   despawnThrowableObject(bottle) {
     setTimeout(() => {

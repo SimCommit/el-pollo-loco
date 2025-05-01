@@ -1,4 +1,24 @@
 // helpers.js
+let readyToPlay = true;
+
+// helper for playing sounds
+ function playSound(path, rate, volume, cooldown) {
+  let sound = new Audio(path);
+  sound.playbackRate = rate;
+  sound.volume = volume;
+  setCooldown(sound.play(), cooldown);
+}
+
+// sets cooldown for a function
+function setCooldown(fn, cooldown) {
+  if (readyToPlay) {
+    fn;
+    readyToPlay = false;
+  }
+  setTimeout(() => {
+    readyToPlay = true;
+  }, cooldown);
+}
 
 /**
  * Returns an HTML element by its ID.
