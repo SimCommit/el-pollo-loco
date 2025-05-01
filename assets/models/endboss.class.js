@@ -1,10 +1,6 @@
 // endboss.class.js
 
 class Endboss extends MovableObject {
-  width = 300;
-  height = 300;
-  y = 145;
-
   offset = {
     top: 108,
     bottom: 48,
@@ -14,9 +10,20 @@ class Endboss extends MovableObject {
 
   frameDelay = {
     dead: 7,
+    hurt: 3,
     alert: 9,
+    attack: 11,
+    walking: 5,
   };
 
+  world;
+  y = 145;
+  width = 300;
+  height = 300;
+  speed = 5;
+  attackStart = 0;
+  switchDirectionStart = 0;
+  ran = 0;
   health = 200;
 
   IMAGES_WALKING = [
@@ -40,6 +47,13 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/3_attack/G13.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G14.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G15.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G16.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G17.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G19.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G20.png",
   ];
 
   IMAGES_HURT = [
@@ -59,12 +73,16 @@ class Endboss extends MovableObject {
 
   constructor() {
     super().loadImage(this.IMAGES_ALERT[0]);
+    this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ALERT);
+    this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-
     this.x = 1200;
-    this.animate();
+  }
+
+  setWorld(world) {
+    this.world = world;
   }
 
   // animate() {
@@ -84,15 +102,15 @@ class Endboss extends MovableObject {
         case "hurt":
           this.handleHurt();
           break;
+        case "attack":
+          this.handleAttack();
+          break;
         case "alert":
           this.handleAlert();
           break;
-        // case "attack":
-        //   this.handleAttack();
-        //   break;
-        // case "walking":
-        //   this.handleWalking();
-        //   break;
+        case "walking":
+          this.handleWalking();
+          break;
       }
     }, 1000 / 30);
   }
@@ -102,7 +120,7 @@ class Endboss extends MovableObject {
       if (this.currentImage < this.IMAGES_DEAD.length) {
         if (this.skipFrame % this.frameDelay.dead === 0) {
           this.playAnimation(this.IMAGES_DEAD);
-          playSound("assets/audio/endboss/hurt_1.mp3", 1, 0.3, 10000)
+          playSound("assets/audio/endboss/hurt_1.mp3", 1, 0.3, 10000);
           playSound("assets/audio/endboss/dead_1.mp3", 1, 0.3, 1000);
         }
       } else {
@@ -115,8 +133,33 @@ class Endboss extends MovableObject {
 
   handleHurt() {
     if (this.currentState === "hurt") {
-      this.playAnimation(this.IMAGES_HURT);
-      playSound("assets/audio/endboss/hurt_1.mp3", 1, 0.3, 1000)
+      if (this.skipFrame % this.frameDelay.hurt === 0) {
+        this.playAnimation(this.IMAGES_HURT);
+      }
+      this.skipFrame += 1;
+      playSound("assets/audio/endboss/hurt_1.mp3", 1, 0.3, 1000);
+    }
+  }
+
+  handleAttack() {
+    let timePassed = new Date().getTime() - this.attackStart;
+    timePassed = timePassed / 1000;
+    if (timePassed < 3) {
+      if (this.skipFrame % this.frameDelay.attack === 0) {
+        this.playAnimation(this.IMAGES_ATTACK);
+      }
+      this.skipFrame += 1;
+      if (timePassed >= 1.5 && timePassed < 3) {
+        this.speed = 6;
+        playSound("assets/audio/endboss/hurt_1.mp3", 1, 0.3, 2000);
+        this.moveLeft();
+      }
+    } else {
+      this.moveRight();
+      if (this.skipFrame % this.frameDelay.attack === 0) {
+        this.playAnimation(this.IMAGES_WALKING);
+      }
+      this.skipFrame += 1;
     }
   }
 
@@ -125,7 +168,31 @@ class Endboss extends MovableObject {
       this.playAnimation(this.IMAGES_ALERT);
     }
     this.skipFrame += 1;
-    // console.log(this.currentState);
+  }
+
+  handleWalking() {
+    if (this.skipFrame % this.frameDelay.walking === 0) {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
+    this.skipFrame += 1;
+
+    let timePassed = new Date().getTime() - this.switchDirectionStart;
+    timePassed = timePassed / 1000;
+
+    if (timePassed > 2) {
+      this.ran = Math.random();
+      this.switchDirectionStart = new Date().getTime();
+    }
+
+    if (this.ran < 0.3 && this.x > 500) {
+      this.speed = 4;
+      this.moveLeft();
+    }
+
+    if (this.ran > 0.3 && this.x < 2000) {
+      this.speed = 2;
+      this.moveRight();
+    }
   }
 
   updateState() {
@@ -135,18 +202,20 @@ class Endboss extends MovableObject {
       newState = "dead";
     } else if (this.isHurt()) {
       newState = "hurt";
-    } else {
+    } else if (this.world.isCloseToCharacter(300)) {
+      newState = "attack";
+    } else if (this.world.isCloseToCharacter(500)) {
       newState = "alert";
-      // } else if (ATTACK) {
-      //   newState = "attack";
-      // } else {
-      //   newState = "walking";
-      // }
+    } else {
+      newState = "walking";
     }
 
     if (newState !== this.currentState) {
       this.resetCurrentImage();
       this.resetSkipFrame();
+      if (newState === "attack") {
+        this.attackStart = new Date().getTime();
+      }
     }
 
     this.currentState = newState;

@@ -39,7 +39,6 @@ class DrawableObject {
     }
   }
 
-  // Real hitboxes (with gpt)
   drawFrame(ctx) {
     if (
       this instanceof Character ||

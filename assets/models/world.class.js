@@ -14,6 +14,7 @@ class World {
   onCooldown = false;
   bottleAmmo = 4;
   readyToPlay = true;
+  bossTrigger = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???
@@ -25,14 +26,27 @@ class World {
   }
 
   setWorld() {
-    this.character.world = this;
+    this.character.setWorld(this);
+    this.level.bosses[0].setWorld(this);
   }
 
   run() {
     setInterval(() => {
       this.checkThrowObjects();
       this.checkCollisions();
-    }, 1000 / 120);
+      this.checkBossTrigger();
+    }, 1000 / 60);
+  }
+
+  checkBossTrigger() {
+    if (!this.bossTrigger && this.isCloseToCharacter(700)) {
+      this.level.bosses[0].animate();
+      this.bossTrigger = true;
+    }
+  }
+
+  isCloseToCharacter(distance) {
+    return Math.abs(this.level.bosses[0].x - this.character.x) < distance;
   }
 
   checkThrowObjects() {
@@ -52,6 +66,11 @@ class World {
     this.level.enemies.forEach((enemy) => {
       this.collisionEnemy(enemy);
       this.collisionThrowable(enemy);
+    });
+
+    this.level.bosses.forEach((boss) => {
+      this.collisionEnemy(boss);
+      this.collisionThrowable(boss);
     });
 
     this.level.collectibleObjects.forEach((item) => {
@@ -95,7 +114,7 @@ class World {
 
   collisionCollectible(item) {
     if (this.character.isColliding(item) && this.bottleAmmo < 5) {
-      playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200)
+      playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200);
       this.despawnCollectibleObject(item);
       this.bottleAmmo++;
       this.bottleBar.setPercentage(this.bottleAmmo * 20);
@@ -115,23 +134,6 @@ class World {
       playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
     }
   }
-
-  // playSound(path, rate, volume, cooldown) {
-  //   let sound = new Audio(path);
-  //   sound.playbackRate = rate;
-  //   sound.volume = volume;
-  //   this.setCooldown(sound.play(), cooldown);
-  // }
-
-  // setCooldown(fn, cooldown){
-  //   if (this.readyToPlay) {
-  //     fn;
-  //     this.readyToPlay = false;
-  //   }
-  //   setTimeout(() => {
-  //     this.readyToPlay = true;
-  //   }, cooldown);
-  // }
 
   despawnThrowableObject(bottle) {
     setTimeout(() => {
@@ -155,10 +157,11 @@ class World {
 
     // --- Space for movable objects ---
     this.addObjectsToMap(this.level.clouds);
+    this.addToMap(this.character);
     this.addObjectsToMap(this.level.collectibleObjects);
     this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.level.bosses);
     this.addObjectsToMap(this.throwableObjects);
-    this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0); // back
     // --- Space for fixed objects ---
@@ -188,7 +191,7 @@ class World {
     }
 
     mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
+    // mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

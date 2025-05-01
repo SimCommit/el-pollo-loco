@@ -107,6 +107,10 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  setWorld(world) {
+    this.world = world;
+  }
+
   animate() {
     setInterval(() => {
       this.updateState();
