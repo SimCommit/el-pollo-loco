@@ -151,7 +151,7 @@ class Endboss extends MovableObject {
       this.skipFrame += 1;
       if (timePassed >= 1.5 && timePassed < 3) {
         this.speed = 6;
-        playSound("assets/audio/endboss/hurt_1.mp3", 1, 0.3, 2000);
+        playSound("assets/audio/endboss/attack_1.mp3", 1, 0.3, 2000);
         this.moveLeft();
       }
     } else {
