@@ -175,6 +175,7 @@ class World {
     // --- Space for movable objects ---
     this.addObjectsToMap(this.level.clouds);
     this.addToMap(this.character);
+    this.addObjectsToMap(this.level.obstacles)
     this.addObjectsToMap(this.level.collectibleObjects);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.bosses);

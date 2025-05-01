@@ -25,6 +25,7 @@ class Endboss extends MovableObject {
   switchDirectionStart = 0;
   ran = 0;
   health = 200;
+  damage = 50;
 
   IMAGES_WALKING = [
     "assets/img/4_enemie_boss_chicken/1_walk/G1.png",

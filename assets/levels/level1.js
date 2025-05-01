@@ -42,7 +42,7 @@ let level1 = new Level(
     new Bottle(900, 375),
     new Bottle(1000, 375),
     new Bottle(1900, 375),
-    new Coin(-100, 225),
+    new Coin(-80, 225),
     new Coin(400, 225),
     new Coin(600, 225),
     new Coin(800, 225),
@@ -50,5 +50,7 @@ let level1 = new Level(
     new Coin(1200, 225),
     new Coin(1400, 225),
     new Coin(1600, 225),
-  ]
+  ],
+  [new Obstacle("assets/img/0_obstacles/obstacle_1.png", -235, 210)],
+  // [new Obstacle("assets/img/0_obstacles/obstacle_1.png", 2200, 210)]
 );
