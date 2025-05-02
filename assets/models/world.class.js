@@ -37,6 +37,7 @@ class World {
       this.checkThrowObjects();
       this.checkCollisions();
       this.checkBossTrigger();
+      this.checkBossDefeat();
     }, 1000 / 60);
   }
 
@@ -46,6 +47,12 @@ class World {
       let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
       this.bossHealthBars.push(endbossHealthBar);
       this.bossTrigger = true;
+    }
+  }
+
+  checkBossDefeat() {
+    if (this.level.bosses[0].health <= 0) {
+      despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000)
     }
   }
 
