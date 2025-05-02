@@ -59,7 +59,7 @@ let level1 = new Level(
     new Coin(1600, 225),
   ],
   [
-    new Obstacle("assets/img/0_obstacles/obstacle_1.png", -235, 210),
-    new Obstacle("assets/img/0_obstacles/obstacle_1.png", 2100, 210),
+    new Obstacle("assets/img/0_obstacles/obstacle_1.png", -235, 220),
+    new Obstacle("assets/img/0_obstacles/obstacle_1.png", 2100, 220),
   ]
 );
