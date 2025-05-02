@@ -7,6 +7,7 @@
     <title>El Pollo Loco</title>
 
     <script src="./assets/scripts/helpers.js"></script>
+    <script src="./assets/scripts/ui-screens.js"></script>
     <script src="./assets/models/keyboard.class.js"></script>
     <script src="./assets/models/drawable-object.class.js"></script>
     <script src="./assets/models/status-bar.class.js"></script>
@@ -39,6 +40,12 @@
 <body onload="init()">
     <main>
         <h1>El Pollo Loco</h1>
+
+        <section id="start-screen" class="d-none">
+            <div class="start-screen-content">
+                <button onclick="">START GAME</button>
+            </div>
+        </section>
 
         <canvas id="canvas" width="720" height="480">
 
