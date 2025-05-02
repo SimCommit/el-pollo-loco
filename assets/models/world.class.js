@@ -106,15 +106,15 @@ class World {
         playSound("assets/audio/salsa_bottle/break_1.mp3", 1, 0.3, 200);
         enemy.hit(this.throwableObjects[i].damage, enemy);
         if (enemy instanceof Endboss) {
-          this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2)
+          this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2);
         }
         console.log("isBroken", this.throwableObjects[i].isBroken);
-        this.despawnThrowableObject(this.throwableObjects[i]);
+        despawnObject(this.throwableObjects[i], this.throwableObjects, 600);
         this.killMomentum(this.throwableObjects[i]);
       }
       if (this.throwableObjects[i].isBroken === false && this.throwableObjects[i].y > 480) {
         this.throwableObjects[i].isBroken = true;
-        this.despawnThrowableObject(this.throwableObjects[i]);
+        despawnObject(this.throwableObjects[i], this.throwableObjects);
       }
     }
   }
@@ -123,7 +123,7 @@ class World {
     if (this.character.isColliding(item)) {
       if (item instanceof Coin && (this.coinAmount < 5 || this.character.health < 100)) {
         playSound("assets/audio/coin/collect_1.mp3", 1, 0.05, 200);
-        this.despawnCollectibleObject(item);
+        despawnObject(item, this.level.collectibleObjects);
         if (this.coinAmount < 5) {
           this.coinAmount++;
           this.coinBar.setPercentage(this.coinAmount * 20);
@@ -135,17 +135,12 @@ class World {
       }
       if (item instanceof Bottle && this.bottleAmmo < 5) {
         playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200);
-        this.despawnCollectibleObject(item);
+        despawnObject(item, this.level.collectibleObjects)
         this.bottleAmmo++;
         this.bottleBar.setPercentage(this.bottleAmmo * 20);
         console.log("Ammo: ", this.bottleAmmo);
       }
     }
-  }
-
-  despawnCollectibleObject(item) {
-    let index = this.level.collectibleObjects.indexOf(item);
-    this.level.collectibleObjects.splice(index, 1);
   }
 
   checkTopImpact(enemy) {
@@ -154,14 +149,6 @@ class World {
       this.character.jump();
       playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
     }
-  }
-
-  despawnThrowableObject(bottle) {
-    setTimeout(() => {
-      let index = this.throwableObjects.indexOf(bottle);
-      this.throwableObjects.splice(index, 1);
-      console.log("despawned");
-    }, 600);
   }
 
   killMomentum(o) {

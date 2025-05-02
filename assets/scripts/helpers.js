@@ -17,6 +17,23 @@ let soundCooldowns = new Map();
   }, cooldown);
 }
 
+// decides if delay is set or not
+function despawnObject(object, array, delay = 0) {
+  if (delay > 0) {
+    setTimeout(() => {
+      removeFromArray(object, array);
+    }, delay);
+  } else {
+    removeFromArray(object, array);
+  }
+}
+
+// removes an object form an array
+function removeFromArray(object, array) {
+  let index = array.indexOf(object);
+  array.splice(index, 1);  
+}
+
 /**
  * Returns an HTML element by its ID.
  *
