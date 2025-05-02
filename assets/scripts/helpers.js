@@ -1,4 +1,5 @@
 // helpers.js
+
 let soundCooldowns = new Map();
 
 // helper for playing sounds

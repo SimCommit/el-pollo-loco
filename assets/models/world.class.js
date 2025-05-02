@@ -10,6 +10,7 @@ class World {
   healthBar = new HealthBar();
   coinBar = new CoinBar();
   bottleBar = new BottleBar();
+  bossHealthBars = [];
   throwableObjects = [];
   onCooldown = false;
   bottleAmmo = 4;
@@ -42,6 +43,8 @@ class World {
   checkBossTrigger() {
     if (!this.bossTrigger && this.isCloseToCharacter(700)) {
       this.level.bosses[0].animate();
+      let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
+      this.bossHealthBars.push(endbossHealthBar);
       this.bossTrigger = true;
     }
   }
@@ -102,6 +105,9 @@ class World {
         this.throwableObjects[i].isBroken = true;
         playSound("assets/audio/salsa_bottle/break_1.mp3", 1, 0.3, 200);
         enemy.hit(this.throwableObjects[i].damage, enemy);
+        if (enemy instanceof Endboss) {
+          this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2)
+        }
         console.log("isBroken", this.throwableObjects[i].isBroken);
         this.despawnThrowableObject(this.throwableObjects[i]);
         this.killMomentum(this.throwableObjects[i]);
@@ -115,7 +121,6 @@ class World {
 
   collisionCollectible(item) {
     if (this.character.isColliding(item)) {
-    
       if (item instanceof Coin && (this.coinAmount < 5 || this.character.health < 100)) {
         playSound("assets/audio/coin/collect_1.mp3", 1, 0.05, 200);
         this.despawnCollectibleObject(item);
@@ -127,8 +132,7 @@ class World {
           this.character.health += 20;
           this.healthBar.setPercentage(this.character.health);
         }
-
-      } 
+      }
       if (item instanceof Bottle && this.bottleAmmo < 5) {
         playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200);
         this.despawnCollectibleObject(item);
@@ -175,11 +179,12 @@ class World {
     // --- Space for movable objects ---
     this.addObjectsToMap(this.level.clouds);
     this.addToMap(this.character);
-    this.addObjectsToMap(this.level.obstacles)
+    this.addObjectsToMap(this.level.obstacles);
     this.addObjectsToMap(this.level.collectibleObjects);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.bosses);
     this.addObjectsToMap(this.throwableObjects);
+    this.addObjectsToMap(this.bossHealthBars);
 
     this.ctx.translate(-this.camera_x, 0); // back
     // --- Space for fixed objects ---

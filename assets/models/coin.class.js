@@ -1,7 +1,7 @@
 // coin.class.js
 
 class Coin extends CollectibleObject {
-  IMAGES_COIN = ["assets/img/8_coin/coin_1.png", "assets/img/8_coin/coin_2.png"];
+  IMAGES = ["assets/img/8_coin/coin_1.png", "assets/img/8_coin/coin_2.png"];
 
   offset = {
     top: 8,
@@ -17,14 +17,14 @@ class Coin extends CollectibleObject {
     super();
     this.x = x;
     this.y = y;
-    this.loadImage(this.IMAGES_COIN[0]);
-    this.loadImages(this.IMAGES_COIN);
+    this.loadImage(this.IMAGES[0]);
+    this.loadImages(this.IMAGES);
     this.animate();
   }
 
   animate() {
       setInterval(() => {
-        this.playAnimation(this.IMAGES_COIN);
-      }, 1000 / 7);
+        this.playAnimation(this.IMAGES);
+      }, 1000 / 5);
     }
 }
