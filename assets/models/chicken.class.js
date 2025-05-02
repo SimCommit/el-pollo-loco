@@ -21,6 +21,7 @@ class Chicken extends MovableObject {
   y = 375;
   frameDelayWalking = 5;
   health = 30;
+  isMarkedForDespawn = false;
 
   constructor(x) {
     super().loadImage("assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");

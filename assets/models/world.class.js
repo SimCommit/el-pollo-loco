@@ -37,8 +37,18 @@ class World {
       this.checkThrowObjects();
       this.checkCollisions();
       this.checkBossTrigger();
+      this.checkEnemyDefeat();
       this.checkBossDefeat();
     }, 1000 / 60);
+  }
+
+  checkEnemyDefeat() {
+    this.level.enemies.forEach((enemy) => {
+      if (enemy.health <= 0 && !enemy.isMarkedForDespawn) {
+        enemy.isMarkedForDespawn = true;
+        despawnObject(enemy, this.level.enemies, 2500);
+      }
+    });
   }
 
   checkBossTrigger() {
@@ -52,7 +62,7 @@ class World {
 
   checkBossDefeat() {
     if (this.level.bosses[0].health <= 0) {
-      despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000)
+      despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000);
     }
   }
 
@@ -142,7 +152,7 @@ class World {
       }
       if (item instanceof Bottle && this.bottleAmmo < 5) {
         playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200);
-        despawnObject(item, this.level.collectibleObjects)
+        despawnObject(item, this.level.collectibleObjects);
         this.bottleAmmo++;
         this.bottleBar.setPercentage(this.bottleAmmo * 20);
         console.log("Ammo: ", this.bottleAmmo);
