@@ -69,7 +69,7 @@ let level1 = new Level(
   ],
   [
     new Obstacle("assets/img/0_obstacles/obstacle_1.png", -260, 220, 260, 260),
-    new Obstacle("assets/img/0_obstacles/obstacle_2.png", 340, 305, 140, 140),
+    new Obstacle("assets/img/0_obstacles/obstacle_2.png", 340, 331, 110, 110),
     new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1800, 305, 140, 140),
     new Obstacle("assets/img/0_obstacles/obstacle_4.png", 3180, 185, 260, 260),
   ]
