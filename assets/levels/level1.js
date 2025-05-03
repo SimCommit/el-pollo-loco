@@ -53,12 +53,12 @@ let level1 = new Level(
     new BackgroundObject("assets/img/5_background/layers/1_first_layer/2.png", 719 * 5),
   ],
   [
-    new Bottle(-70, 375),
+    new Bottle(-60, 375),
     new Bottle(550, 375),
     new Bottle(900, 375),
     new Bottle(1000, 375),
     new Bottle(1900, 375),
-    new Coin(-80, 225),
+    new Coin(-70, 225),
     new Coin(400, 225),
     new Coin(600, 225),
     new Coin(800, 225),
@@ -68,9 +68,9 @@ let level1 = new Level(
     new Coin(1600, 225),
   ],
   [
-    new Obstacle("assets/img/0_obstacles/obstacle_1.png", -260, 220, 260, 260),
-    new Obstacle("assets/img/0_obstacles/obstacle_2.png", 340, 331, 110, 110),
+    new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 60, 0, 60),
+    new Obstacle("assets/img/0_obstacles/obstacle_2.png", 340, 331, 110, 110, 20, 20, 0, 20),
     new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1800, 305, 140, 140),
-    new Obstacle("assets/img/0_obstacles/obstacle_4.png", 3180, 185, 260, 260),
+    new Obstacle("assets/img/0_obstacles/obstacle_4.png", 3180, 185, 260, 260, 20, 110, 0, 110),
   ]
 );
