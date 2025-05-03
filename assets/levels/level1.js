@@ -2,10 +2,10 @@
 
 let level1 = new Level(
   [
-    new Chicken(300),
-    new Chicken(400),
-    new Chicken(500),
-    new Chicken(550),
+    new Chicken(451),
+    new Chicken(480),
+    new Chicken(520),
+    new Chicken(570),
     new Chicken(750),
     new Chicken(1000),
   ],

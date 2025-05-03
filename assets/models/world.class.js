@@ -98,8 +98,6 @@ class World {
     this.level.collectibleObjects.forEach((item) => {
       this.collisionCollectible(item);
     });
-
-
   }
 
   collisionObstacle(enemy) {
@@ -108,7 +106,7 @@ class World {
         this.toggleSpriteDirection(enemy);
         this.reverseSpeed(enemy);
       }
-    })    
+    });
   }
 
   reverseSpeed(object) {
@@ -184,9 +182,8 @@ class World {
     }
   }
 
-  //  && this.character.isFalling()
   checkTopImpact(enemy) {
-    if (this.character.isHigher(enemy)) {
+    if (this.character.isHigher(enemy) && this.character.isFalling()) {
       this.character.invincibleTrigger = new Date().getTime();
       this.character.jump();
       playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
