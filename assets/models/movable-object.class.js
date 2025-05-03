@@ -1,9 +1,7 @@
 // movable-object.class.js
 
 class MovableObject extends DrawableObject {
-  // speed = 0.15;
   health = 100;
-  // onCooldown = false;
   lastHit = 0;
   invincibleTrigger = 0;
   // reboundAcceleration = 1;
@@ -21,17 +19,6 @@ class MovableObject extends DrawableObject {
       }
     }, 1000 / 25);
   }
-
-  // applyHorizontalMovement() {
-  //   setInterval(() => {
-  //     if (this.isAboveGround) {
-  //       this.x += this.speedX;
-  //       if (this.speedX > 0) {
-  //         this.speedX -= this.acceleration;
-  //       }
-  //     }
-  //   }, 1000 / 25);
-  // }
 
   isAboveGround() {
     if (this.isBroken) {

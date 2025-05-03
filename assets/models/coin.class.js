@@ -4,10 +4,10 @@ class Coin extends CollectibleObject {
   IMAGES = ["assets/img/8_coin/coin_1.png", "assets/img/8_coin/coin_2.png"];
 
   offset = {
-    top: 8,
-    bottom: 8,
-    left: 8,
-    right: 8,
+    top: 16,
+    bottom: 16,
+    left: 16,
+    right: 16,
   };
 
   width = 70;

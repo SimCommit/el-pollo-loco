@@ -87,6 +87,7 @@ class World {
     this.level.enemies.forEach((enemy) => {
       this.collisionEnemy(enemy);
       this.collisionThrowable(enemy);
+      this.collisionObstacle(enemy);
     });
 
     this.level.bosses.forEach((boss) => {
@@ -97,6 +98,25 @@ class World {
     this.level.collectibleObjects.forEach((item) => {
       this.collisionCollectible(item);
     });
+
+
+  }
+
+  collisionObstacle(enemy) {
+    this.level.obstacles.forEach((obstacle) => {
+      if (obstacle.isColliding(enemy)) {
+        this.toggleDirection(enemy);
+        enemy.speed = enemy.speed * -1;
+      }
+    })    
+  }
+
+  toggleDirection(object) {
+    if (!object.otherDirection) {
+      object.otherDirection = true;
+    } else if (object.otherDirection) {
+      object.otherDirection = false;
+    }
   }
 
   collisionEnemy(enemy) {
@@ -218,7 +238,7 @@ class World {
     }
 
     mo.draw(this.ctx);
-    // mo.drawFrame(this.ctx);
+    mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);
