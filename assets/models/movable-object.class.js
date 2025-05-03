@@ -11,9 +11,10 @@ class MovableObject extends DrawableObject {
   skipFrame = 0;
   onCooldown = false;
   TOP_COLLISION_MARGIN = 20;
+  SIDE_COLLISION_IGNORE_HEIGHT = 30;
 
   applyGravity() {
-    setInterval(() => {      
+    setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
@@ -103,7 +104,7 @@ class MovableObject extends DrawableObject {
     return (
       this.getHitboxBorderRight() >= other.getHitboxBorderLeft() &&
       this.getHitboxBorderRight() <= other.getHitboxBorderRight() &&
-      this.getHitboxBorderBottom() > other.getHitboxBorderTop() &&
+      this.getHitboxBorderBottom() > other.getHitboxBorderTop() + this.SIDE_COLLISION_IGNORE_HEIGHT &&
       this.getHitboxBorderBottom() < other.getHitboxBorderBottom()
     );
   }
@@ -112,7 +113,7 @@ class MovableObject extends DrawableObject {
     return (
       this.getHitboxBorderLeft() <= other.getHitboxBorderRight() &&
       this.getHitboxBorderLeft() >= other.getHitboxBorderLeft() &&
-      this.getHitboxBorderBottom() > other.getHitboxBorderTop() &&
+      this.getHitboxBorderBottom() > other.getHitboxBorderTop() + this.SIDE_COLLISION_IGNORE_HEIGHT &&
       this.getHitboxBorderBottom() < other.getHitboxBorderBottom()
     );
   }
@@ -124,7 +125,7 @@ class MovableObject extends DrawableObject {
       this.getHitboxBorderLeft() < other.getHitboxBorderRight() &&
       this.getHitboxBorderBottom() >= other.getHitboxBorderTop() &&
       this.getHitboxBorderBottom() <= other.getHitboxBorderTop() + this.TOP_COLLISION_MARGIN &&
-      this.speedY <= 0 
+      this.speedY <= 0
     );
   }
 
@@ -153,6 +154,7 @@ class MovableObject extends DrawableObject {
     this.height = 50;
     this.speedY = 15;
     this.speedX = 5;
+    playSound("assets/audio/character/throw_1.mp3", 1, 0.3, 1000)
     this.applyGravity();
     if (world.character.otherDirection) {
       this.speedX = this.speedX * -1;
