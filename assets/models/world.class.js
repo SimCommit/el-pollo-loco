@@ -105,13 +105,17 @@ class World {
   collisionObstacle(enemy) {
     this.level.obstacles.forEach((obstacle) => {
       if (obstacle.isColliding(enemy)) {
-        this.toggleDirection(enemy);
-        enemy.speed = enemy.speed * -1;
+        this.toggleSpriteDirection(enemy);
+        this.reverseSpeed(enemy);
       }
     })    
   }
 
-  toggleDirection(object) {
+  reverseSpeed(object) {
+    object.speed = object.speed * -1;
+  }
+
+  toggleSpriteDirection(object) {
     if (!object.otherDirection) {
       object.otherDirection = true;
     } else if (object.otherDirection) {
