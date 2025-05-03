@@ -10,9 +10,10 @@ class MovableObject extends DrawableObject {
   longIdleThreshold = 10;
   skipFrame = 0;
   onCooldown = false;
+  TOP_COLLISION_MARGIN = 20;
 
   applyGravity() {
-    setInterval(() => {
+    setInterval(() => {      
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
@@ -26,6 +27,8 @@ class MovableObject extends DrawableObject {
     } else if (this instanceof ThrowableObject) {
       // Throwable objects should fall through ground
       return true;
+    } else if (this.isOnTop()) {
+      return false;
     } else {
       return this.y < 220;
     }
@@ -114,6 +117,17 @@ class MovableObject extends DrawableObject {
     );
   }
 
+  // Hat mich gebrochen :/
+  isTouchingFromTop(other) {
+    return (
+      this.getHitboxBorderRight() > other.getHitboxBorderLeft() &&
+      this.getHitboxBorderLeft() < other.getHitboxBorderRight() &&
+      this.getHitboxBorderBottom() >= other.getHitboxBorderTop() &&
+      this.getHitboxBorderBottom() <= other.getHitboxBorderTop() + this.TOP_COLLISION_MARGIN &&
+      this.speedY <= 0 
+    );
+  }
+
   moveRight() {
     this.x += this.speed;
   }
@@ -142,7 +156,6 @@ class MovableObject extends DrawableObject {
     this.applyGravity();
     if (world.character.otherDirection) {
       this.speedX = this.speedX * -1;
-      console.log("OI");
     }
     setInterval(() => {
       this.x += this.speedX;

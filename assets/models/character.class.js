@@ -179,6 +179,11 @@ class Character extends MovableObject {
     return this.world.level.obstacles.some((obstacle) => this.isTouchingFromRight(obstacle));
   }
 
+  isOnTop() {
+    return this.world.level.obstacles.some((obstacle) =>
+       this.isTouchingFromTop(obstacle));
+  }
+
   handleWalking() {
     if (this.currentState === "walking") {
       this.playAnimation(this.IMAGES_WALKING);
