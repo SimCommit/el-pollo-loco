@@ -3,9 +3,9 @@
 class Endboss extends MovableObject {
   offset = {
     top: 108,
-    bottom: 48,
-    left: 48,
-    right: 48,
+    bottom: 68,
+    left: 52,
+    right: 52,
   };
 
   frameDelay = {

@@ -44,7 +44,8 @@ class DrawableObject {
       this instanceof Character ||
       this instanceof Chicken ||
       this instanceof Endboss ||
-      this instanceof CollectibleObject
+      this instanceof CollectibleObject ||
+      this instanceof Obstacle
     ) {
       ctx.beginPath();
       ctx.lineWidth = "2";
@@ -85,12 +86,12 @@ class DrawableObject {
     }, cooldown);
   }
 
-  isColliding(mo) {
+  isColliding(other) {
     return (
-      this.getHitboxBorderRight() >= mo.getHitboxBorderLeft() &&
-      this.getHitboxBorderLeft() <= mo.getHitboxBorderRight() &&
-      this.getHitboxBorderBottom() >= mo.getHitboxBorderTop() &&
-      this.getHitboxBorderTop() <= mo.getHitboxBorderBottom()
+      this.getHitboxBorderRight() >= other.getHitboxBorderLeft() &&
+      this.getHitboxBorderLeft() <= other.getHitboxBorderRight() &&
+      this.getHitboxBorderBottom() >= other.getHitboxBorderTop() &&
+      this.getHitboxBorderTop() <= other.getHitboxBorderBottom()
     );
   }
 

@@ -98,7 +98,16 @@ class World {
     this.level.collectibleObjects.forEach((item) => {
       this.collisionCollectible(item);
     });
+    // this.level.obstacles.forEach((obstacle) => {
+    //   this.collisionCharacterWithObstacle(obstacle)
+    // });
   }
+
+  // collisionCharacterWithObstacle(obstacle) {
+  //     if (this.character.isTouchingFromLeft(obstacle)) {
+  //       console.log("can touch it");
+  //     }
+  // }
 
   collisionObstacle(enemy) {
     this.level.obstacles.forEach((obstacle) => {

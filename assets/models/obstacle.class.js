@@ -8,8 +8,6 @@ class Obstacle extends DrawableObject {
         right: 20,
       };
 
-
-
       constructor(path, x, y, width, height){
         super();
         this.loadImage(path)

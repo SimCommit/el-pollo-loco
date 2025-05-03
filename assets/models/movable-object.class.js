@@ -84,16 +84,34 @@ class MovableObject extends DrawableObject {
     return timePassed > this.longIdleThreshold;
   }
 
-  isHigher(mo) {
+  isHigher(other) {
     return (
-      this.lastY + this.height - this.offset.bottom <= mo.y + mo.offset.top ||
-      this.lastY2 + this.height - this.offset.bottom <= mo.y + mo.offset.top ||
-      this.lastY3 + this.height - this.offset.bottom <= mo.y + mo.offset.top
+      this.lastY + this.height - this.offset.bottom <= other.getHitboxBorderTop() ||
+      this.lastY2 + this.height - this.offset.bottom <= other.getHitboxBorderTop() ||
+      this.lastY3 + this.height - this.offset.bottom <= other.getHitboxBorderTop()
     );
   }
 
   isFalling() {
     return this.speedY < 0;
+  }
+
+  isTouchingFromLeft(other) {
+    return (
+      this.getHitboxBorderRight() >= other.getHitboxBorderLeft() &&
+      this.getHitboxBorderRight() <= other.getHitboxBorderRight() &&
+      this.getHitboxBorderBottom() > other.getHitboxBorderTop() &&
+      this.getHitboxBorderBottom() < other.getHitboxBorderBottom()
+    );
+  }
+
+  isTouchingFromRight(other) {
+    return (
+      this.getHitboxBorderLeft() <= other.getHitboxBorderRight() &&
+      this.getHitboxBorderLeft() >= other.getHitboxBorderLeft() &&
+      this.getHitboxBorderBottom() > other.getHitboxBorderTop() &&
+      this.getHitboxBorderBottom() < other.getHitboxBorderBottom()
+    );
   }
 
   moveRight() {

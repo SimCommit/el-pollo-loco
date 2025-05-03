@@ -78,6 +78,8 @@ class Character extends MovableObject {
   lastY3 = 220;
   lastY2 = 220;
   lastY = 220;
+  lastX = 120;
+  lastX2 = 120;
   speed = 8;
   height = 200;
   width = 100;
@@ -142,6 +144,8 @@ class Character extends MovableObject {
       this.lastY3 = this.lastY2;
       this.lastY2 = this.lastY;
       this.lastY = this.y;
+      // this.lastX2 = this.lastX
+      // this.lastX = this.x;
     }, 1000 / 30);
   }
 
@@ -167,15 +171,27 @@ class Character extends MovableObject {
     }
   }
 
+  isblockedRight() {
+    return this.world.level.obstacles.some((obstacle) => this.isTouchingFromLeft(obstacle));
+  }
+
+  isblockedLeft() {
+    return this.world.level.obstacles.some((obstacle) => this.isTouchingFromRight(obstacle));
+  }
+
   handleWalking() {
     if (this.currentState === "walking") {
       this.playAnimation(this.IMAGES_WALKING);
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      if (
+        this.world.keyboard.RIGHT &&
+        this.x < this.world.level.level_end_x &&
+        !this.isblockedRight()
+      ) {
         this.otherDirection = false;
         this.moveRight();
       }
 
-      if (this.world.keyboard.LEFT && this.x > -100) {
+      if (this.world.keyboard.LEFT && this.x > -200 && !this.isblockedLeft()) {
         this.otherDirection = true;
         this.moveLeft();
       }
@@ -198,11 +214,15 @@ class Character extends MovableObject {
       if (this.skipFrame % this.frameDelay.jumping === 0) {
         this.playAnimation(this.IMAGES_JUMPING);
       }
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      if (
+        this.world.keyboard.RIGHT &&
+        this.x < this.world.level.level_end_x &&
+        !this.isblockedRight()
+      ) {
         this.moveRight();
       }
 
-      if (this.world.keyboard.LEFT && this.x > -100) {
+      if (this.world.keyboard.LEFT && this.x > -100 && !this.isblockedLeft()) {
         this.moveLeft();
       }
       this.skipFrame += 1;
