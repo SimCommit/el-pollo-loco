@@ -32,16 +32,15 @@ class MovableObject extends DrawableObject {
   }
 
   hit(damage, target) {
-
     if (!this.onCooldown) {
       this.health -= damage;
-      console.log("Hit! New target healt: ", target.health); 
+      console.log("Hit! New target healt: ", target.health);
       this.onCooldown = true;
       setTimeout(() => {
         this.onCooldown = false;
       }, 1000);
     }
-    
+
     if (this.health < 0) {
       this.health = 0;
     } else {
@@ -84,9 +83,17 @@ class MovableObject extends DrawableObject {
     timePassed = timePassed / 1000; // Difference in s
     return timePassed > this.longIdleThreshold;
   }
- 
+
   isHigher(mo) {
-    return this.lastY + this.height - this.offset.bottom <= mo.y + mo.offset.top;
+    return (
+      this.lastY + this.height - this.offset.bottom <= mo.y + mo.offset.top ||
+      this.lastY2 + this.height - this.offset.bottom <= mo.y + mo.offset.top ||
+      this.lastY3 + this.height - this.offset.bottom <= mo.y + mo.offset.top
+    );
+  }
+
+  isFalling() {
+    return this.speedY > 0;
   }
 
   moveRight() {
@@ -100,7 +107,7 @@ class MovableObject extends DrawableObject {
   jump() {
     this.speedY = 15;
   }
-  
+
   resetCurrentImage() {
     return (this.currentImage = 0);
   }
@@ -108,7 +115,7 @@ class MovableObject extends DrawableObject {
   resetSkipFrame() {
     return (this.skipFrame = 0);
   }
-      
+
   throw() {
     this.width = 50;
     this.height = 50;
@@ -118,10 +125,9 @@ class MovableObject extends DrawableObject {
     if (world.character.otherDirection) {
       this.speedX = this.speedX * -1;
       console.log("OI");
-      
     }
     setInterval(() => {
       this.x += this.speedX;
     }, 25);
-  }  
+  }
 }

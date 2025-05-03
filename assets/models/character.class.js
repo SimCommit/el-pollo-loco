@@ -75,6 +75,8 @@ class Character extends MovableObject {
 
   x = 120;
   y = 220;
+  lastY3 = 220;
+  lastY2 = 220;
   lastY = 220;
   speed = 8;
   height = 200;
@@ -137,6 +139,8 @@ class Character extends MovableObject {
           break;
       }
 
+      this.lastY3 = this.lastY2;
+      this.lastY2 = this.lastY;
       this.lastY = this.y;
     }, 1000 / 30);
   }
@@ -144,7 +148,7 @@ class Character extends MovableObject {
   handleDead() {
     if (this.currentState === "dead") {
       if (this.currentImage < this.IMAGES_DYING.length) {
-        playSound("assets/audio/character/dead_1.mp3", 1, 0.3, 2000)
+        playSound("assets/audio/character/dead_1.mp3", 1, 0.3, 2000);
         if (this.skipFrame % this.frameDelay.dead === 0) {
           this.playAnimation(this.IMAGES_DYING);
         }
@@ -184,7 +188,7 @@ class Character extends MovableObject {
         (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) ||
         (this.world.keyboard.LEFT && this.x > -100)
       ) {
-        playSound("assets/audio/character/walk_2.mp3", 4, 0.3, 160);       
+        playSound("assets/audio/character/walk_2.mp3", 4, 0.3, 160);
       }
     }
   }

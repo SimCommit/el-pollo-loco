@@ -129,7 +129,7 @@ class World {
       if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
         this.character.hit(20, this.character);
         this.healthBar.setPercentage(this.character.health);
-        console.log("Character Health: ", this.character.health);
+        // console.log("Character Health: ", this.character.health);
       }
       if (this.character.isHigher(enemy)) {
         enemy.hit(this.character.damage, enemy);
@@ -149,7 +149,7 @@ class World {
         if (enemy instanceof Endboss) {
           this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2);
         }
-        console.log("isBroken", this.throwableObjects[i].isBroken);
+        // console.log("isBroken", this.throwableObjects[i].isBroken);
         despawnObject(this.throwableObjects[i], this.throwableObjects, 600);
         this.killMomentum(this.throwableObjects[i]);
       }
@@ -179,11 +179,12 @@ class World {
         despawnObject(item, this.level.collectibleObjects);
         this.bottleAmmo++;
         this.bottleBar.setPercentage(this.bottleAmmo * 20);
-        console.log("Ammo: ", this.bottleAmmo);
+        // console.log("Ammo: ", this.bottleAmmo);
       }
     }
   }
 
+  //  && this.character.isFalling()
   checkTopImpact(enemy) {
     if (this.character.isHigher(enemy)) {
       this.character.invincibleTrigger = new Date().getTime();
