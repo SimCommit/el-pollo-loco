@@ -39,8 +39,14 @@ class World {
       this.checkBossTrigger();
       this.checkEnemyDefeat();
       this.checkBossDefeat();
+      // this.checkChonkSpawn();
     }, 1000 / 60);
   }
+
+  checkChonkSpawn() {
+
+  }
+
 
   checkEnemyDefeat() {
     this.level.enemies.forEach((enemy) => {
@@ -52,7 +58,7 @@ class World {
   }
 
   checkBossTrigger() {
-    if (!this.bossTrigger && this.isCloseToCharacter(700)) {
+    if (!this.bossTrigger && this.isCloseToCharacter(this.level.bosses[0], 300)) {
       this.level.bosses[0].animate();
       let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
       this.bossHealthBars.push(endbossHealthBar);
@@ -66,8 +72,8 @@ class World {
     }
   }
 
-  isCloseToCharacter(distance) {
-    return Math.abs(this.level.bosses[0].x - this.character.x) < distance;
+  isCloseToCharacter(other, distance) {
+    return Math.abs(other.x - this.character.x) < distance;
   }
 
   checkThrowObjects() {

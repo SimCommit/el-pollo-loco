@@ -203,9 +203,9 @@ class Endboss extends MovableObject {
       newState = "dead";
     } else if (this.isHurt()) {
       newState = "hurt";
-    } else if (this.world.isCloseToCharacter(300)) {
+    } else if (this.world.isCloseToCharacter(this, 300)) {
       newState = "attack";
-    } else if (this.world.isCloseToCharacter(500)) {
+    } else if (this.world.isCloseToCharacter(this, 500)) {
       newState = "alert";
     } else {
       newState = "walking";
