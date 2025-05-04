@@ -98,16 +98,21 @@ class World {
     this.level.collectibleObjects.forEach((item) => {
       this.collisionCollectible(item);
     });
-    // this.level.obstacles.forEach((obstacle) => {
-    //   this.collisionCharacterWithObstacle(obstacle)
-    // });
+    this.level.obstacles.forEach((obstacle) => {
+      this.collisionCharacterWithObstacle(obstacle);
+    });
   }
 
-  // collisionCharacterWithObstacle(obstacle) {
-  //     if (this.character.isTouchingFromLeft(obstacle)) {
-  //       console.log("can touch it");
-  //     }
-  // }
+  collisionCharacterWithObstacle(obstacle) {
+    if (this.character.isTouchingFromLeft(obstacle)) {
+      this.character.hit(20, this.character, 0);
+    } else if (this.character.isTouchingFromRight(obstacle)) {
+      this.character.hit(20, this.character, -1);
+    } else if (this.character.isTouchingFromTop(obstacle)) {
+      this.character.hit(20, this.character, 1);
+    }
+    this.healthBar.setPercentage(this.character.health);
+  }
 
   collisionObstacle(enemy) {
     this.level.obstacles.forEach((obstacle) => {
@@ -134,7 +139,7 @@ class World {
     if (this.character.isColliding(enemy)) {
       this.checkTopImpact(enemy);
       if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
-        this.character.hit(20, this.character);
+        this.character.hit(20, this.character, -1);
         this.healthBar.setPercentage(this.character.health);
         // console.log("Character Health: ", this.character.health);
       }
