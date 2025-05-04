@@ -14,7 +14,8 @@ class MovableObject extends DrawableObject {
   SIDE_COLLISION_IGNORE_HEIGHT = 30;
 
   applyGravity() {
-    setInterval(() => {
+    setStoppableInterval(() => {
+      // if (paused) return;
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
@@ -23,7 +24,8 @@ class MovableObject extends DrawableObject {
   }
 
   applyHorizontalForce() {
-    setInterval(() => {
+    setStoppableInterval(() => {
+    // if (paused) return;
       if (this.speedX < 0) {
         this.x += this.speedX;
         this.speedX += this.accelerationX;
@@ -140,7 +142,6 @@ class MovableObject extends DrawableObject {
     );
   }
 
-  // Hat mich gebrochen :/
   isTouchingFromTop(other) {
     return (
       this.getHitboxBorderRight() > other.getHitboxBorderLeft() &&
@@ -181,7 +182,8 @@ class MovableObject extends DrawableObject {
     if (world.character.otherDirection) {
       this.speedX = this.speedX * -1;
     }
-    setInterval(() => {
+    setStoppableInterval(() => {
+      // if (paused) return;
       this.x += this.speedX;
     }, 25);
   }

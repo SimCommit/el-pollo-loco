@@ -1,10 +1,10 @@
 // keyboard.class.js
 
 class Keyboard {
-    LEFT = false;
-    RIGHT = false;
-    UP = false;
-    DOWN = false;
     SPACE = false;
+    UP = false;
+    RIGHT = false;
+    DOWN = false;
+    LEFT = false;
     D = false;
 }

@@ -35,7 +35,9 @@ class Chicken extends MovableObject {
   }
 
   animate() {
-    setInterval(() => {
+    setStoppableInterval(() => {
+      // if (paused) return;
+
       this.updateState();
 
       switch (this.currentState) {

@@ -1,6 +1,12 @@
 // helpers.js
 
 let soundCooldowns = new Map();
+let intervalIds = [];
+
+function setStoppableInterval(fn, time) {
+  let id = setInterval(fn, time);
+  intervalIds.push(id);
+}
 
 // helper for playing sounds
  function playSound(path, rate, volume, cooldown) {

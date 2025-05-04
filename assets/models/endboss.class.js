@@ -86,14 +86,10 @@ class Endboss extends MovableObject {
     this.world = world;
   }
 
-  // animate() {
-  //   setInterval(() => {
-  //     this.playAnimation(this.IMAGES_ALERT);
-  //   }, 200);
-  // }
-
   animate() {
-    setInterval(() => {
+    setStoppableInterval(() => {
+      // if (paused) return;
+
       this.updateState();
 
       switch (this.currentState) {

@@ -34,7 +34,8 @@ class World {
   }
 
   run() {
-    setInterval(() => {
+    setStoppableInterval(() => {
+      // if (paused) return;
       this.checkThrowObjects();
       this.checkCollisions();
       this.checkBossTrigger();
@@ -263,6 +264,7 @@ class World {
 
     // The function is repeatedly called via requestAnimationFrame (thanks to Michelle for this)
     requestAnimationFrame(() => {
+      // if (paused) return;
       this.draw();
     });
   }

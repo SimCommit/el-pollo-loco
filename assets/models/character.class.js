@@ -117,7 +117,8 @@ class Character extends MovableObject {
   }
 
   animate() {
-    setInterval(() => {
+    setStoppableInterval(() => {
+      // if (paused) return;
       this.updateState();
       this.world.camera_x = -this.x + 100;
 
@@ -181,8 +182,7 @@ class Character extends MovableObject {
   }
 
   isOnTop() {
-    return this.world.level.obstacles.some((obstacle) =>
-       this.isTouchingFromTop(obstacle));
+    return this.world.level.obstacles.some((obstacle) => this.isTouchingFromTop(obstacle));
   }
 
   handleWalking() {

@@ -4,12 +4,33 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let lastInput = new Date().getTime() + 15000;
+// let paused = true;
 
 function init() {
   canvas = getElementHelper("canvas");
+}
+
+function startGame() {
+  quitGame();
+  paused = false;
+  intiLevel();
   world = new World(canvas, keyboard);
 }
 
+function togglePause() {
+  if (!paused) {
+    paused = true;
+  } else if (paused) {
+    paused = false;
+    // world.draw();
+    // world.run();
+  }
+}
+
+function quitGame() {
+  intervalIds.forEach(clearInterval);
+}
+  
 document.addEventListener("keydown", (event) => {
   switch (event.key) {
     case "ArrowRight":
@@ -54,5 +75,8 @@ document.addEventListener("keyup", (event) => {
     case "d":
       keyboard.D = false;
       break;
+    case "o":
+      startGame();
+    break;
   }
 });
