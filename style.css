@@ -60,7 +60,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(244, 226, 208, 0.9);
+    background-color: rgba(244, 226, 208, 1);
     z-index: 20;
     display: flex;
     justify-content: center;
