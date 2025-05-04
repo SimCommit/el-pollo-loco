@@ -11,6 +11,7 @@ function init() {
 }
 
 function startGame() {
+  lastInput = new Date().getTime() + 15000;
   quitGame();
   paused = false;
   intiLevel();

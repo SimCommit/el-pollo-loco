@@ -54,6 +54,19 @@ function getElementHelper(id) {
 }
 
 /**
+ * Adds the 'd-none' class to the element with the given ID using getElementHelper.
+ *
+ * @param {string} id - The ID of the HTML element to hide.
+ */
+function hideElementById(id) {
+  let element = getElementHelper(id);
+  if (element) {
+    element.classList.add('d-none');
+  }
+}
+
+
+/**
  * Prevents the event from bubbling up to parent elements.
  *
  * Can be used in inline event handlers like `onclick` to stop parent elements from reacting to the same event.

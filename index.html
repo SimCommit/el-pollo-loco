@@ -32,8 +32,8 @@
     <script src="./assets/levels/level1.js"></script>
     <script src="./assets/scripts/game.js"></script>
 
-    <link rel="stylesheet" href="./assets/styles/standards.css">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./assets/styles/standards.css">
 
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 </head>
@@ -42,17 +42,27 @@
     <main>
         <h1>El Pollo Loco</h1>
 
-        <section id="start-screen" class="">
+        <section id="start-section" class="start-screen">
             <div class="start-screen-content">
-                <button onclick="startGame()">START GAME</button>
-                <button onclick="togglePause()">PAUSE GAME</button>
-                <button onclick="quitGame()">QUIT GAME</button>
+                <button class="btn" onclick="startGame(), hideElementById('start-section')">START GAME</button>
             </div>
         </section>
 
+        <section id="end-section" class="end-screen d-none">
+            <div class="end-screen-content">
+                <button class="btn" onclick="startGame(), hideElementById('start-section')">RESTART GAME</button>
+            </div>
+        </section>
+        
         <canvas id="canvas" width="720" height="480">
-
         </canvas>
+
+        <section class="game-menu">
+            <div class="game-menu-content">
+                <button class="btn" onclick="">MUTE</button>
+                <button class="btn" onclick="quitGame()">QUIT GAME</button>
+            </div>
+        </section>
 
         <div id="test"></div>
     </main>
