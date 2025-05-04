@@ -104,12 +104,12 @@ class World {
   }
 
   collisionCharacterWithObstacle(obstacle) {
-    if (this.character.isTouchingFromLeft(obstacle)) {
-      this.character.hit(20, this.character, 0);
-    } else if (this.character.isTouchingFromRight(obstacle)) {
-      this.character.hit(20, this.character, -1);
-    } else if (this.character.isTouchingFromTop(obstacle)) {
-      this.character.hit(20, this.character, 1);
+    if (this.character.isTouchingFromLeft(obstacle) && !this.character.isInvincible()) {
+      this.character.hit(20, this.character, "left");
+    } else if (this.character.isTouchingFromRight(obstacle) && !this.character.isInvincible()) {
+      this.character.hit(20, this.character, "right");
+    } else if (this.character.isTouchingFromTop(obstacle) && !this.character.isInvincible()) {
+      this.character.hit(20, this.character, "up-left");
     }
     this.healthBar.setPercentage(this.character.health);
   }
@@ -191,14 +191,13 @@ class World {
         despawnObject(item, this.level.collectibleObjects);
         this.bottleAmmo++;
         this.bottleBar.setPercentage(this.bottleAmmo * 20);
-        // console.log("Ammo: ", this.bottleAmmo);
       }
     }
   }
 
   checkTopImpact(enemy) {
     if (this.character.isHigher(enemy) && this.character.isFalling()) {
-      this.character.invincibleTrigger = new Date().getTime();
+      // this.character.invincibleTrigger = new Date().getTime() - 1000;
       this.character.jump();
       playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
     }

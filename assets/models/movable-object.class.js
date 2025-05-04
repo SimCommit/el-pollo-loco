@@ -47,7 +47,7 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  hit(damage, target, direction = 0) {
+  hit(damage, target, direction) {
     if (!this.onCooldown) {
       this.health -= damage;
       // console.log("Hit! New target healt: ", target.health);
@@ -72,13 +72,17 @@ class MovableObject extends DrawableObject {
   }
 
   rebound(direction) {
-    if (direction > 0) {
-      this.speedY = 15;
-      this.speedX = -15;
-    } else if (direction < 0) {
-      this.speedX = 15;
-    } else {  
-      this.speedX = -15;
+    switch (direction) {
+      case "up-left":
+        this.speedY = 15;
+        this.speedX = -15;
+        break;
+      case "right":
+        this.speedX = 15;
+        break;
+      case "left":
+        this.speedX = -15;
+        break;
     }
   }
 
@@ -120,7 +124,8 @@ class MovableObject extends DrawableObject {
     return (
       this.getHitboxBorderRight() >= other.getHitboxBorderLeft() &&
       this.getHitboxBorderRight() <= other.getHitboxBorderRight() &&
-      this.getHitboxBorderBottom() > other.getHitboxBorderTop() + this.SIDE_COLLISION_IGNORE_HEIGHT &&
+      this.getHitboxBorderBottom() >
+        other.getHitboxBorderTop() + this.SIDE_COLLISION_IGNORE_HEIGHT &&
       this.getHitboxBorderBottom() < other.getHitboxBorderBottom()
     );
   }
@@ -129,7 +134,8 @@ class MovableObject extends DrawableObject {
     return (
       this.getHitboxBorderLeft() <= other.getHitboxBorderRight() &&
       this.getHitboxBorderLeft() >= other.getHitboxBorderLeft() &&
-      this.getHitboxBorderBottom() > other.getHitboxBorderTop() + this.SIDE_COLLISION_IGNORE_HEIGHT &&
+      this.getHitboxBorderBottom() >
+        other.getHitboxBorderTop() + this.SIDE_COLLISION_IGNORE_HEIGHT &&
       this.getHitboxBorderBottom() < other.getHitboxBorderBottom()
     );
   }
@@ -170,7 +176,7 @@ class MovableObject extends DrawableObject {
     this.height = 50;
     this.speedY = 15;
     this.speedX = 5;
-    playSound("assets/audio/character/throw_1.mp3", 1, 0.2, 1000)
+    playSound("assets/audio/character/throw_1.mp3", 1, 0.2, 1000);
     this.applyGravity();
     if (world.character.otherDirection) {
       this.speedX = this.speedX * -1;

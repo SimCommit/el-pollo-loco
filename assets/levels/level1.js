@@ -68,9 +68,9 @@ let level1 = new Level(
     new Coin(1600, 225),
   ],
   [
-    new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 85, 0, 85),
-    new Obstacle("assets/img/0_obstacles/obstacle_2.png", 340, 331, 110, 110, 10, 20, 0, 20),
-    new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1800, 305, 140, 140, 10, 40, 0, 28),
-    new Obstacle("assets/img/0_obstacles/obstacle_4.png", 3180, 185, 260, 260, 20, 110, 0, 110),
+    new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 95, 0, 95),
+    new Obstacle("assets/img/0_obstacles/obstacle_2.png", 340, 331, 110, 110, 24, 28, 0, 28),
+    new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1800, 305, 140, 140, 20, 48, 0, 36),
+    new Obstacle("assets/img/0_obstacles/obstacle_4.png", 3180, 185, 260, 260, 20, 110, 0, 100),
   ]
 );
