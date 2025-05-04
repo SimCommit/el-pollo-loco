@@ -159,8 +159,8 @@ class MovableObject extends DrawableObject {
     this.x -= this.speed;
   }
 
-  jump() {
-    this.speedY = 15;
+  jump(speedY = 15) {
+    this.speedY = speedY;
   }
 
   resetCurrentImage() {

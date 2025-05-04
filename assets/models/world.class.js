@@ -198,8 +198,13 @@ class World {
   checkTopImpact(enemy) {
     if (this.character.isHigher(enemy) && this.character.isFalling()) {
       // this.character.invincibleTrigger = new Date().getTime() - 1000;
-      this.character.jump();
-      playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
+      if (enemy instanceof Chonk) {
+        this.character.jump(20);
+        playSound("assets/audio/character/bounce_2.mp3", 1, 0.3, 1000);
+      } else {
+        this.character.jump(14);
+        playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
+      }
     }
   }
 

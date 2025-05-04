@@ -8,6 +8,8 @@ let level1 = new Level(
     new Chicken(570),
     new Chicken(750),
     new Chicken(1000),
+    new Chonk(2400),
+    new Chonk(2800),
   ],
   [new Endboss()],
   [
