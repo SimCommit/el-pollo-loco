@@ -27,7 +27,7 @@ class ThrowableObject extends MovableObject {
   acceleration = 1;
   isBroken = false;
   frameDelayIsBroken = 2;
-  damage = 50;
+  damage = 25;
 
   constructor(x, y) {
     super();

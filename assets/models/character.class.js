@@ -228,7 +228,7 @@ class Character extends MovableObject {
         this.moveRight();
       }
 
-      if (this.world.keyboard.LEFT && this.x > -100 && !this.isblockedLeft()) {
+      if (this.world.keyboard.LEFT && this.x > -200 && !this.isblockedLeft()) {
         this.moveLeft();
       }
       this.skipFrame += 1;

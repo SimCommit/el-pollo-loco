@@ -19,6 +19,7 @@ class Chonk extends Chicken {
   width = 100;
   height = 100;
   y = 328;
+  health = 50;
 
   constructor(x) {
     super();

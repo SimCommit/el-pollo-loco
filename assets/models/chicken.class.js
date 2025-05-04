@@ -20,7 +20,7 @@ class Chicken extends MovableObject {
   height = 50;
   y = 375;
   frameDelayWalking = 5;
-  health = 30;
+  health = 25;
   isMarkedForDespawn = false;
 
   constructor(x) {
