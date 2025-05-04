@@ -13,6 +13,7 @@ class World {
   bossHealthBars = [];
   throwableObjects = [];
   onCooldown = false;
+  spawnCooldown = false;
   bottleAmmo = 4;
   coinAmount = 0;
   readyToPlay = true;
@@ -39,14 +40,29 @@ class World {
       this.checkBossTrigger();
       this.checkEnemyDefeat();
       this.checkBossDefeat();
-      // this.checkChonkSpawn();
+      this.checkChonkSpawn();
     }, 1000 / 60);
   }
 
   checkChonkSpawn() {
-
+    if (
+      this.isCloseToCharacter(this.level.obstacles[2], 300) &&
+      !this.spawnCooldown &&
+      !this.areHelpersAlive()
+    ) {
+      console.log(this.areHelpersAlive());
+      let helperChonk = new Chonk(1650, 328, true);
+      this.level.enemies.push(helperChonk);
+      this.spawnCooldown = true;
+      setTimeout(() => {
+        this.spawnCooldown = false;
+      }, 2000);
+    }
   }
 
+  areHelpersAlive() {
+    return this.level.enemies.some((enemy) => enemy.isHelper);
+  }
 
   checkEnemyDefeat() {
     this.level.enemies.forEach((enemy) => {

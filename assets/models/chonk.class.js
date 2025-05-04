@@ -18,15 +18,18 @@ class Chonk extends Chicken {
 
   width = 100;
   height = 100;
-  y = 328;
   health = 50;
+  isHelper = false;
 
-  constructor(x) {
+  constructor(x, y = 328, h = false) {
     super();
     this.loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
     this.x = x;
+    this.y = y;
+    this.isHelper = h;
+    // this.applyGravity();
     this.animate();
   }
   handleDeadChicken() {
