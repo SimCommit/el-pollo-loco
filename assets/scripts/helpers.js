@@ -1,6 +1,7 @@
 // helpers.js
 
 let soundCooldowns = new Map();
+let muted = true;
 let intervalIds = [];
 
 function setStoppableInterval(fn, time) {
@@ -11,6 +12,7 @@ function setStoppableInterval(fn, time) {
 // helper for playing sounds
  function playSound(path, rate, volume, cooldown) {
   if(soundCooldowns.get(path)) return;
+  if(muted) return;
 
   const sound = new Audio(path);
   sound.playbackRate = rate;
@@ -48,18 +50,18 @@ function removeFromArray(object, array) {
  * @param {string} id - The ID of the HTML element to retrieve.
  * @returns {HTMLElement} The matching HTML element.
  */
-function getElementHelper(id) {
+function getElementByIdHelper(id) {
   let element = document.getElementById(id);
   return element;
 }
 
 /**
- * Adds the 'd-none' class to the element with the given ID using getElementHelper.
+ * Adds the 'd-none' class to the element with the given ID using getElementByIdHelper.
  *
  * @param {string} id - The ID of the HTML element to hide.
  */
 function hideElementById(id) {
-  let element = getElementHelper(id);
+  let element = getElementByIdHelper(id);
   if (element) {
     element.classList.add('d-none');
   }

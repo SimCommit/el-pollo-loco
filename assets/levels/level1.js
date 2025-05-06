@@ -11,7 +11,6 @@ function intiLevel() {
       new Chicken(570),
       new Chicken(750),
       new Chicken(1000),
-      new Chonk(1400),
       new Chonk(2400),
       new Chonk(2800),
     ],
@@ -59,7 +58,7 @@ function intiLevel() {
       new BackgroundObject("assets/img/5_background/layers/1_first_layer/2.png", 719 * 5),
     ],
     [
-      new Bottle(-60, 375),
+      new Bottle(-40, 375),
       new Bottle(550, 375),
       new Bottle(900, 375),
       new Bottle(1000, 375),

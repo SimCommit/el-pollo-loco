@@ -1,95 +1,132 @@
 /* Grundfarben */
 :root {
-    --beige: #f4e2d0;
-    --dark-brown: #4b2e1f;
-    --light-brown: #a67c52;
-    --yellow: #f7c84c;
-    --sand: #e0c097;
-  }
-  
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: var(--beige);
-    color: var(--dark-brown);
-  }
-  
-  main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    padding: 20px;
-  }
-  
-  h1 {
-      font-family: 'Georgia', serif;
-      font-size: 3rem;
-      color: var(--dark-brown);
-      text-shadow: 2px 2px var(--light-brown);
-      margin-top: 20px;
-      margin-bottom: 20px;
-  }
-  
-  /* Canvas styling */
-  canvas {
-    position: relative;
-    background-color: black;
-    border: 6px solid var(--dark-brown);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-  }
-  
-  /* Overlay Buttons oben zentriert */
-  .game-menu {
-    position: absolute;
-    top: 152px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-  }
-  
-  .game-menu-content {
-    display: flex;
-    gap: 12px;
-  }
-  
-  /* Startscreen Buttons (optional etwas größer) */
-  .start-screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(244, 226, 208, 1);
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .start-screen-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Button Design */
-  .btn {
-    background-color: var(--yellow);
-    color: var(--dark-brown);
-    border: 2px solid var(--light-brown);
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 2px 2px var(--light-brown);
+  --beige: #f4e2d0;
+  --dark-brown: #4b2e1f;
+  --light-brown: #a67c52;
+  --yellow: #f7c84c;
+  --sand: #e0c097;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--beige);
+  color: var(--dark-brown);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+}
+
+h1 {
+  font-family: 'Georgia', serif;
+  font-size: 3rem;
+  color: var(--dark-brown);
+  text-shadow: 2px 2px var(--light-brown);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Canvas styling */
+canvas {
+  position: relative;
+  background-color: black;
+  border: 6px solid var(--dark-brown);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Overlay Buttons oben zentriert */
+.game-menu {
+  position: absolute;
+  top: 152px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.game-menu-content {
+  display: flex;
+  gap: 12px;
+  padding-left: 190px;
+}
+
+/* Startscreen Buttons (optional etwas größer) */
+.start-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(244, 226, 208, 1);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-screen-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Button Design */
+.btn {
+  background-color: var(--yellow);
+  color: var(--dark-brown);
+  border: 2px solid var(--light-brown);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--light-brown);
+  color: white;
+}
+
+.btn-start {
+  box-shadow: 2px 2px var(--light-brown);
+}
+
+.btn-start:hover {
+  box-shadow: 3px 3px var(--dark-brown);
+}
+
+.btn-muted {
+  background-color: #8b0000;
+  /* dunkles Rot = Warnung/Off-Zustand */
+  color: #fff8dc;
+  /* Cremeweiß, wirkt alt/westlich */
+  border: 2px solid #5c1a0b;
+  /* dunklerer Rahmen */
+  box-shadow: 0 0 6px rgba(139, 0, 0, 0.5);
+  /* roter Schimmer */
+}
+
+.btn-muted:hover {
+  background-color: #a52a2a;
+  /* leicht heller beim Hover */
+  color: white;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.6);
+}
+
+/* .btn-muted {
+    background-color: var(--light-brown);
+    color: white;
+    border: 2px solid var(--yellow);
+    box-shadow: 2px 2px var(--yellow);
   }
   
   .btn:hover {
     background-color: var(--light-brown);
     color: white;
     box-shadow: 3px 3px var(--dark-brown);
-  }
-  
+  } */

@@ -44,7 +44,7 @@
 
         <section id="start-section" class="start-screen">
             <div class="start-screen-content">
-                <button class="btn" onclick="startGame(), hideElementById('start-section')">START GAME</button>
+                <button class="btn btn-start" onclick="startGame(), hideElementById('start-section')">START GAME</button>
             </div>
         </section>
 
@@ -53,14 +53,17 @@
                 <button class="btn" onclick="startGame(), hideElementById('start-section')">RESTART GAME</button>
             </div>
         </section>
-        
+
         <canvas id="canvas" width="720" height="480">
         </canvas>
 
         <section class="game-menu">
             <div class="game-menu-content">
-                <button class="btn" onclick="">MUTE</button>
-                <button class="btn" onclick="quitGame()">QUIT GAME</button>
+                <button id="mute-btn" class="btn btn-muted" onclick="muteGame()">MUTE</button>
+                <button class="btn" onclick="startGame()">RESTART</button>
+                <button class="btn" onclick="">PAUSE</button>
+                <button class="btn" onclick="quitGame()">QUIT</button>
+
             </div>
         </section>
 

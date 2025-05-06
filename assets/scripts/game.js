@@ -7,7 +7,7 @@ let lastInput = new Date().getTime() + 15000;
 // let paused = true;
 
 function init() {
-  canvas = getElementHelper("canvas");
+  canvas = getElementByIdHelper("canvas");
 }
 
 function startGame() {
