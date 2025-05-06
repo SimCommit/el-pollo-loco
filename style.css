@@ -24,6 +24,15 @@ main {
 
 h1 {
   font-family: 'Georgia', serif;
+  font-size: 4.2rem;
+  color: var(--dark-brown);
+  text-shadow: 2px 2px var(--light-brown);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-family: 'Georgia', serif;
   font-size: 3rem;
   color: var(--dark-brown);
   text-shadow: 2px 2px var(--light-brown);
@@ -66,6 +75,11 @@ canvas {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url('assets/img/ui/background.png'); /* Pfad anpassen */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .start-screen-content {
