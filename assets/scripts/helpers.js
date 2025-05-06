@@ -10,9 +10,9 @@ function setStoppableInterval(fn, time) {
 }
 
 // helper for playing sounds
- function playSound(path, rate, volume, cooldown) {
-  if(soundCooldowns.get(path)) return;
-  if(muted) return;
+function playSound(path, rate, volume, cooldown) {
+  if (muted) return;
+  if (soundCooldowns.get(path)) return;
 
   const sound = new Audio(path);
   sound.playbackRate = rate;
@@ -39,7 +39,7 @@ function despawnObject(object, array, delay = 0) {
 // removes an object form an array
 function removeFromArray(object, array) {
   let index = array.indexOf(object);
-  array.splice(index, 1);  
+  array.splice(index, 1);
 }
 
 /**
@@ -63,10 +63,9 @@ function getElementByIdHelper(id) {
 function hideElementById(id) {
   let element = getElementByIdHelper(id);
   if (element) {
-    element.classList.add('d-none');
+    element.classList.add("d-none");
   }
 }
-
 
 /**
  * Prevents the event from bubbling up to parent elements.

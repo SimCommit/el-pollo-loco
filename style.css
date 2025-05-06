@@ -72,6 +72,16 @@ canvas {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: center;
+}
+
+.keyboard-controls {
+  max-width: 100%;
+  width: 800px; /* oder was gut aussieht */
+  height: auto;
+  margin-top: 10px;
+  /* border: 2px solid var(--light-brown); */
+  /* border-radius: 8px; */
 }
 
 /* Button Design */
