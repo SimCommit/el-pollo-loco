@@ -141,10 +141,9 @@ class Endboss extends MovableObject {
     timePassed = timePassed / 1000;
 
 
-    if (this.ran < 0.3 && this.x > 500) {
-      this.speed = 4;
+    
       this.moveLeft();
-    }
+
   }
 
   handleHurt() {
@@ -200,12 +199,12 @@ class Endboss extends MovableObject {
       this.switchDirectionStart = new Date().getTime();
     }
 
-    if (this.ran < 0.3 && this.x > 500) {
+    if (this.ran < 0.3 && this.x > 1500) {
       this.speed = 4;
       this.moveLeft();
     }
 
-    if (this.ran > 0.3 && this.x < 2000) {
+    if (this.ran > 0.3 && this.x < this.world.level.level_end_x) {
       this.speed = 2;
       this.moveRight();
     }
@@ -216,16 +215,16 @@ class Endboss extends MovableObject {
 
     if (this.isDead()) {
       newState = "dead";
-    } else if (this.isHurt()) {
-      newState = "hurt";
     } else if (this.world.isPlayingIntro()) {
       newState = "intro";
+    } else if (this.isHurt()) {
+      newState = "hurt";
     } else if (this.world.isCloseToCharacter(this, 300)) {
       newState = "attack";
     } else if (this.world.isCloseToCharacter(this, 500)) {
-      newState = "alert";
-    } else {
       newState = "walking";
+    } else {
+      newState = "alert";
     }
 
     if (newState !== this.currentState) {

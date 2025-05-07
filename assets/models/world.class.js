@@ -77,29 +77,41 @@ class World {
   }
 
   checkBossTrigger() {
-    if (!this.bossTrigger && this.isCloseToCharacter(this.level.bosses[0], this.BOSS_TRIGGER_RANGE)) {
-      this.level.bosses[0].animate();
-      let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
-      this.bossHealthBars.push(endbossHealthBar);
-      this.bossTrigger = true;
-      setTimeout(() => {
-        this.introPlayed = true;
-      }, this.INTRO_LENGTH);
+    if (
+      !this.bossTrigger &&
+      this.isCloseToCharacter(this.level.bosses[0], this.BOSS_TRIGGER_RANGE)
+    ) {
+      this.startBossEncounter();
     }
   }
 
-  checkBossDefeat() {
-    if (this.level.bosses[0].health <= 0) {
-      despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000);
-    }
+  startBossEncounter() {
+    this.level.bosses[0].animate();
+    this.bossTrigger = true;
+    playSound("assets/audio/music/boss_5.mp3", 1, 0.1, 0, true);
+    document.querySelector(".game-menu").classList.add("d-none");
+    setTimeout(() => {
+      let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
+      this.bossHealthBars.push(endbossHealthBar);
+      this.introPlayed = true;
+      document.querySelector(".game-menu").classList.remove("d-none");
+    }, this.INTRO_LENGTH);
   }
+
+  
 
   isCloseToCharacter(other, distance) {
     return Math.abs(other.x - this.character.x) < distance;
   }
 
   isPlayingIntro() {
-    return (this.bossTrigger && !this.introPlayed);
+    return this.bossTrigger && !this.introPlayed;
+  }
+
+  checkBossDefeat() {
+    if (this.level.bosses[0].health <= 0) {
+      despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000);
+    }
   }
 
   checkThrowObjects() {

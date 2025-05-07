@@ -11,8 +11,6 @@ function intiLevel() {
       new Chicken(570),
       new Chicken(750),
       new Chicken(1000),
-      new Chonk(2400),
-      new Chonk(2800),
     ],
     [new Endboss()],
     [
@@ -63,6 +61,7 @@ function intiLevel() {
       new Bottle(900, 375),
       new Bottle(1000, 375),
       new Bottle(1900, 375),
+      new Bottle(3200, 375),
       new Coin(-70, 225),
       new Coin(400, 225),
       new Coin(600, 225),
@@ -71,6 +70,7 @@ function intiLevel() {
       new Coin(1200, 225),
       new Coin(1400, 225),
       new Coin(1600, 225),
+      new Coin(3200, 225),
     ],
     [
       new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 95, 0, 95),
