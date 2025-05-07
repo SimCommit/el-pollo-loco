@@ -18,6 +18,9 @@ class World {
   coinAmount = 0;
   readyToPlay = true;
   bossTrigger = false;
+  introPlayed = false;
+  BOSS_TRIGGER_RANGE = 500;
+  INTRO_LENGTH = 2000;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???
@@ -51,7 +54,6 @@ class World {
       !this.spawnCooldown &&
       !this.areHelpersAlive()
     ) {
-      console.log(this.areHelpersAlive());
       let helperChonk = new Chonk(1650, 328, true);
       this.level.enemies.push(helperChonk);
       this.spawnCooldown = true;
@@ -75,11 +77,14 @@ class World {
   }
 
   checkBossTrigger() {
-    if (!this.bossTrigger && this.isCloseToCharacter(this.level.bosses[0], 300)) {
+    if (!this.bossTrigger && this.isCloseToCharacter(this.level.bosses[0], this.BOSS_TRIGGER_RANGE)) {
       this.level.bosses[0].animate();
       let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
       this.bossHealthBars.push(endbossHealthBar);
       this.bossTrigger = true;
+      setTimeout(() => {
+        this.introPlayed = true;
+      }, this.INTRO_LENGTH);
     }
   }
 
@@ -91,6 +96,10 @@ class World {
 
   isCloseToCharacter(other, distance) {
     return Math.abs(other.x - this.character.x) < distance;
+  }
+
+  isPlayingIntro() {
+    return (this.bossTrigger && !this.introPlayed);
   }
 
   checkThrowObjects() {

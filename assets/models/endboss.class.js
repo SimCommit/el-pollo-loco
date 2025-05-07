@@ -96,6 +96,9 @@ class Endboss extends MovableObject {
         case "dead":
           this.handleDead();
           break;
+        case "intro":
+          this.handleIntro();
+          break;
         case "hurt":
           this.handleHurt();
           break;
@@ -125,6 +128,22 @@ class Endboss extends MovableObject {
         this.disableHitbox();
       }
       this.skipFrame += 1;
+    }
+  }
+
+  handleIntro() {
+    if (this.skipFrame % this.frameDelay.walking === 0) {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
+    this.skipFrame += 1;
+
+    let timePassed = new Date().getTime() - this.world.INTRO_LENGTH;
+    timePassed = timePassed / 1000;
+
+
+    if (this.ran < 0.3 && this.x > 500) {
+      this.speed = 4;
+      this.moveLeft();
     }
   }
 
@@ -199,6 +218,8 @@ class Endboss extends MovableObject {
       newState = "dead";
     } else if (this.isHurt()) {
       newState = "hurt";
+    } else if (this.world.isPlayingIntro()) {
+      newState = "intro";
     } else if (this.world.isCloseToCharacter(this, 300)) {
       newState = "attack";
     } else if (this.world.isCloseToCharacter(this, 500)) {

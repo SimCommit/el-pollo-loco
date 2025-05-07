@@ -126,6 +126,10 @@ class Character extends MovableObject {
         case "dead":
           this.handleDead();
           break;
+        case "frozen":
+          this.handleFrozen();
+          console.log(this.currentState);
+          break;
         case "hurt":
           this.handleHurt();
           break;
@@ -165,11 +169,20 @@ class Character extends MovableObject {
     }
   }
 
+  handleFrozen() {
+    if (this.currentState === "frozen") {
+      if (this.skipFrame % this.frameDelay.idle === 0) {
+        this.playAnimation(this.IMAGES_IDLE);
+      }
+
+      this.skipFrame += 1;
+    }
+  }
+
   handleHurt() {
     if (this.currentState === "hurt") {
       this.playAnimation(this.IMAGES_HURT);
       playSound("assets/audio/character/hurt_2.mp3", 1, 0.4, 1500);
-      // this.rebound();
     }
   }
 
@@ -269,6 +282,8 @@ class Character extends MovableObject {
 
     if (this.isDead()) {
       newState = "dead";
+    } else if (this.world.isPlayingIntro()) {
+      newState = "frozen";
     } else if (this.isHurt()) {
       newState = "hurt";
     } else if (this.isAboveGround()) {
