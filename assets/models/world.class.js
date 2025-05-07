@@ -90,9 +90,10 @@ class World {
   startBossEncounter() {
     this.level.bosses[0].animate();
     this.bossTrigger = true;
-    playSound("assets/audio/music/boss_5.mp3", 1, 0.1, 0, true);
     document.querySelector(".game-menu").classList.add("d-none");
+    playSound("assets/audio/music/boss_intro_1.mp3", 1, 0.2, 0, false);
     setTimeout(() => {
+      playSound("assets/audio/music/boss_7.mp3", 1, 0.2, 0, true);
       let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
       this.bossHealthBars.push(endbossHealthBar);
       this.introPlayed = true;
@@ -111,27 +112,31 @@ class World {
 
   checkBossDefeat() {
     if (this.level.bosses[0].health <= 0) {
-      despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000);
-      let wonScreen = new UiObject(156, 190, 400, 90, true);
-      this.endscreenObjects.push(wonScreen);
+      this.showEndscreen(true);
       setTimeout(() => {
         quitGame();
-      }, 3000);
+      }, 5000);
     }
   }
 
   checkCharacterDefeat() {
     if (this.character.health <= 0) {
-      this.showEndscreen();
+      this.showEndscreen(false);
       setTimeout(() => {
         quitGame();
       }, 3000);
     }
   }
 
-  showEndscreen() {
-    let lostScreen = new UiObject(156, 132, 400, 180, false);
-    this.endscreenObjects.push(lostScreen);
+  showEndscreen(won = false) {
+    if (won) {      
+      despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000);
+      let wonScreen = new UiObject(156, 190, 400, 90, true);
+      this.endscreenObjects.push(wonScreen);
+    } else {
+      let lostScreen = new UiObject(156, 132, 400, 180, false);
+      this.endscreenObjects.push(lostScreen);
+    }
   }
 
   checkThrowObjects() {
