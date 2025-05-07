@@ -20,8 +20,8 @@ class World {
   readyToPlay = true;
   bossTrigger = false;
   introPlayed = false;
-  BOSS_TRIGGER_RANGE = 500;
-  INTRO_LENGTH = 2000;
+  BOSS_TRIGGER_RANGE = 700;
+  INTRO_LENGTH = 4000;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // ???

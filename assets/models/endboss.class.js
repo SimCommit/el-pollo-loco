@@ -14,13 +14,14 @@ class Endboss extends MovableObject {
     alert: 9,
     attack: 9,
     walking: 5,
+    intro1: 10,
   };
 
   world;
   y = 145;
   width = 300;
   height = 300;
-  speed = 10;
+  speed = 7;
   attackStart = 0;
   switchDirectionStart = 0;
   ran = 0;
@@ -43,6 +44,20 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
+
+  // IMAGES_INTRO = [
+  //   "assets/img/4_enemie_boss_chicken/1_walk/G1.png",
+  //   "assets/img/4_enemie_boss_chicken/1_walk/G2.png",
+  //   "assets/img/4_enemie_boss_chicken/1_walk/G3.png",
+  //   "assets/img/4_enemie_boss_chicken/2_alert/G5.png",
+  //   "assets/img/4_enemie_boss_chicken/2_alert/G6.png",
+  //   "assets/img/4_enemie_boss_chicken/2_alert/G7.png",
+  //   "assets/img/4_enemie_boss_chicken/2_alert/G8.png",
+  //   "assets/img/4_enemie_boss_chicken/2_alert/G9.png",
+  //   "assets/img/4_enemie_boss_chicken/2_alert/G10.png",
+  //   "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+  //   "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
+  // ];
 
   IMAGES_ATTACK = [
     "assets/img/4_enemie_boss_chicken/3_attack/G13.png",
@@ -78,6 +93,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_ALERT);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_HURT);
+    // this.loadImages(this.IMAGES_INTRO);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 2800;
   }
@@ -132,18 +148,24 @@ class Endboss extends MovableObject {
   }
 
   handleIntro() {
-    if (this.skipFrame % this.frameDelay.walking === 0) {
-      this.playAnimation(this.IMAGES_WALKING);
-    }
-    this.skipFrame += 1;
-
-    let timePassed = new Date().getTime() - this.world.INTRO_LENGTH;
+    let timePassed = new Date().getTime() - this.introStart;
     timePassed = timePassed / 1000;
 
+    if (timePassed < 1.8) {
+      if (this.skipFrame % this.frameDelay.intro1 === 0) {
+        this.playAnimation(this.IMAGES_WALKING);
+      }
+      this.skipFrame += 1;
 
-    
       this.moveLeft();
+    }
 
+    if (timePassed >= 1.8 && timePassed < 2.5) {
+      if (this.skipFrame % this.frameDelay.alert === 0) {
+        this.playAnimation(this.IMAGES_ALERT);
+      }
+      this.skipFrame += 1;
+    }
   }
 
   handleHurt() {
@@ -221,7 +243,7 @@ class Endboss extends MovableObject {
       newState = "hurt";
     } else if (this.world.isCloseToCharacter(this, 300)) {
       newState = "attack";
-    } else if (this.world.isCloseToCharacter(this, 500)) {
+    } else if (this.world.isCloseToCharacter(this, 40)) {
       newState = "walking";
     } else {
       newState = "alert";
@@ -232,6 +254,9 @@ class Endboss extends MovableObject {
       this.resetSkipFrame();
       if (newState === "attack") {
         this.attackStart = new Date().getTime();
+      }
+      if (newState === "intro") {
+        this.introStart = new Date().getTime();
       }
     }
 
