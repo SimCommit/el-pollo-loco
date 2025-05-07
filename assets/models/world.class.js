@@ -112,6 +112,11 @@ class World {
   checkBossDefeat() {
     if (this.level.bosses[0].health <= 0) {
       despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000);
+      let wonScreen = new UiObject(156, 190, 400, 90, true);
+      this.endscreenObjects.push(wonScreen);
+      setTimeout(() => {
+        quitGame();
+      }, 3000);
     }
   }
 
@@ -130,7 +135,7 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.D && !this.onCooldown && this.bottleAmmo > 0) {
+    if (this.keyboard.D && !this.onCooldown && this.bottleAmmo > 0 && this.character.currentState != "frozen") {
       this.onCooldown = true;
       this.bottleAmmo--;
       let bottle = new ThrowableObject(this.character.x + 30, this.character.y + 70);
