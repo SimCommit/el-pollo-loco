@@ -86,7 +86,7 @@ class Character extends MovableObject {
   world;
   speedY = 0;
   acceleration = 1;
-  health = 100;
+  health = 10;
   damage = 50;
 
   frameDelay = {

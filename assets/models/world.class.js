@@ -12,6 +12,7 @@ class World {
   bottleBar = new BottleBar();
   bossHealthBars = [];
   throwableObjects = [];
+  endscreenObjects = [];
   onCooldown = false;
   spawnCooldown = false;
   bottleAmmo = 4;
@@ -44,6 +45,7 @@ class World {
       this.checkBossTrigger();
       this.checkEnemyDefeat();
       this.checkBossDefeat();
+      this.checkCharacterDefeat();
       this.checkChonkSpawn();
     }, 1000 / 60);
   }
@@ -111,6 +113,16 @@ class World {
   checkBossDefeat() {
     if (this.level.bosses[0].health <= 0) {
       despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000);
+    }
+  }
+
+  checkCharacterDefeat() {
+    if (this.character.health <= 0) {
+      let lostScreen = new EndscreenObject(false);
+      this.endscreenObjects.push(lostScreen);
+      setTimeout(() => {
+        quitGame();
+      }, 3000);
     }
   }
 
@@ -279,6 +291,7 @@ class World {
     this.addToMap(this.bottleBar);
     this.addToMap(this.coinBar);
     this.addToMap(this.healthBar);
+    this.addObjectsToMap(this.endscreenObjects);
     this.ctx.translate(this.camera_x, 0); // forwards
 
     this.ctx.translate(-this.camera_x, 0);
