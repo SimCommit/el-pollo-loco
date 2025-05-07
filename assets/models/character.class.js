@@ -73,6 +73,13 @@ class Character extends MovableObject {
     right: 28,
   };
 
+  frameDelay = {
+    dead: 5,
+    jumping: 6,
+    longIdle: 12,
+    idle: 10,
+  };
+
   x = 120;
   y = 220;
   lastY3 = 220;
@@ -88,13 +95,6 @@ class Character extends MovableObject {
   acceleration = 1;
   health = 10;
   damage = 50;
-
-  frameDelay = {
-    dead: 5,
-    jumping: 6,
-    longIdle: 12,
-    idle: 10,
-  };
 
   constructor() {
     super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");

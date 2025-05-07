@@ -12,7 +12,7 @@ class Endboss extends MovableObject {
     dead: 7,
     hurt: 3,
     alert: 9,
-    attack: 11,
+    attack: 9,
     walking: 5,
   };
 
@@ -20,7 +20,7 @@ class Endboss extends MovableObject {
   y = 145;
   width = 300;
   height = 300;
-  speed = 5;
+  speed = 10;
   attackStart = 0;
   switchDirectionStart = 0;
   ran = 0;
@@ -159,12 +159,12 @@ class Endboss extends MovableObject {
   handleAttack() {
     let timePassed = new Date().getTime() - this.attackStart;
     timePassed = timePassed / 1000;
-    if (timePassed < 3) {
+    if (timePassed < 2.5) {
       if (this.skipFrame % this.frameDelay.attack === 0) {
         this.playAnimation(this.IMAGES_ATTACK);
       }
       this.skipFrame += 1;
-      if (timePassed >= 1.5 && timePassed < 3) {
+      if (timePassed >= 1 && timePassed < 2.5) {
         this.speed = 6;
         playSound("assets/audio/endboss/attack_1.mp3", 1, 0.3, 2000);
         this.moveLeft();

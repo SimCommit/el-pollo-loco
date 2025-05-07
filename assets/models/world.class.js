@@ -100,10 +100,9 @@ class World {
     }, this.INTRO_LENGTH);
   }
 
-  
-
   isCloseToCharacter(other, distance) {
-    return Math.abs(other.x - this.character.x) < distance;
+    return other.x - this.character.x < distance;
+    // return Math.abs(other.x - this.character.x) < distance;
   }
 
   isPlayingIntro() {
@@ -118,12 +117,16 @@ class World {
 
   checkCharacterDefeat() {
     if (this.character.health <= 0) {
-      let lostScreen = new EndscreenObject(false);
-      this.endscreenObjects.push(lostScreen);
+      this.showEndscreen();
       setTimeout(() => {
         quitGame();
       }, 3000);
     }
+  }
+
+  showEndscreen() {
+    let lostScreen = new UiObject(156, 132, 400, 180, false);
+    this.endscreenObjects.push(lostScreen);
   }
 
   checkThrowObjects() {
