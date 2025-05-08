@@ -12,7 +12,8 @@ body {
   font-family: 'Segoe UI', sans-serif;
   background-color: var(--beige);
   color: var(--dark-brown);
-  background-image: url('assets/img/ui/background.png'); /* Pfad anpassen */
+  background-image: url('assets/img/ui/background.png');
+  /* Pfad anpassen */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -26,7 +27,8 @@ body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(244, 226, 208, 0.6); /* halbtransparentes Beige */
+  background-color: rgba(244, 226, 208, 0.6);
+  /* halbtransparentes Beige */
   z-index: -1;
 }
 
@@ -107,7 +109,8 @@ canvas {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('assets/img/ui/background.png'); /* Pfad anpassen */
+  background-image: url('assets/img/ui/background.png');
+  /* Pfad anpassen */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -130,7 +133,8 @@ canvas {
 
 .keyboard-controls {
   max-width: 100%;
-  width: 800px; /* oder was gut aussieht */
+  width: 800px;
+  /* oder was gut aussieht */
   height: auto;
   margin-top: 10px;
   /* border: 2px solid var(--light-brown); */
@@ -183,10 +187,23 @@ canvas {
 
 .btn-fullscreen {
   display: flex;
-  padding: 8px;  
+  padding: 8px;
 }
 
 .btn-fullscreen img {
   width: 24px;
   height: 24px;
+}
+
+/* Smartphones */
+@media only screen and (max-width: 720px) {
+  canvas {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
 }
