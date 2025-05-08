@@ -45,17 +45,13 @@
 
         <section id="start-screen" class="start-screen">
             <div class="start-screen-content">
-              <h1>El Pollo Loco</h1>
-          
-              <button class="btn btn-start" onclick="startGame(), hideElementById('start-screen')">START GAME</button>
-          
-              <img
-                src="./assets/img/ui/keyboard-controls.png"
-                alt="Keyboard Controls"
-                class="keyboard-controls"
-              />
+                <h1>El Pollo Loco</h1>
+
+                <button class="btn btn-start" onclick="startGame(), hideElementById('start-screen')">START GAME</button>
+
+                <img src="./assets/img/ui/keyboard-controls.png" alt="Keyboard Controls" class="keyboard-controls" />
             </div>
-          </section>
+        </section>
 
         <section id="end-section" class="end-screen d-none">
             <div class="end-screen-content">
@@ -70,9 +66,16 @@
             <div class="game-menu-content">
                 <button id="mute-btn" class="btn btn-muted" onclick="muteGame()">MUTE</button>
                 <button class="btn" onclick="startGame()">RESTART</button>
-                <button class="btn" onclick="">PAUSE</button>
+                <!-- <button class="btn" onclick="">PAUSE</button> -->
                 <button class="btn" onclick="quitGame()">QUIT</button>
 
+            </div>
+        </section>
+
+        <section class="end-screen-menu">
+            <div class="end-screen-menu-content">
+                <button class="btn" onclick="startGame()">RESTART</button>
+                <button class="btn" onclick="quitGame()">QUIT</button>
             </div>
         </section>
 

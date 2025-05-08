@@ -18,7 +18,8 @@ class World {
   bottleAmmo = 4;
   coinAmount = 0;
   readyToPlay = true;
-  bossTrigger = false;
+  bossTriggered = false;
+  endscreenTriggered = false;
   introPlayed = false;
   BOSS_TRIGGER_RANGE = 700;
   INTRO_LENGTH = 4000;
@@ -80,7 +81,7 @@ class World {
 
   checkBossTrigger() {
     if (
-      !this.bossTrigger &&
+      !this.bossTriggered &&
       this.isCloseToCharacter(this.level.bosses[0], this.BOSS_TRIGGER_RANGE)
     ) {
       this.startBossEncounter();
@@ -89,7 +90,7 @@ class World {
 
   startBossEncounter() {
     this.level.bosses[0].animate();
-    this.bossTrigger = true;
+    this.bossTriggered = true;
     document.querySelector(".game-menu").classList.add("d-none");
     playSound("assets/audio/music/boss_intro_1.mp3", 1, 0.2, 0, false);
     setTimeout(() => {
@@ -107,11 +108,12 @@ class World {
   }
 
   isPlayingIntro() {
-    return this.bossTrigger && !this.introPlayed;
+    return this.bossTriggered && !this.introPlayed;
   }
 
   checkBossDefeat() {
-    if (this.level.bosses[0].health <= 0) {
+    if (this.level.bosses[0].health <= 0 && !this.endscreenTriggered) {
+      this.endscreenTriggered = true;
       this.showEndscreen(true);
       setTimeout(() => {
         quitGame();
@@ -120,7 +122,8 @@ class World {
   }
 
   checkCharacterDefeat() {
-    if (this.character.health <= 0) {
+    if (this.character.health <= 0 && !this.endscreenTriggered) {
+      this.endscreenTriggered = true;
       this.showEndscreen(false);
       setTimeout(() => {
         quitGame();
@@ -133,9 +136,11 @@ class World {
       despawnObject(this.bossHealthBars[0], this.bossHealthBars, 1000);
       let wonScreen = new UiObject(156, 190, 400, 90, true);
       this.endscreenObjects.push(wonScreen);
+      document.querySelector(".game-menu").classList.add("d-none");
     } else {
-      let lostScreen = new UiObject(156, 132, 400, 180, false);
+      let lostScreen = new UiObject(0, 0, 720, 480, false);
       this.endscreenObjects.push(lostScreen);
+      document.querySelector(".game-menu").classList.add("d-none");
     }
   }
 

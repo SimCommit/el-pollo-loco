@@ -162,6 +162,7 @@ class MovableObject extends DrawableObject {
 
   jump(speedY = 15) {
     this.speedY = speedY;
+    this.playSound("assets/audio/character/jump_2.mp3", 1, 0.1, 500)
   }
 
   resetCurrentImage() {

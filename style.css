@@ -81,6 +81,20 @@ canvas {
   padding-left: 190px;
 }
 
+.end-screen-menu {
+  position: absolute;
+  top: 444px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.end-screen-menu-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 /* Startscreen Buttons (optional etwas größer) */
 .start-screen {
   position: absolute;
