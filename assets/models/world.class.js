@@ -114,20 +114,24 @@ class World {
   checkBossDefeat() {
     if (this.level.bosses[0].health <= 0 && !this.endscreenTriggered) {
       this.endscreenTriggered = true;
-      this.showEndscreen(true);
       setTimeout(() => {
-        quitGame();
-      }, 5000);
+        this.character.currentState = "jump";
+        this.character.jump();
+      }, 3000);
+      setTimeout(() => {
+        this.showEndscreen(true);
+        stopAllIntervals();
+      }, 4000);
     }
   }
 
   checkCharacterDefeat() {
     if (this.character.health <= 0 && !this.endscreenTriggered) {
       this.endscreenTriggered = true;
-      this.showEndscreen(false);
       setTimeout(() => {
-        quitGame();
-      }, 3000);
+        this.showEndscreen(false);
+        stopAllIntervals();
+      }, 2000);
     }
   }
 
@@ -137,10 +141,12 @@ class World {
       let wonScreen = new UiObject(156, 190, 400, 90, true);
       this.endscreenObjects.push(wonScreen);
       document.querySelector(".game-menu").classList.add("d-none");
+      document.querySelector(".end-screen-menu").classList.remove("d-none");
     } else {
       let lostScreen = new UiObject(0, 0, 720, 480, false);
       this.endscreenObjects.push(lostScreen);
       document.querySelector(".game-menu").classList.add("d-none");
+      document.querySelector(".end-screen-menu").classList.remove("d-none");
     }
   }
 

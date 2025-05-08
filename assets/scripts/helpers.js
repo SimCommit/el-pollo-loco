@@ -59,6 +59,15 @@ function getElementByIdHelper(id) {
 }
 
 /**
+ * Removes focus from a clicked button.
+ * 
+ * @param {string} id - The ID of the button to blur.
+ */
+function blurButton(id) {
+  getElementByIdHelper(id).blur();
+}
+
+/**
  * Adds the 'd-none' class to the element with the given ID using getElementByIdHelper.
  *
  * @param {string} id - The ID of the HTML element to hide.
@@ -69,6 +78,19 @@ function hideElementById(id) {
     element.classList.add("d-none");
   }
 }
+
+/**
+ * Removes the 'd-none' class from the element with the given ID using getElementByIdHelper.
+ *
+ * @param {string} id - The ID of the HTML element to show.
+ */
+function showElementById(id) {
+  let element = getElementByIdHelper(id);
+  if (element) {
+    element.classList.remove("d-none");
+  }
+}
+
 
 /**
  * Prevents the event from bubbling up to parent elements.

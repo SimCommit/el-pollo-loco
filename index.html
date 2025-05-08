@@ -59,20 +59,25 @@
             </div>
         </section>
 
-        <canvas id="canvas" width="720" height="480">
-        </canvas>
-
-        <section class="game-menu">
-            <div class="game-menu-content">
-                <button id="mute-btn" class="btn btn-muted" onclick="muteGame()">MUTE</button>
-                <button class="btn" onclick="startGame()">RESTART</button>
-                <!-- <button class="btn" onclick="">PAUSE</button> -->
-                <button class="btn" onclick="quitGame()">QUIT</button>
-
+        <section id="fullscreen">
+            <canvas id="canvas" width="720" height="480">
+            </canvas>
+            <div class="game-menu">
+                <div class="game-menu-content">
+                    <button id="mute-btn" class="btn btn-muted" onclick="muteGame()">MUTE</button>
+                    <button class="btn" onclick="startGame()">RESTART</button>
+                    <!-- <button class="btn" onclick="">PAUSE</button> -->
+                    <button class="btn" onclick="quitGame()">QUIT</button>
+                    <button class="btn btn-fullscreen" onclick="toggleFullscreen()">
+                        <img src="assets/img/ui/fullscreen-icon.png" alt="Fullscreen Icon">
+                    </button>
+                </div>
             </div>
         </section>
 
-        <section class="end-screen-menu">
+
+
+        <section class="end-screen-menu d-none">
             <div class="end-screen-menu-content">
                 <button class="btn" onclick="startGame()">RESTART</button>
                 <button class="btn" onclick="quitGame()">QUIT</button>

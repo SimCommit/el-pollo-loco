@@ -181,3 +181,12 @@ canvas {
   box-shadow: 0 0 8px rgba(255, 69, 0, 0.6);
 }
 
+.btn-fullscreen {
+  display: flex;
+  padding: 8px;  
+}
+
+.btn-fullscreen img {
+  width: 24px;
+  height: 24px;
+}

@@ -12,10 +12,11 @@ function init() {
 
 function startGame() {
   lastInput = new Date().getTime() + 15000;
-  quitGame();
+  stopAllIntervals();
   paused = false;
   intiLevel();
   world = new World(canvas, keyboard);
+  resetUi();
 }
 
 function togglePause() {
@@ -29,6 +30,11 @@ function togglePause() {
 }
 
 function quitGame() {
+  stopAllIntervals();
+  showElementById("start-screen");
+}
+
+function stopAllIntervals() {
   intervalIds.forEach(clearInterval);
 }
   
