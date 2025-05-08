@@ -143,13 +143,13 @@ class World {
       let wonScreen = new UiObject(156, 190, 400, 90, true);
       this.endscreenObjects.push(wonScreen);
       document.querySelector(".game-menu").classList.add("d-none");
-      document.querySelector(".end-screen-menu").classList.remove("d-none");
+      document.querySelector(".endscreen-menu").classList.remove("d-none");
     } else {
       this.statusBars = [];
       let lostScreen = new UiObject(0, 0, 720, 480, false);
       this.endscreenObjects.push(lostScreen);
-      document.querySelector(".game-menu").classList.add("d-none");
-      document.querySelector(".end-screen-menu").classList.remove("d-none");
+      hideGameButtons();
+      showEndscreenButtons();
     }
   }
 

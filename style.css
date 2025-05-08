@@ -65,7 +65,7 @@ canvas {
   background-color: black;
   border: 8px solid var(--dark-brown);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-  border-radius: 40px;
+  border-radius: 20px;
 }
 
 /* Overlay Buttons oben zentriert */
@@ -83,7 +83,24 @@ canvas {
   padding-left: 190px;
 }
 
-.end-screen-menu {
+.controls {
+  position: relative;
+  margin: -70px 24px 0 24px;
+  z-index: 10;
+}
+
+.controls-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.controls-movement,
+.controls-action {
+  display: flex;
+  gap: 16px;
+}
+
+.endscreen-menu {
   position: absolute;
   top: 444px;
   left: 50%;
@@ -91,7 +108,7 @@ canvas {
   z-index: 10;
 }
 
-.end-screen-menu-content {
+.endscreen-menu-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -194,6 +211,14 @@ canvas {
   width: 24px;
   height: 24px;
 }
+
+.btn-control img {
+  width: 24px;
+  height: 24px;
+}
+
+
+
 
 /* Smartphones */
 @media only screen and (max-width: 720px) {

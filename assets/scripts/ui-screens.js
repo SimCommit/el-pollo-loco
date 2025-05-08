@@ -6,7 +6,17 @@ function hideStartScreen() {
 
 function resetUi() {
   document.querySelector(".game-menu").classList.remove("d-none");
-  document.querySelector(".end-screen-menu").classList.add("d-none");
+  document.querySelector(".endscreen-menu").classList.add("d-none");
+}
+
+function hideGameButtons() {
+  document.querySelector(".game-menu").classList.add("d-none");
+  document.querySelector(".controls").classList.add("d-none");
+
+}
+
+function showEndscreenButtons() {
+  document.querySelector(".endscreen-menu").classList.remove("d-none");
 }
 
 function muteGame() {
