@@ -290,9 +290,7 @@ class Character extends MovableObject {
       newState = "jumping";
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       newState = "walking";
-    } else if (this.isLongIdle() && !this.world.bossTriggered) {
-      console.log(this.world.bossTriggered);
-      
+    } else if (this.isLongIdle() && !this.world.bossTriggered) {      
       newState = "long_idle";
     } else {
       newState = "idle";

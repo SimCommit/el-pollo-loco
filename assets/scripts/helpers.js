@@ -9,25 +9,6 @@ function setStoppableInterval(fn, time) {
   intervalIds.push(id);
 }
 
-// // helper for playing sounds
-// function playSound(path, rate, volume, cooldown, loop = false) {
-//   if (muted) return;
-//   if (soundCooldowns.get(path)) return;
-
-//   const sound = new Audio(path);
-//   sound.playbackRate = rate;
-//   sound.volume = volume;
-//   sound.loop = loop;
-//   sound.play();
-
-//   if (!loop) {
-//     soundCooldowns.set(path, true);
-//     setTimeout(() => {
-//       soundCooldowns.set(path, false);
-//     }, cooldown);
-//   }
-// }
-
 // decides if delay is set or not
 function despawnObject(object, array, delay = 0) {
   if (delay > 0) {
