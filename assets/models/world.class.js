@@ -105,6 +105,9 @@ class World {
     SoundManager.stopOne(SoundManager.MUSIC_BACKGROUND);
     SoundManager.playOne(SoundManager.MUSIC_BOSS_INTRO);
     setTimeout(() => {
+      SoundManager.playOne(SoundManager.BOSS_INTRO, 1, 0.3)
+    }, 1500);
+    setTimeout(() => {
       SoundManager.playOne(SoundManager.MUSIC_BOSS_FIGHT, 1, 0.2, 0, true);
       let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
       this.bossHealthBars.push(endbossHealthBar);

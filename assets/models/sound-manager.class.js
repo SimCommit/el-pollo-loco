@@ -18,6 +18,7 @@ class SoundManager {
   static BOSS_DEAD = new Audio("assets/audio/endboss/dead_3.mp3");
   static BOSS_HURT = new Audio("assets/audio/endboss/hurt_1.mp3");
   static BOSS_ATTACK = new Audio("assets/audio/endboss/attack_1.mp3");
+  static BOSS_INTRO = new Audio("assets/audio/endboss/intro_1.mp3");
 
   static BOTTLE_BREAK = new Audio("assets/audio/salsa_bottle/break_1.mp3");
   static BOTTLE_COLLECT = new Audio("assets/audio/salsa_bottle/collect_1.mp3");
@@ -38,13 +39,18 @@ class SoundManager {
     SoundManager.CHARACTER_THROW,
     SoundManager.CHARACTER_BOUNCE_LOW,
     SoundManager.CHARACTER_BOUNCE_HIGH,
+
     SoundManager.CHICKEN_NOISE,
+
     SoundManager.BOSS_HURT,
     SoundManager.BOSS_DEAD,
     SoundManager.BOSS_ATTACK,
+    SoundManager.BOSS_INTRO,
+
     SoundManager.BOTTLE_BREAK,
     SoundManager.BOTTLE_COLLECT,
     SoundManager.COIN_COLLECT,
+
     SoundManager.MUSIC_BACKGROUND,
     SoundManager.MUSIC_BOSS_INTRO,
     SoundManager.MUSIC_BOSS_FIGHT,
