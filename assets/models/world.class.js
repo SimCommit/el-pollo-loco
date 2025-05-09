@@ -10,7 +10,7 @@ class World {
   healthBar = new HealthBar();
   coinBar = new CoinBar();
   bottleBar = new BottleBar();
-  statusBars =[this.healthBar, this.coinBar, this.bottleBar];
+  statusBars = [this.healthBar, this.coinBar, this.bottleBar];
   bossHealthBars = [];
   throwableObjects = [];
   endscreenObjects = [];
@@ -137,13 +137,14 @@ class World {
   }
 
   showEndscreen(won = false) {
-    if (won) {      
+    if (won) {
       this.statusBars = [];
       this.bossHealthBars = [];
       let wonScreen = new UiObject(156, 190, 400, 90, true);
       this.endscreenObjects.push(wonScreen);
-      document.querySelector(".game-menu").classList.add("d-none");
-      document.querySelector(".endscreen-menu").classList.remove("d-none");
+      hideGameMenuButtons();
+      hideControlButtons();
+      showEndscreenButtons();
     } else {
       this.statusBars = [];
       let lostScreen = new UiObject(0, 0, 720, 480, false);
@@ -155,7 +156,12 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.D && !this.onCooldown && this.bottleAmmo > 0 && this.character.currentState != "frozen") {
+    if (
+      this.keyboard.D &&
+      !this.onCooldown &&
+      this.bottleAmmo > 0 &&
+      this.character.currentState != "frozen"
+    ) {
       this.onCooldown = true;
       this.bottleAmmo--;
       let bottle = new ThrowableObject(this.character.x + 30, this.character.y + 70);

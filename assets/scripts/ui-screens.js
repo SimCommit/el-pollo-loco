@@ -7,7 +7,11 @@ function hideStartScreen() {
 function resetUi() {
   showGameMenuButtons();
   hideEndscreenButtons();
-  showControlButtons();
+  console.log(shouldShowTouchControls());
+  
+  if (shouldShowTouchControls()) {
+    showControlButtons();
+  }
 }
 
 function hideGameMenuButtons() {
@@ -32,6 +36,10 @@ function showEndscreenButtons() {
 
 function hideEndscreenButtons() {
   document.querySelector(".endscreen-menu").classList.add("d-none");
+}
+
+function shouldShowTouchControls() {
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 }
 
 function muteGame() {
