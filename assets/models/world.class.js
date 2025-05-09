@@ -93,10 +93,10 @@ class World {
     this.level.bosses[0].animate();
     this.bossTriggered = true;
     hideGameMenuButtons();
+    SoundManager.stopOne(SoundManager.MUSIC_BACKGROUND)
     SoundManager.playOne(SoundManager.MUSIC_BOSS_INTRO, 1, 0.2, 0);
     setTimeout(() => {
       SoundManager.playOne(SoundManager.MUSIC_BOSS_FIGHT, 1, 0.2, 0, true);
-      playSound("assets/audio/music/boss_7.mp3", 1, 0.2, 0, true);
       let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
       this.bossHealthBars.push(endbossHealthBar);
       this.introPlayed = true;
@@ -247,7 +247,7 @@ class World {
         this.throwableObjects[i].isColliding(enemy)
       ) {
         this.throwableObjects[i].isBroken = true;
-        playSound("assets/audio/salsa_bottle/break_1.mp3", 1, 0.3, 200);
+        SoundManager.playOne(SoundManager.BOTTLE_BREAK, 1, 0.3, 200)
         enemy.hit(this.throwableObjects[i].damage, enemy);
         if (enemy instanceof Endboss) {
           this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2);
@@ -266,7 +266,7 @@ class World {
   collisionCollectible(item) {
     if (this.character.isColliding(item)) {
       if (item instanceof Coin && (this.coinAmount < 5 || this.character.health < 100)) {
-        playSound("assets/audio/coin/collect_1.mp3", 1, 0.05, 200);
+        SoundManager.playOne(SoundManager.COIN_COLLECT, 1, 0.05, 200);
         despawnObject(item, this.level.collectibleObjects);
         if (this.coinAmount < 5) {
           this.coinAmount++;
@@ -278,7 +278,7 @@ class World {
         }
       }
       if (item instanceof Bottle && this.bottleAmmo < 5) {
-        playSound("assets/audio/salsa_bottle/collect_1.mp3", 1, 0.6, 200);
+        SoundManager.playOne(SoundManager.BOTTLE_COLLECT, 1, 0.6, 200);
         despawnObject(item, this.level.collectibleObjects);
         this.bottleAmmo++;
         this.bottleBar.setPercentage(this.bottleAmmo * 20);
@@ -288,13 +288,12 @@ class World {
 
   checkTopImpact(enemy) {
     if (this.character.isHigher(enemy) && this.character.isFalling()) {
-      // this.character.invincibleTrigger = new Date().getTime() - 1000;
       if (enemy instanceof Chonk) {
         this.character.jump(20);
-        playSound("assets/audio/character/bounce_2.mp3", 1, 0.3, 1000);
+        SoundManager.playOne(SoundManager.CHARACTER_BOUNCE_HIGH, 1, 0.3, 1000);        
       } else {
         this.character.jump(14);
-        playSound("assets/audio/character/bounce_1.mp3", 1, 0.3, 1000);
+        SoundManager.playOne(SoundManager.CHARACTER_BOUNCE_LOW, 1, 0.3, 1000);
       }
     }
   }
@@ -322,10 +321,11 @@ class World {
     this.addObjectsToMap(this.bossHealthBars);
 
     this.ctx.translate(-this.camera_x, 0); // back
-    // --- Space for fixed objects ---
 
+    // --- Space for fixed objects ---
     this.addObjectsToMap(this.statusBars);
     this.addObjectsToMap(this.endscreenObjects);
+    
     this.ctx.translate(this.camera_x, 0); // forwards
 
     this.ctx.translate(-this.camera_x, 0);

@@ -16,7 +16,7 @@ function startGame() {
   paused = false;
   intiLevel();
   world = new World(canvas, keyboard);
-  SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.02, 0)
+  SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.02, 0, true);
   resetUi();
   blurButton(".btn");
 }
@@ -70,7 +70,6 @@ window.addEventListener("load", () => {
   });
 });
 
-
 document.addEventListener("keydown", (event) => {
   switch (event.key) {
     case "ArrowRight":
@@ -79,16 +78,11 @@ document.addEventListener("keydown", (event) => {
     case "ArrowLeft":
       keyboard.LEFT = true;
       break;
-    // case "ArrowUp":
-    //   keyboard.UP = true;
-    //   break;
-    // case "ArrowDown":
-    //   keyboard.DOWN = true;
-    //   break;
     case " ":
       keyboard.SPACE = true;
       break;
     case "d":
+    case "D":
       keyboard.D = true;
       break;
   }
@@ -103,20 +97,12 @@ document.addEventListener("keyup", (event) => {
     case "ArrowLeft":
       keyboard.LEFT = false;
       break;
-    // case "ArrowUp":
-    //   keyboard.UP = false;
-    //   break;
-    // case "ArrowDown":
-    //   keyboard.DOWN = false;
-    //   break;
     case " ":
       keyboard.SPACE = false;
       break;
     case "d":
+    case "D":
       keyboard.D = false;
-      break;
-    case "o":
-      startGame();
       break;
   }
 });
