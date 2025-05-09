@@ -10,6 +10,7 @@ function init() {
 }
 
 function startGame() {
+  loadFromLocalStorage();
   SoundManager.stopAll();
   lastInput = new Date().getTime() + 15000;
   stopAllIntervals();

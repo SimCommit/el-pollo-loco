@@ -41,20 +41,20 @@ function shouldShowTouchControls() {
   return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 }
 
-function muteGame() {
-  toggleMute();
-  let button = getElementByIdHelper("mute-btn");
-  button.classList.toggle("btn-muted");
-  blurButton(".btn");
-}
+// function muteGame() {
+//   toggleMute();
+//   let button = getElementByIdHelper("mute-btn");
+//   button.classList.toggle("btn-muted");
+//   blurButton(".btn");
+// }
 
-function toggleMute() {
-  if (muted) {
-    muted = false;
-  } else {
-    muted = true;
-  }
-}
+// function toggleMute() {
+//   if (muted) {
+//     muted = false;
+//   } else {
+//     muted = true;
+//   }
+// }
 
 function toggleFullscreen() {
   let fullscreen = getElementByIdHelper("fullscreen");

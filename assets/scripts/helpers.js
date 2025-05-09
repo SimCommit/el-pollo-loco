@@ -41,11 +41,11 @@ function getElementByIdHelper(id) {
 
 /**
  * Removes focus from all elements matching the given selector.
- * 
+ *
  * @param {string} selector - A CSS selector (e.g. '.btn')
  */
 function blurButton(selector) {
-  document.querySelectorAll(selector).forEach(el => el.blur());
+  document.querySelectorAll(selector).forEach((el) => el.blur());
 }
 
 /**
@@ -72,7 +72,6 @@ function showElementById(id) {
   }
 }
 
-
 /**
  * Prevents the event from bubbling up to parent elements.
  *
@@ -82,4 +81,15 @@ function showElementById(id) {
  */
 function prevent(event) {
   event.stopPropagation();
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem("muteState", JSON.stringify(SoundManager.isMuted));
+  localStorage.setItem("volumeState", JSON.stringify(Array.from(SoundManager.volumes.entries())));
+}
+
+function loadFromLocalStorage() {
+  SoundManager.isMuted = JSON.parse(localStorage.getItem("muteState"));
+  const rawVolumes = JSON.parse(localStorage.getItem("volumeState"));
+  SoundManager.volumes = new Map(rawVolumes);
 }

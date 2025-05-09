@@ -60,18 +60,25 @@ class SoundManager {
 
   static isMuted = false;
 
-  static playOne(sound, playbackRate = 1, volume = 0.2, cooldown = 0, loop = false, currentTime = 0) {
-      if (SoundManager.cooldowns.get(sound)) return;
-      if (sound.readyState == 4) {
-          sound.playbackRate = playbackRate;
-          sound.volume = volume;
-          sound.loop = loop;
-          sound.currentTime = currentTime; // Startet ab einer bestimmten stelle (0=Anfang/ 5 = 5 sec.)
-          SoundManager.volumes.set(sound, sound.volume);
-          if (SoundManager.isMuted) {
-            sound.volume = 0;
-          }
-          sound.play();
+  static playOne(
+    sound,
+    playbackRate = 1,
+    volume = 0.2,
+    cooldown = 0,
+    loop = false,
+    currentTime = 0
+  ) {
+    if (SoundManager.cooldowns.get(sound)) return;
+    if (sound.readyState == 4) {
+      sound.playbackRate = playbackRate;
+      sound.volume = volume;
+      sound.loop = loop;
+      sound.currentTime = currentTime; // Startet ab einer bestimmten stelle (0=Anfang/ 5 = 5 sec.)
+      SoundManager.volumes.set(sound, sound.volume);
+      if (SoundManager.isMuted) {
+        sound.volume = 0;
+      }
+      sound.play();
 
       SoundManager.cooldowns.set(sound, true);
       setTimeout(() => {
@@ -92,19 +99,24 @@ class SoundManager {
 
   static toggleMuteAll() {
     let button = getElementByIdHelper("mute-btn");
-    button.classList.toggle("btn-muted");
     blurButton(".btn");
     if (!SoundManager.isMuted) {
       SoundManager.allSounds.forEach((sound) => {
         SoundManager.volumes.set(sound, sound.volume);
         sound.volume = 0;
         SoundManager.isMuted = true;
+        button.classList.add("btn-muted");
       });
     } else {
       SoundManager.allSounds.forEach((sound) => {
-        sound.volume = SoundManager.volumes.get(sound);
+        const savedVolume = SoundManager.volumes.get(sound);
+        if (typeof savedVolume === "number" && isFinite(savedVolume)) {
+          sound.volume = savedVolume;
+        }
         SoundManager.isMuted = false;
+        button.classList.remove("btn-muted");
       });
     }
+    saveToLocalStorage();
   }
 }

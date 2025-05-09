@@ -1,4 +1,3 @@
-/* Grundfarben */
 :root {
   --beige: #f4e2d0;
   --dark-brown: #4b2e1f;
@@ -13,7 +12,6 @@ body {
   background-color: var(--beige);
   color: var(--dark-brown);
   background-image: url('assets/img/ui/background.png');
-  /* Pfad anpassen */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -28,7 +26,6 @@ body::before {
   width: 100vw;
   height: 100vh;
   background-color: rgba(244, 226, 208, 0.6);
-  /* halbtransparentes Beige */
   z-index: -1;
 }
 
@@ -68,12 +65,11 @@ canvas {
   border-radius: 20px;
 }
 
-/* Overlay Buttons oben zentriert */
+/* Overlay Buttons */
 .game-menu {
-  position: absolute;
-  top: 152px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  margin-top: -472px;
+  margin-left: 44px;
   z-index: 10;
 }
 
@@ -85,7 +81,7 @@ canvas {
 
 .controls {
   position: relative;
-  margin: -70px 24px 0 24px;
+  margin: 358px 24px 0 24px;
   z-index: 10;
 }
 
@@ -114,7 +110,6 @@ canvas {
   gap: 12px;
 }
 
-/* Startscreen Buttons (optional etwas größer) */
 .start-screen {
   position: absolute;
   top: 0;
@@ -127,7 +122,6 @@ canvas {
   justify-content: center;
   align-items: center;
   background-image: url('assets/img/ui/background.png');
-  /* Pfad anpassen */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -151,7 +145,6 @@ canvas {
 .keyboard-controls {
   max-width: 100%;
   width: 800px;
-  /* oder was gut aussieht */
   height: auto;
   margin-top: 10px;
   /* border: 2px solid var(--light-brown); */
@@ -186,18 +179,13 @@ canvas {
 
 .btn-muted {
   background-color: #8b0000;
-  /* dunkles Rot = Warnung/Off-Zustand */
   color: #fff8dc;
-  /* Cremeweiß, wirkt alt/westlich */
   border: 2px solid #5c1a0b;
-  /* dunklerer Rahmen */
   box-shadow: 0 0 6px rgba(139, 0, 0, 0.5);
-  /* roter Schimmer */
 }
 
 .btn-muted:hover {
   background-color: #a52a2a;
-  /* leicht heller beim Hover */
   color: white;
   box-shadow: 0 0 8px rgba(255, 69, 0, 0.6);
 }
@@ -217,18 +205,23 @@ canvas {
   height: 24px;
 }
 
-
-
-
 /* Smartphones */
 @media only screen and (max-width: 720px) {
   canvas {
     width: 100%;
+  }
+
+  h2 {
+    display: none;
   }
 }
 
 @media only screen and (max-height: 480px) {
   canvas {
     height: 100vh;
+  }
+
+  h2 {
+    display: none;
   }
 }
