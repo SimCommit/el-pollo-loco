@@ -7,13 +7,6 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
-  healthBar = new HealthBar();
-  coinBar = new CoinBar();
-  bottleBar = new BottleBar();
-  statusBars = [this.healthBar, this.coinBar, this.bottleBar];
-  bossHealthBars = [];
-  throwableObjects = [];
-  endscreenObjects = [];
   onCooldown = false;
   spawnCooldown = false;
   bottleAmmo = 4;
@@ -22,6 +15,13 @@ class World {
   bossTriggered = false;
   endscreenTriggered = false;
   introPlayed = false;
+  healthBar = new HealthBar(this.character.health);
+  coinBar = new CoinBar(0);
+  bottleBar = new BottleBar(this.bottleAmmo * 20);
+  statusBars = [this.healthBar, this.coinBar, this.bottleBar];
+  bossHealthBars = [];
+  throwableObjects = [];
+  endscreenObjects = [];
   BOSS_TRIGGER_RANGE = 700;
   INTRO_LENGTH = 4000;
 
@@ -119,7 +119,7 @@ class World {
       this.bossHealthBars = [];
       setTimeout(() => {
         SoundManager.stopAll();
-        this.character.jump(9);
+        // this.character.jump(9);
       }, 3400);
       setTimeout(() => {
         this.showEndscreen(true);
@@ -140,20 +140,16 @@ class World {
 
   showEndscreen(won = false) {
     if (won) {
-      this.statusBars = [];
       let wonScreen = new UiObject(156, 190, 400, 90, true);
       this.endscreenObjects.push(wonScreen);
-      hideGameMenuButtons();
-      hideControlButtons();
-      showEndscreenButtons();
     } else {
-      this.statusBars = [];
       let lostScreen = new UiObject(0, 0, 720, 480, false);
       this.endscreenObjects.push(lostScreen);
-      hideGameMenuButtons();
-      hideControlButtons();
-      showEndscreenButtons();
     }
+    this.statusBars = [];
+    hideGameMenuButtons();
+    hideControlButtons();
+    showEndscreenButtons();
   }
 
   checkThrowObjects() {
@@ -265,12 +261,12 @@ class World {
 
   collisionCollectible(item) {
     if (this.character.isColliding(item)) {
-      if (item instanceof Coin && (this.coinAmount < 5 || this.character.health < 100)) {
+      if (item instanceof Coin && (this.coinAmount < 10 || this.character.health < 100)) {
         SoundManager.playOne(SoundManager.COIN_COLLECT, 1, 0.05, 200);
         despawnObject(item, this.level.collectibleObjects);
-        if (this.coinAmount < 5) {
+        if (this.coinAmount < 10) {
           this.coinAmount++;
-          this.coinBar.setPercentage(this.coinAmount * 20);
+          this.coinBar.setPercentage(this.coinAmount * 10);
         }
         if (this.character.health < 100) {
           this.character.health += 20;
