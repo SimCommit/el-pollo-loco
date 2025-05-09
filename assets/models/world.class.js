@@ -92,14 +92,15 @@ class World {
   startBossEncounter() {
     this.level.bosses[0].animate();
     this.bossTriggered = true;
-    document.querySelector(".game-menu").classList.add("d-none");
-    playSound("assets/audio/music/boss_intro_1.mp3", 1, 0.2, 0, false);
+    hideGameMenuButtons();
+    SoundManager.playOne(SoundManager.MUSIC_BOSS_INTRO, 1, 0.2, 0);
     setTimeout(() => {
+      SoundManager.playOne(SoundManager.MUSIC_BOSS_FIGHT, 1, 0.2, 0, true);
       playSound("assets/audio/music/boss_7.mp3", 1, 0.2, 0, true);
       let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
       this.bossHealthBars.push(endbossHealthBar);
       this.introPlayed = true;
-      document.querySelector(".game-menu").classList.remove("d-none");
+      showGameMenuButtons();
     }, this.INTRO_LENGTH);
   }
 

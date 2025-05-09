@@ -7,7 +7,6 @@ function hideStartScreen() {
 function resetUi() {
   showGameMenuButtons();
   hideEndscreenButtons();
-  console.log(shouldShowTouchControls());
   
   if (shouldShowTouchControls()) {
     showControlButtons();

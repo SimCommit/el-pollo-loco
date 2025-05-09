@@ -158,7 +158,7 @@ class Character extends MovableObject {
   handleDead() {
     if (this.currentState === "dead") {
       if (this.currentImage < this.IMAGES_DYING.length) {
-        playSound("assets/audio/character/dead_1.mp3", 1, 0.3, 2000);
+        SoundManager.playOne(SoundManager.CHARACTER_DEAD, 1, 0.3, 2000)
         if (this.skipFrame % this.frameDelay.dead === 0) {
           this.playAnimation(this.IMAGES_DYING);
         }
@@ -182,7 +182,7 @@ class Character extends MovableObject {
   handleHurt() {
     if (this.currentState === "hurt") {
       this.playAnimation(this.IMAGES_HURT);
-      playSound("assets/audio/character/hurt_2.mp3", 1, 0.4, 1500);
+      SoundManager.playOne(SoundManager.CHARACTER_HURT, 1, 0.4, 1500);
     }
   }
 
@@ -252,7 +252,7 @@ class Character extends MovableObject {
     if (this.currentState === "long_idle") {
       if (this.skipFrame % this.frameDelay.longIdle === 0) {
         this.playAnimation(this.IMAGES_LONG_IDLE);
-        playSound("assets/audio/character/long_idle_1.mp3", 1, 0.3, 3700);
+        SoundManager.playOne(SoundManager.CHARACTER_LONG_IDLE , 1, 0.3, 3700)
       }
 
       if (this.world.keyboard.SPACE) {
@@ -290,7 +290,9 @@ class Character extends MovableObject {
       newState = "jumping";
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       newState = "walking";
-    } else if (this.isLongIdle() && !this.world.bossTrigger) {
+    } else if (this.isLongIdle() && !this.world.bossTriggered) {
+      console.log(this.world.bossTriggered);
+      
       newState = "long_idle";
     } else {
       newState = "idle";

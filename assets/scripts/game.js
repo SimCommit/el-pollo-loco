@@ -4,33 +4,25 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let lastInput = new Date().getTime() + 15000;
-// let paused = true;
 
 function init() {
   canvas = getElementByIdHelper("canvas");
 }
 
 function startGame() {
+  SoundManager.stopAll();
   lastInput = new Date().getTime() + 15000;
   stopAllIntervals();
   paused = false;
   intiLevel();
   world = new World(canvas, keyboard);
+  SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.02, 0)
   resetUi();
   blurButton(".btn");
 }
 
-function togglePause() {
-  if (!paused) {
-    paused = true;
-  } else if (paused) {
-    paused = false;
-    // world.draw();
-    // world.run();
-  }
-}
-
 function quitGame() {
+  SoundManager.stopAll();
   stopAllIntervals();
   showElementById("start-screen");
   blurButton(".btn");
