@@ -49,6 +49,7 @@ class World {
       this.checkBossDefeat();
       this.checkCharacterDefeat();
       this.checkChonkSpawn();
+      this.checkChickenSoundTrigger()
     }, 1000 / 60);
   }
 
@@ -75,7 +76,7 @@ class World {
     this.level.enemies.forEach((enemy) => {
       if (enemy.health <= 0 && !enemy.isMarkedForDespawn) {
         enemy.isMarkedForDespawn = true;
-        despawnObject(enemy, this.level.enemies, 2500);
+        despawnObject(enemy, this.level.enemies, 2000);
       }
     });
   }
@@ -89,12 +90,20 @@ class World {
     }
   }
 
+  checkChickenSoundTrigger() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.isCloseToCharacter(enemy, 200)) {
+        SoundManager.playOne(SoundManager.CHICKEN_NOISE, 1, 0.2, 5000)
+      };
+    });
+  }
+
   startBossEncounter() {
     this.level.bosses[0].animate();
     this.bossTriggered = true;
     hideGameMenuButtons();
     SoundManager.stopOne(SoundManager.MUSIC_BACKGROUND);
-    SoundManager.playOne(SoundManager.MUSIC_BOSS_INTRO, 1, 0.2, 0);
+    SoundManager.playOne(SoundManager.MUSIC_BOSS_INTRO);
     setTimeout(() => {
       SoundManager.playOne(SoundManager.MUSIC_BOSS_FIGHT, 1, 0.2, 0, true);
       let endbossHealthBar = new EndbossHealthBar(this.level.bosses[0]);
@@ -105,8 +114,8 @@ class World {
   }
 
   isCloseToCharacter(other, distance) {
-    return other.x - this.character.x < distance;
-    // return Math.abs(other.x - this.character.x) < distance;
+    // return other.x - this.character.x < distance;
+    return Math.abs(other.x - this.character.x) < distance;
   }
 
   isPlayingIntro() {
@@ -142,9 +151,12 @@ class World {
     if (won) {
       let wonScreen = new UiObject(156, 190, 400, 90, true);
       this.endscreenObjects.push(wonScreen);
+      SoundManager.playOne(SoundManager.MUSIC_GAME_WON, 1, 0.15, 0);
     } else {
       let lostScreen = new UiObject(0, 0, 720, 480, false);
       this.endscreenObjects.push(lostScreen);
+      SoundManager.stopAll();
+      SoundManager.playOne(SoundManager.MUSIC_GAME_OVER, 1, 0.15, 0);
     }
     this.statusBars = [];
     hideGameMenuButtons();

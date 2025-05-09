@@ -13,6 +13,8 @@ class SoundManager {
   static CHARACTER_BOUNCE_LOW = new Audio("assets/audio/character/bounce_1.mp3");
   static CHARACTER_BOUNCE_HIGH = new Audio("assets/audio/character/bounce_2.mp3");
 
+  static CHICKEN_NOISE = new Audio("assets/audio/chicken/noise_1.mp3");
+
   static BOSS_DEAD = new Audio("assets/audio/endboss/dead_3.mp3");
   static BOSS_HURT = new Audio("assets/audio/endboss/hurt_1.mp3");
   static BOSS_ATTACK = new Audio("assets/audio/endboss/attack_1.mp3");
@@ -25,7 +27,7 @@ class SoundManager {
   static MUSIC_BOSS_INTRO = new Audio("assets/audio/music/boss_intro_1.mp3");
   static MUSIC_BOSS_FIGHT = new Audio("assets/audio/music/boss_7.mp3");
   static MUSIC_GAME_OVER = new Audio("assets/audio/music/game_over_1.mp3");
-  static MUSIC_GAME_WON = new Audio("");
+  static MUSIC_GAME_WON = new Audio("assets/audio/music/credits_1.mp3");
 
   static allSounds = [
     SoundManager.CHARACTER_DEAD,
@@ -36,6 +38,7 @@ class SoundManager {
     SoundManager.CHARACTER_THROW,
     SoundManager.CHARACTER_BOUNCE_LOW,
     SoundManager.CHARACTER_BOUNCE_HIGH,
+    SoundManager.CHICKEN_NOISE,
     SoundManager.BOSS_HURT,
     SoundManager.BOSS_DEAD,
     SoundManager.BOSS_ATTACK,
@@ -51,7 +54,7 @@ class SoundManager {
 
   static isMuted = false;
 
-  static playOne(sound, playbackRate, volume, cooldown, loop = false, currentTime = 0) {
+  static playOne(sound, playbackRate = 1, volume = 0.2, cooldown = 0, loop = false, currentTime = 0) {
       if (SoundManager.cooldowns.get(sound)) return;
       if (sound.readyState == 4) {
           sound.playbackRate = playbackRate;
