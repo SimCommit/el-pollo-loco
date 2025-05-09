@@ -59,12 +59,12 @@ function getElementByIdHelper(id) {
 }
 
 /**
- * Removes focus from a clicked button.
+ * Removes focus from all elements matching the given selector.
  * 
- * @param {string} id - The ID of the button to blur.
+ * @param {string} selector - A CSS selector (e.g. '.btn')
  */
-function blurButton(id) {
-  getElementByIdHelper(id).blur();
+function blurButton(selector) {
+  document.querySelectorAll(selector).forEach(el => el.blur());
 }
 
 /**

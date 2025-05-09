@@ -5,25 +5,40 @@ function hideStartScreen() {
 }
 
 function resetUi() {
-  document.querySelector(".game-menu").classList.remove("d-none");
-  document.querySelector(".endscreen-menu").classList.add("d-none");
+  showGameMenuButtons();
+  hideEndscreenButtons();
+  showControlButtons();
 }
 
-function hideGameButtons() {
+function hideGameMenuButtons() {
   document.querySelector(".game-menu").classList.add("d-none");
-  document.querySelector(".controls").classList.add("d-none");
+}
 
+function showGameMenuButtons() {
+  document.querySelector(".game-menu").classList.remove("d-none");
+}
+
+function hideControlButtons() {
+  document.querySelector(".controls").classList.add("d-none");
+}
+
+function showControlButtons() {
+  document.querySelector(".controls").classList.remove("d-none");
 }
 
 function showEndscreenButtons() {
   document.querySelector(".endscreen-menu").classList.remove("d-none");
 }
 
+function hideEndscreenButtons() {
+  document.querySelector(".endscreen-menu").classList.add("d-none");
+}
+
 function muteGame() {
   toggleMute();
   let button = getElementByIdHelper("mute-btn");
   button.classList.toggle("btn-muted");
-  blurButton("mute-btn");
+  blurButton(".btn");
 }
 
 function toggleMute() {
@@ -41,6 +56,7 @@ function toggleFullscreen() {
   } else {
     exitFullscreen(fullscreen);
   }
+  blurButton(".btn");
 }
 
 function enterFullscreen(element) {

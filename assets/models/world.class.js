@@ -148,7 +148,8 @@ class World {
       this.statusBars = [];
       let lostScreen = new UiObject(0, 0, 720, 480, false);
       this.endscreenObjects.push(lostScreen);
-      hideGameButtons();
+      hideGameMenuButtons();
+      hideControlButtons();
       showEndscreenButtons();
     }
   }

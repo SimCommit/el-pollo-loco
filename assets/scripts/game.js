@@ -17,6 +17,7 @@ function startGame() {
   intiLevel();
   world = new World(canvas, keyboard);
   resetUi();
+  blurButton(".btn");
 }
 
 function togglePause() {
@@ -32,12 +33,52 @@ function togglePause() {
 function quitGame() {
   stopAllIntervals();
   showElementById("start-screen");
+  blurButton(".btn");
 }
 
 function stopAllIntervals() {
   intervalIds.forEach(clearInterval);
 }
-  
+
+window.addEventListener("load", () => {
+  getElementByIdHelper("btn-move-left").addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.LEFT = true;
+  });
+  getElementByIdHelper("btn-move-left").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.LEFT = false;
+  });
+
+  getElementByIdHelper("btn-move-right").addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = true;
+  });
+  getElementByIdHelper("btn-move-right").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = false;
+  });
+
+  getElementByIdHelper("btn-jump").addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.SPACE = true;
+  });
+  getElementByIdHelper("btn-jump").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.SPACE = false;
+  });
+
+  getElementByIdHelper("btn-throw").addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.D = true;
+  });
+  getElementByIdHelper("btn-throw").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.D = false;
+  });
+});
+
+
 document.addEventListener("keydown", (event) => {
   switch (event.key) {
     case "ArrowRight":
@@ -46,12 +87,12 @@ document.addEventListener("keydown", (event) => {
     case "ArrowLeft":
       keyboard.LEFT = true;
       break;
-    case "ArrowUp":
-      keyboard.UP = true;
-      break;
-    case "ArrowDown":
-      keyboard.DOWN = true;
-      break;
+    // case "ArrowUp":
+    //   keyboard.UP = true;
+    //   break;
+    // case "ArrowDown":
+    //   keyboard.DOWN = true;
+    //   break;
     case " ":
       keyboard.SPACE = true;
       break;
@@ -70,13 +111,13 @@ document.addEventListener("keyup", (event) => {
     case "ArrowLeft":
       keyboard.LEFT = false;
       break;
-    case "ArrowUp":
-      keyboard.UP = false;
-      break;
-    case "ArrowDown":
-      keyboard.DOWN = false;
-      break;
-    case " ":
+    // case "ArrowUp":
+    //   keyboard.UP = false;
+    //   break;
+    // case "ArrowDown":
+    //   keyboard.DOWN = false;
+    //   break;
+    // case " ":
       keyboard.SPACE = false;
       break;
     case "d":
@@ -84,6 +125,6 @@ document.addEventListener("keyup", (event) => {
       break;
     case "o":
       startGame();
-    break;
+      break;
   }
 });
