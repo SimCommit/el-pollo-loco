@@ -12,8 +12,9 @@ class SoundManager {
   static CHARACTER_BOUNCE_LOW = new Audio("assets/audio/character/bounce_1.mp3");
   static CHARACTER_BOUNCE_HIGH = new Audio("assets/audio/character/bounce_2.mp3");
 
-  static BOSS_HURT = new Audio("assets/audio/endboss/hurt_1.mp3");
   static BOSS_DEAD = new Audio("assets/audio/endboss/dead_3.mp3");
+  static BOSS_HURT = new Audio("assets/audio/endboss/hurt_1.mp3");
+  static BOSS_ATTACK = new Audio("assets/audio/endboss/attack_1.mp3");
 
   static BOTTLE_BREAK = new Audio("assets/audio/salsa_bottle/break_1.mp3");
   static BOTTLE_COLLECT = new Audio("assets/audio/salsa_bottle/collect_1.mp3");
@@ -37,6 +38,7 @@ class SoundManager {
 
     SoundManager.BOSS_HURT,
     SoundManager.BOSS_DEAD,
+    SoundManager.BOSS_ATTACK,
 
     SoundManager.BOTTLE_BREAK,
     SoundManager.BOTTLE_COLLECT,

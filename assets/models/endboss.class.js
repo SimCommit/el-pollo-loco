@@ -175,7 +175,8 @@ class Endboss extends MovableObject {
         this.playAnimation(this.IMAGES_HURT);
       }
       this.skipFrame += 1;
-      playSound("assets/audio/endboss/hurt_1.mp3", 1, 0.3, 1000);
+      SoundManager.playOne(SoundManager.BOSS_HURT, 1, 0.3, 1000);
+
     }
   }
 
@@ -189,7 +190,7 @@ class Endboss extends MovableObject {
       this.skipFrame += 1;
       if (timePassed >= 1 && timePassed < 2.5) {
         this.speed = 6;
-        playSound("assets/audio/endboss/attack_1.mp3", 1, 0.3, 2000);
+        SoundManager.playOne(SoundManager.BOSS_ATTACK, 1, 0.3, 2000);
         this.moveLeft();
       }
     } else {

@@ -93,7 +93,7 @@ class World {
     this.level.bosses[0].animate();
     this.bossTriggered = true;
     hideGameMenuButtons();
-    SoundManager.stopOne(SoundManager.MUSIC_BACKGROUND)
+    SoundManager.stopOne(SoundManager.MUSIC_BACKGROUND);
     SoundManager.playOne(SoundManager.MUSIC_BOSS_INTRO, 1, 0.2, 0);
     setTimeout(() => {
       SoundManager.playOne(SoundManager.MUSIC_BOSS_FIGHT, 1, 0.2, 0, true);
@@ -116,10 +116,11 @@ class World {
   checkBossDefeat() {
     if (this.level.bosses[0].health <= 0 && !this.endscreenTriggered) {
       this.endscreenTriggered = true;
+      this.bossHealthBars = [];
       setTimeout(() => {
-        this.character.currentState = "jump";
-        this.character.jump();
-      }, 3000);
+        SoundManager.stopAll();
+        this.character.jump(9);
+      }, 3400);
       setTimeout(() => {
         this.showEndscreen(true);
         stopAllIntervals();
@@ -140,7 +141,6 @@ class World {
   showEndscreen(won = false) {
     if (won) {
       this.statusBars = [];
-      this.bossHealthBars = [];
       let wonScreen = new UiObject(156, 190, 400, 90, true);
       this.endscreenObjects.push(wonScreen);
       hideGameMenuButtons();
@@ -247,7 +247,7 @@ class World {
         this.throwableObjects[i].isColliding(enemy)
       ) {
         this.throwableObjects[i].isBroken = true;
-        SoundManager.playOne(SoundManager.BOTTLE_BREAK, 1, 0.3, 200)
+        SoundManager.playOne(SoundManager.BOTTLE_BREAK, 1, 0.3, 200);
         enemy.hit(this.throwableObjects[i].damage, enemy);
         if (enemy instanceof Endboss) {
           this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2);
@@ -290,7 +290,7 @@ class World {
     if (this.character.isHigher(enemy) && this.character.isFalling()) {
       if (enemy instanceof Chonk) {
         this.character.jump(20);
-        SoundManager.playOne(SoundManager.CHARACTER_BOUNCE_HIGH, 1, 0.3, 1000);        
+        SoundManager.playOne(SoundManager.CHARACTER_BOUNCE_HIGH, 1, 0.3, 1000);
       } else {
         this.character.jump(14);
         SoundManager.playOne(SoundManager.CHARACTER_BOUNCE_LOW, 1, 0.3, 1000);
@@ -325,7 +325,7 @@ class World {
     // --- Space for fixed objects ---
     this.addObjectsToMap(this.statusBars);
     this.addObjectsToMap(this.endscreenObjects);
-    
+
     this.ctx.translate(this.camera_x, 0); // forwards
 
     this.ctx.translate(-this.camera_x, 0);
