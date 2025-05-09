@@ -18,13 +18,4 @@ class UiObject extends DrawableObject {
       this.loadImage(this.IMAGE_GAME_OVER);
     }
   }
-
-  // draw(ctx) {
-  //   if (!this.won) {
-  //     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-  //     ctx.fillRect(-this.world.camera_x, 0, 720, 480);
-  //   }
-
-  //   super.draw(ctx);
-  // }
 }

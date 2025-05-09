@@ -223,7 +223,7 @@ class Character extends MovableObject {
         (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) ||
         (this.world.keyboard.LEFT && this.x > -100)
       ) {
-        playSound("assets/audio/character/walk_2.mp3", 4, 0.3, 160);
+        SoundManager.playOne(SoundManager.CHARACTER_WALK, 4, 0.3, 160, false, 0);
       }
     }
   }

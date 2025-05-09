@@ -117,7 +117,7 @@ document.addEventListener("keyup", (event) => {
     // case "ArrowDown":
     //   keyboard.DOWN = false;
     //   break;
-    // case " ":
+    case " ":
       keyboard.SPACE = false;
       break;
     case "d":

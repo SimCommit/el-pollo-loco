@@ -162,7 +162,7 @@ class MovableObject extends DrawableObject {
 
   jump(speedY = 15) {
     this.speedY = speedY;
-    this.playSound("assets/audio/character/jump_2.mp3", 1, 0.1, 500)
+    SoundManager.playOne(SoundManager.CHARACTER_JUMP, 1, 0.1, 500)
   }
 
   resetCurrentImage() {
@@ -178,13 +178,12 @@ class MovableObject extends DrawableObject {
     this.height = 50;
     this.speedY = 15;
     this.speedX = 5;
-    playSound("assets/audio/character/throw_1.mp3", 1, 0.2, 1000);
+    SoundManager.playOne(SoundManager.CHARACTER_THROW, 1, 0.2, 500)
     this.applyGravity();
     if (world.character.otherDirection) {
       this.speedX = this.speedX * -1;
     }
     setStoppableInterval(() => {
-      // if (paused) return;
       this.x += this.speedX;
     }, 25);
   }
