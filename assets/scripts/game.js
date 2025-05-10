@@ -7,6 +7,7 @@ let lastInput = new Date().getTime() + 15000;
 
 function init() {
   canvas = getElementByIdHelper("canvas");
+  toggleInstructions();toggleInstructions()
 }
 
 function startGame() {
@@ -26,6 +27,7 @@ function quitGame() {
   SoundManager.stopAll();
   stopAllIntervals();
   showElementById("start-screen");
+  resetUi();
   blurButton(".btn");
 }
 

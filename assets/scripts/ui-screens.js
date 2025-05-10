@@ -8,9 +8,10 @@ function resetUi() {
   showGameMenuButtons();
   hideEndscreenButtons();
   updateMuteButtonState();
-  
+
   if (shouldShowTouchControls()) {
     showControlButtons();
+    toggleInstructions();
   }
 }
 
@@ -51,20 +52,21 @@ function shouldShowTouchControls() {
   return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 }
 
-// function muteGame() {
-//   toggleMute();
-//   let button = getElementByIdHelper("mute-btn");
-//   button.classList.toggle("btn-muted");
-//   blurButton(".btn");
-// }
+function toggleInstructions() {
+  if (shouldShowTouchControls()) {
+    showTouchInstructions();
+  } else {
+    showKeyboardInstructions();
+  }
+}
 
-// function toggleMute() {
-//   if (muted) {
-//     muted = false;
-//   } else {
-//     muted = true;
-//   }
-// }
+function showTouchInstructions() {
+  getElementByIdHelper("input-instructions").src = "assets/img/ui/touch-controls.png";
+}
+
+function showKeyboardInstructions() {
+  getElementByIdHelper("input-instructions").src = "assets/img/ui/keyboard-controls.png";
+}
 
 function toggleFullscreen() {
   let fullscreen = getElementByIdHelper("fullscreen");

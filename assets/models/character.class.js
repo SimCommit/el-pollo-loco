@@ -85,8 +85,8 @@ class Character extends MovableObject {
   lastY3 = 220;
   lastY2 = 220;
   lastY = 220;
-  lastX = 120;
-  lastX2 = 120;
+  // lastX = 120;
+  // lastX2 = 120;
   speed = 8;
   height = 200;
   width = 100;
@@ -107,7 +107,7 @@ class Character extends MovableObject {
     this.applyGravity();
     this.applyHorizontalForce();
     this.currentState = "idle";
-    this.invincibleTrigger = new Date().getTime();
+    // this.invincibleTrigger = new Date().getTime();
 
     this.animate();
   }
