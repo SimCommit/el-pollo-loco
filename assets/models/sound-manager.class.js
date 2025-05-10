@@ -98,25 +98,23 @@ class SoundManager {
   }
 
   static toggleMuteAll() {
-    let button = getElementByIdHelper("mute-btn");
     blurButton(".btn");
     if (!SoundManager.isMuted) {
       SoundManager.allSounds.forEach((sound) => {
         SoundManager.volumes.set(sound, sound.volume);
         sound.volume = 0;
-        SoundManager.isMuted = true;
-        button.classList.add("btn-muted");
       });
+      SoundManager.isMuted = true;
     } else {
       SoundManager.allSounds.forEach((sound) => {
         const savedVolume = SoundManager.volumes.get(sound);
         if (typeof savedVolume === "number" && isFinite(savedVolume)) {
           sound.volume = savedVolume;
         }
-        SoundManager.isMuted = false;
-        button.classList.remove("btn-muted");
       });
+      SoundManager.isMuted = false;
     }
     saveToLocalStorage();
+    updateMuteButtonState();
   }
 }

@@ -7,9 +7,19 @@ function hideStartScreen() {
 function resetUi() {
   showGameMenuButtons();
   hideEndscreenButtons();
+  updateMuteButtonState();
   
   if (shouldShowTouchControls()) {
     showControlButtons();
+  }
+}
+
+function updateMuteButtonState() {
+  let button = getElementByIdHelper("mute-btn");
+  if (SoundManager.isMuted) {
+    button.classList.add("btn-muted");
+  } else {
+    button.classList.remove("btn-muted");
   }
 }
 
