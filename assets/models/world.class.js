@@ -335,7 +335,7 @@ class World {
 
     // --- Space for fixed objects ---
     this.addObjectsToMap(this.statusBars);
-    this.addObjectsToMap(this.endscreenObjects);
+    // this.addObjectsToMap(this.endscreenObjects);
 
     this.ctx.translate(this.camera_x, 0); // forwards
 

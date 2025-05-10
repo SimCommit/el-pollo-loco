@@ -7,7 +7,8 @@ let lastInput = new Date().getTime() + 15000;
 
 function init() {
   canvas = getElementByIdHelper("canvas");
-  toggleInstructions();toggleInstructions()
+  toggleInstructions();
+  toggleInstructions();
 }
 
 function startGame() {
@@ -36,41 +37,74 @@ function stopAllIntervals() {
 }
 
 window.addEventListener("load", () => {
-  getElementByIdHelper("btn-move-left").addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keyboard.LEFT = true;
-  });
-  getElementByIdHelper("btn-move-left").addEventListener("touchend", (e) => {
-    e.preventDefault();
-    keyboard.LEFT = false;
-  });
+  getElementByIdHelper("btn-move-left").addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      keyboard.LEFT = true;
+    },
+    { passive: false }
+  );
+  getElementByIdHelper("btn-move-left").addEventListener(
+    "touchend",
+    (e) => {
+      e.preventDefault();
+      keyboard.LEFT = false;
+    },
+    { passive: false }
+  );
 
-  getElementByIdHelper("btn-move-right").addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keyboard.RIGHT = true;
-  });
-  getElementByIdHelper("btn-move-right").addEventListener("touchend", (e) => {
-    e.preventDefault();
-    keyboard.RIGHT = false;
-  });
+  getElementByIdHelper("btn-move-right").addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      keyboard.RIGHT = true;
+    },
+    { passive: false }
+  );
+  getElementByIdHelper("btn-move-right").addEventListener(
+    "touchend",
+    (e) => {
+      e.preventDefault();
+      keyboard.RIGHT = false;
+    },
+    { passive: false }
+  );
 
-  getElementByIdHelper("btn-jump").addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keyboard.SPACE = true;
-  });
-  getElementByIdHelper("btn-jump").addEventListener("touchend", (e) => {
-    e.preventDefault();
-    keyboard.SPACE = false;
-  });
+  getElementByIdHelper("btn-jump").addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      keyboard.SPACE = true;
+    },
+    { passive: false }
+  );
+  getElementByIdHelper("btn-jump").addEventListener(
+    "touchend",
+    (e) => {
+      e.preventDefault();
+      keyboard.SPACE = false;
+    },
+    { passive: false }
+  );
 
-  getElementByIdHelper("btn-throw").addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keyboard.D = true;
-  });
-  getElementByIdHelper("btn-throw").addEventListener("touchend", (e) => {
-    e.preventDefault();
-    keyboard.D = false;
-  });
+  getElementByIdHelper("btn-throw").addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      keyboard.D = true;
+    },
+    { passive: false }
+  );
+  getElementByIdHelper("btn-throw").addEventListener(
+    "touchend",
+    (e) => {
+      e.preventDefault();
+      keyboard.D = false;
+      lastInput = new Date().getTime();
+    },
+    { passive: false }
+  );
 });
 
 document.addEventListener("keydown", (event) => {

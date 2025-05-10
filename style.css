@@ -4,6 +4,8 @@
   --light-brown: #a67c52;
   --yellow: #f7c84c;
   --sand: #e0c097;
+  --margin-controls: calc(clamp(3.125rem, 12.5vh + 0.625rem, 4.375rem) * -1);
+  --margin-btn-height: clamp(1rem, 5vh + 0rem, 1.5rem);
 }
 
 body {
@@ -30,11 +32,13 @@ body::before {
 }
 
 main {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
+  justify-content: center;
+  height: 100vh;
+  gap: 90px;
 }
 
 h1 {
@@ -55,9 +59,16 @@ h2 {
   margin-bottom: 20px;
 }
 
+.fullscreen-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Canvas styling */
 canvas {
-  margin-top: -64px;
+  margin-top: var(--margin-controls);
   display: block;
   position: relative;
   background-color: black;
@@ -69,26 +80,34 @@ canvas {
 /* Overlay Buttons */
 .game-menu {
   position: relative;
-  margin-top: 16px;
-  margin-left: 44px;
+  width: min(696px, 100%);
   z-index: 10;
 }
 
 .game-menu-content {
   display: flex;
+  justify-content: flex-end;
   gap: 12px;
-  padding-left: 190px;
+  padding: 0 12px;
 }
 
 .controls {
   position: relative;
-  margin: -70px 24px 0 24px;
+  margin: 0 24px 0 24px;
+  margin-top: var(--margin-controls);
   z-index: 10;
+  width: min(696px, 100%);
 }
 
 .controls-content {
   display: flex;
   justify-content: space-between;
+  padding: 0 12px;
+}
+
+.controls-content button {
+  background-color: rgba(75, 46, 31, 0.2);
+  border-color: rgba(166, 124, 82, 0.5);
 }
 
 .controls-movement,
@@ -99,16 +118,30 @@ canvas {
 
 .endscreen-menu {
   position: absolute;
-  top: 444px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  /* background-image: url("assets/img/9_intro_outro_screens/game_over/game over!.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed; */
   z-index: 10;
 }
 
 .endscreen-menu-content {
   display: flex;
+  height: 100%;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 12px;
+  margin-top: 100px;
+}
+
+.endscreen-menu-content button {
+  max-width: 200px;
 }
 
 .start-screen {
@@ -156,6 +189,7 @@ canvas {
 
 /* Button Design */
 .btn {
+  display: flex;
   background-color: var(--yellow);
   color: var(--dark-brown);
   border: 2px solid var(--light-brown);
@@ -196,14 +230,15 @@ canvas {
 .btn-fullscreen img,
 .btn-mute img,
 .btn-restart img,
-.btn-quit img {
-  width: 24px;
+.btn-quit img,
+.btn-control img {
+  height: var(--margin-btn-height);
 }
 
-.btn-control img {
+/* .btn-control img {
   width: 24px;
   height: 24px;
-}
+} */
 
 .landscape-request {
   display: none;
@@ -213,10 +248,15 @@ canvas {
   h2 {
     display: none;
   }
+
+  main {
+    gap: 0px;
+    padding: 0px;
+  }
 }
 
 /* Smartphones */
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 728px) {
 
   main {
     gap: 0px;
@@ -226,6 +266,7 @@ canvas {
   canvas {
     width: 100%;
     border: none;
+    border-radius: 0;
   }
 
   h1 {
@@ -238,16 +279,16 @@ canvas {
   }
 
   .start-screen-content img {
-    /* background-color: rgba(244, 226, 208, 0.8); */
-    margin-top: 32px;
+    margin-top: 0px;
     width: 320px;
-    background-color: #a67c52;
-    border-radius: 24px;
-    border: 4px solid #4b2e1f;
   }
 }
 
-@media only screen and (max-height: 480px) {
+@media only screen and (max-height: 488px) {
+
+  .fullscreen-content {
+    height: 100vh;
+  }
 
   main {
     gap: 0px;
@@ -257,10 +298,21 @@ canvas {
   canvas {
     height: 100vh;
     border: none;
+    border-radius: 0;
+  }
+
+  h1 {
+    font-size: 40px;
+    margin: 8px;
   }
 
   h2 {
     display: none;
+  }
+
+  .start-screen-content img {
+    margin-top: 0px;
+    width: 320px;
   }
 }
 
@@ -279,6 +331,7 @@ canvas {
     height: 100vh;
     justify-content: center;
     align-items: center;
+    z-index: 20;
   }
 
   .landscape-request p {
@@ -286,5 +339,6 @@ canvas {
     color: var(--dark-brown);
     font-weight: 700;
     font-size: 24px;
+    padding: 8px;
   }
 }

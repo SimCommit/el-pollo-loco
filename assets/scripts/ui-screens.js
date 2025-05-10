@@ -61,7 +61,7 @@ function toggleInstructions() {
 }
 
 function showTouchInstructions() {
-  getElementByIdHelper("input-instructions").src = "assets/img/ui/touch-controls.png";
+  getElementByIdHelper("input-instructions").src = "assets/img/ui/touch-controls-alternativ.png";
 }
 
 function showKeyboardInstructions() {

@@ -50,17 +50,13 @@
 
                 <button class="btn btn-start" onclick="startGame(), hideElementById('start-screen')">START GAME</button>
 
-                <img id="input-instructions" src="./assets/img/ui/keyboard-controls.png" alt="Keyboard Controls" class="keyboard-controls" />
+                <img id="input-instructions" src="./assets/img/ui/keyboard-controls.png" alt="Keyboard Controls"
+                    class="keyboard-controls" />
             </div>
         </section>
 
-        <section id="end-section" class="end-screen d-none">
-            <div class="end-screen-content">
-                <button class="btn" onclick="startGame(), hideElementById('start-section')">RESTART GAME</button>
-            </div>
-        </section>
 
-        <section id="fullscreen">
+        <section id="fullscreen" class="fullscreen-content">
             <div class="game-menu">
                 <div class="game-menu-content">
                     <button id="mute-btn" class="btn btn-mute" onclick="SoundManager.toggleMuteAll()">
@@ -72,9 +68,9 @@
                     <button class="btn btn-quit" onclick="quitGame()">
                         <img src="assets/img/ui/quit-icon.png" alt="Quit Icon">
                     </button>
-                    <button class="btn btn-fullscreen" onclick="toggleFullscreen()">
+                    <!-- <button class="btn btn-fullscreen" onclick="toggleFullscreen()">
                         <img src="assets/img/ui/fullscreen-icon.png" alt="Fullscreen Icon">
-                    </button>
+                    </button> -->
                 </div>
             </div>
             <canvas id="canvas" width="720" height="480">
@@ -104,18 +100,17 @@
             </div>
         </section>
 
-
-
-        <section class="endscreen-menu d-none">
-            <div class="endscreen-menu-content">
-                <button class="btn" onclick="startGame()">RESTART</button>
-                <button class="btn" onclick="quitGame()">QUIT</button>
-            </div>
-        </section>
-
+        
         <div id="test"></div>
     </main>
 
+    <section class="endscreen-menu d-none">
+        <div class="endscreen-menu-content">
+            <button class="btn" onclick="startGame()">RESTART</button>
+            <button class="btn" onclick="quitGame()">QUIT</button>
+        </div>
+    </section>
+    
     <div class="landscape-request">
         <p>Please turn your device to activate landscape mode</p>
     </div>
