@@ -57,6 +57,7 @@ h2 {
 
 /* Canvas styling */
 canvas {
+  margin-top: -64px;
   display: block;
   position: relative;
   background-color: black;
@@ -68,7 +69,7 @@ canvas {
 /* Overlay Buttons */
 .game-menu {
   position: relative;
-  margin-top: -472px;
+  margin-top: 16px;
   margin-left: 44px;
   z-index: 10;
 }
@@ -81,7 +82,7 @@ canvas {
 
 .controls {
   position: relative;
-  margin: 358px 24px 0 24px;
+  margin: -70px 24px 0 24px;
   z-index: 10;
 }
 
@@ -192,14 +193,11 @@ canvas {
   box-shadow: 0 0 8px rgba(255, 69, 0, 0.6);
 }
 
-.btn-fullscreen {
-  display: flex;
-  padding: 8px;
-}
-
-.btn-fullscreen img {
+.btn-fullscreen img,
+.btn-mute img,
+.btn-restart img,
+.btn-quit img {
   width: 24px;
-  height: 24px;
 }
 
 .btn-control img {
@@ -211,12 +209,25 @@ canvas {
   display: none;
 }
 
+@media (max-height: 700px) {
+  h2 {
+    display: none;
+  }
+}
+
 /* Smartphones */
 @media only screen and (max-width: 720px) {
+
+  main {
+    gap: 0px;
+    padding: 0px;
+  }
+
   canvas {
     width: 100%;
     border: none;
   }
+
   h1 {
     font-size: 40px;
     margin: 8px;
@@ -237,8 +248,15 @@ canvas {
 }
 
 @media only screen and (max-height: 480px) {
+
+  main {
+    gap: 0px;
+    padding: 0px;
+  }
+
   canvas {
     height: 100vh;
+    border: none;
   }
 
   h2 {
