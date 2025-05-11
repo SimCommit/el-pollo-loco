@@ -7,7 +7,7 @@
   --margin-controls: calc(clamp(3.125rem, 12.5vh + 0.625rem, 4.375rem) * -1);
   --margin-btn-height: clamp(1rem, 5vh + 0rem, 1.5rem);
   --margin-instructions-height: clamp(9.375rem, 41.579vh + 1.059rem, 19.25rem);
-  --gap-start-screen-content: clamp(0.5rem, 6.316vh - 0.763rem, 2rem);
+  --gap-start-screen-content: clamp(0.375rem, 6.842vh - 0.993rem, 2rem);
   --font-size-h1: clamp(2.5rem, 8.421vh + 0.816rem, 4.5rem);
 }
 
@@ -176,6 +176,8 @@ canvas {
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
 }
 
 .start-screen-content {
@@ -183,16 +185,27 @@ canvas {
   flex-direction: column;
   gap: 32px;
   align-items: center;
+  justify-content: space-between;
 }
 
 .start-screen-content img {
   /* background-color: rgba(244, 226, 208, 0.8); */
-  margin-top: 22px;
+  margin-top: 16px;
   max-height: 300px;
   width: auto;
   background-color: #a67c52;
   border-radius: 24px;
   border: 4px solid #4b2e1f;
+}
+
+.legal-links {
+  margin-top: 12px;
+  color: var(--dark-brown);
+  font-size: 14px;
+}
+
+.legal-links a {
+  color: var(--dark-brown);
 }
 
 .keyboard-controls {
@@ -259,6 +272,10 @@ canvas {
 
 .landscape-request {
   display: none;
+}
+
+footer {
+  height: 40px;
 }
 
 @media (max-height: 700px) {
@@ -348,7 +365,7 @@ canvas {
 } */
 
 /* Portrait orientation */
-@media screen and (orientation: portrait) {
+@media screen and (orientation: portrait) and (hover: none) and (pointer: coarse) {
   main {
     display: none;
   }
