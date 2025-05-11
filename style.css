@@ -114,6 +114,13 @@ canvas {
 }
 
 /* Overlay Buttons */
+.game-menu-wrapper {
+  height: 48px;
+  width: min(696px, 100%);
+  position: relative;
+  z-index: 10;
+}
+
 .game-menu {
   position: relative;
   width: min(696px, 100%);
@@ -173,7 +180,12 @@ canvas {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  margin-top: 100px;
+  /* margin-top: 100px; */
+}
+
+.spacer {
+  height: var(--margin-controls);
+  width: 100px;
 }
 
 .endscreen-menu-content button {
