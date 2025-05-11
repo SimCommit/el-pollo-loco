@@ -61,11 +61,11 @@ function toggleInstructions() {
 }
 
 function showTouchInstructions() {
-  getElementByIdHelper("input-instructions").src = "assets/img/ui/touch-controls-alternativ.png";
+  getElementByIdHelper("input-instructions").src = "assets/img/ui/touch-controls-stardos-stencil.png";
 }
 
 function showKeyboardInstructions() {
-  getElementByIdHelper("input-instructions").src = "assets/img/ui/keyboard-controls.png";
+  getElementByIdHelper("input-instructions").src = "assets/img/ui/keyboard-controls-stardos-stencil.png";
 }
 
 function toggleFullscreen() {
