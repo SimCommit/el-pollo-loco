@@ -15,17 +15,37 @@
   font-family: 'Stardos Stencil';
   src: url('./assets/fonts/StardosStencil-Regular.ttf') format('truetype');
   font-weight: normal;
+  font-display: swap;
+
 }
 
 @font-face {
   font-family: 'Stardos Stencil';
   src: url('./assets/fonts/StardosStencil-Bold.ttf') format('truetype');
   font-weight: bold;
+  font-display: swap;
 }
+
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: var(--beige);
   color: var(--dark-brown);
   background-image: url('assets/img/ui/background.png');
@@ -359,10 +379,6 @@ footer {
     height: var(--margin-instructions-height);
   }
 }
-
-/* @media (hover: none) and (pointer: coarse) {
-
-} */
 
 /* Portrait orientation */
 @media screen and (orientation: portrait) and (hover: none) and (pointer: coarse) {
