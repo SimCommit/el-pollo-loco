@@ -67,8 +67,8 @@ h1 {
 }
 
 h2 {
-  font-family: 'Georgia', serif;
-  font-size: 3rem;
+  font-family: 'Stardos Stencil', cursive;
+  font-size: 56px;
   color: var(--dark-brown);
   text-shadow: 2px 2px var(--light-brown);
   margin-top: 20px;
@@ -385,4 +385,21 @@ footer {
     font-size: 24px;
     padding: 8px;
   }
+}
+
+/* Legal Notice */
+.legal-notice {
+  text-align: center;
+  color: var(--dark-brown);
+  margin: 16px;
+}
+
+/* Privacy Policy */
+.privacy-policy {
+  margin: 16px;
+  color: var(--dark-brown);
+}
+
+.privacy-policy h1 {
+  text-align: center;
 }
