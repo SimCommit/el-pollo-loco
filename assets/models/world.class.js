@@ -41,7 +41,6 @@ class World {
 
   run() {
     setStoppableInterval(() => {
-      // if (paused) return;
       this.checkThrowObjects();
       this.checkCollisions();
       this.checkBossTrigger();
@@ -243,7 +242,6 @@ class World {
       if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
         this.character.hit(20, this.character, -1);
         this.healthBar.setPercentage(this.character.health);
-        // console.log("Character Health: ", this.character.health);
       }
       if (this.character.isHigher(enemy)) {
         enemy.hit(this.character.damage, enemy);
@@ -263,7 +261,6 @@ class World {
         if (enemy instanceof Endboss) {
           this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2);
         }
-        // console.log("isBroken", this.throwableObjects[i].isBroken);
         despawnObject(this.throwableObjects[i], this.throwableObjects, 600);
         this.killMomentum(this.throwableObjects[i]);
       }
@@ -335,7 +332,7 @@ class World {
 
     // --- Space for fixed objects ---
     this.addObjectsToMap(this.statusBars);
-    // this.addObjectsToMap(this.endscreenObjects);
+    this.addObjectsToMap(this.endscreenObjects);
 
     this.ctx.translate(this.camera_x, 0); // forwards
 
@@ -343,7 +340,6 @@ class World {
 
     // The function is repeatedly called via requestAnimationFrame (thanks to Michelle for this)
     requestAnimationFrame(() => {
-      // if (paused) return;
       this.draw();
     });
   }
