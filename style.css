@@ -363,9 +363,9 @@ footer {
 
 @media only screen and (max-height: 488px) {
 
-  .fullscreen-content {
+  /* .fullscreen-content {
     height: 100vh;
-  }
+  } */
 
   main {
     gap: 0px;
