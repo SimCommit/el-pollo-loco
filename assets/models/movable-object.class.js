@@ -25,7 +25,7 @@ class MovableObject extends DrawableObject {
 
   applyHorizontalForce() {
     setStoppableInterval(() => {
-    // if (paused) return;
+      // if (paused) return;
       if (this.speedX < 0) {
         this.x += this.speedX;
         this.speedX += this.accelerationX;
@@ -162,7 +162,7 @@ class MovableObject extends DrawableObject {
 
   jump(speedY = 15) {
     this.speedY = speedY;
-    SoundManager.playOne(SoundManager.CHARACTER_JUMP, 1, 0.1, 500)
+    SoundManager.playOne(SoundManager.CHARACTER_JUMP, 1, 0.1, 500);
   }
 
   resetCurrentImage() {
@@ -174,11 +174,12 @@ class MovableObject extends DrawableObject {
   }
 
   throw() {
+    if (world.endscreenTriggered) return;
     this.width = 50;
     this.height = 50;
     this.speedY = 15;
     this.speedX = 5;
-    SoundManager.playOne(SoundManager.CHARACTER_THROW, 1, 0.2, 500)
+    SoundManager.playOne(SoundManager.CHARACTER_THROW, 1, 0.2, 500);
     this.applyGravity();
     if (world.character.otherDirection) {
       this.speedX = this.speedX * -1;
