@@ -72,10 +72,10 @@
                             <button id="mute-btn" class="btn btn-mute" onclick="SoundManager.toggleMuteAll()">
                                 <img src="assets/img/ui/mute-icon-1.png" alt="Mute Icon">
                             </button>
-                            <button id="restart" class="btn btn-restart" onclick="startGame()">
+                            <button id="restart" class="btn btn-restart" onclick="restartDuringPlay()">
                                 <img src="assets/img/ui/restart-icon.png" alt="Restart Icon">
                             </button>
-                            <button class="btn btn-quit" onclick="quitGame()">
+                            <button class="btn btn-quit" onclick="quitDuringPlay()">
                                 <img src="assets/img/ui/quit-icon.png" alt="Quit Icon">
                             </button>
                             <!-- <button class="btn btn-fullscreen" onclick="toggleFullscreen()">
@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="controls-wrapper">
-                    <div class="controls">
+                    <div class="controls d-none">
                         <div class="controls-content">
 
                             <div class="controls-movement">

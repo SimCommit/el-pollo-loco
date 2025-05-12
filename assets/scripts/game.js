@@ -19,9 +19,19 @@ function startGame() {
   paused = false;
   intiLevel();
   world = new World(canvas, keyboard);
-  SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.02, 0, true);
+  SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.04, 0, true);
   resetUi();
   blurButton(".btn");
+}
+
+function restartDuringPlay() {
+  if (world.endscreenTriggered) return;
+  startGame();
+}
+
+function quitDuringPlay() {
+  if (world.endscreenTriggered) return;
+  quitGame();
 }
 
 function quitGame() {
