@@ -7,7 +7,7 @@ class Level {
   bosses = [];
   obstacles = [];
   collectibleObjects = [];
-  level_end_x = 3250;
+  level_end_x = 4250;
 
   constructor(enemies, bosses, clouds, backgroundObjects, collectibleObjects, obstacles){
     this.enemies = enemies;

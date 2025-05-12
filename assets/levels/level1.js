@@ -11,6 +11,7 @@ function intiLevel() {
       new Chicken(570),
       new Chicken(750),
       new Chicken(1000),
+      new Chonk(2400),
     ],
     [new Endboss()],
     [
@@ -21,6 +22,8 @@ function intiLevel() {
       new Cloud(2100, 1),
       new Cloud(2700, 2),
       new Cloud(3400, 1),
+      new Cloud(4100, 2),
+      new Cloud(4800, 2),
     ],
     [
       new BackgroundObject("assets/img/5_background/layers/air.png", -719),
@@ -54,6 +57,11 @@ function intiLevel() {
       new BackgroundObject("assets/img/5_background/layers/3_third_layer/2.png", 719 * 5),
       new BackgroundObject("assets/img/5_background/layers/2_second_layer/2.png", 719 * 5),
       new BackgroundObject("assets/img/5_background/layers/1_first_layer/2.png", 719 * 5),
+
+      new BackgroundObject("assets/img/5_background/layers/air.png", 719 * 6),
+      new BackgroundObject("assets/img/5_background/layers/3_third_layer/1.png", 719 * 6),
+      new BackgroundObject("assets/img/5_background/layers/2_second_layer/1.png", 719 * 6),
+      new BackgroundObject("assets/img/5_background/layers/1_first_layer/1.png", 719 * 6),
     ],
     [
       new Bottle(-40, 375),
@@ -66,23 +74,37 @@ function intiLevel() {
       new Coin(320, 225),
       new Coin(360, 205),
       new Coin(400, 225),
-      new Coin(600, 225),
-      new Coin(800, 225),
-      new Coin(1000, 225),
-      new Coin(1200, 225),
-      new Coin(1400, 225),
-      new Coin(1600, 225),
+      new Coin(600, 325),
+      new Coin(700, 325),
+      new Coin(800, 325),
+      new Coin(900, 325),
+      new Coin(1000, 325),
+      new Coin(1100, 325),
+      new Coin(1200, 325),
+      new Coin(1000, 325),
+
+      new Coin(1400, 325),
+      new Coin(1000, 325),
+
+      new Coin(1600, 325),
+
+      new Coin(2650, 115),
+
+      new Coin(2900, 325),
+      new Coin(3000, 325),
+
       new Coin(3200, 225),
-      new Coin(6000, 225),
-      new Coin(8000, 225),
-      new Coin(10000, 225),
-      new Coin(12000, 225),
+      // new Coin(6000, 225),
+      // new Coin(8000, 225),
+      // new Coin(10000, 225),
+      // new Coin(12000, 225),
     ],
     [
       new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 95, 0, 95),
       new Obstacle("assets/img/0_obstacles/obstacle_2.png", 340, 331, 110, 110, 24, 28, 0, 28),
-      new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1800, 305, 140, 140, 20, 48, 0, 36),
-      new Obstacle("assets/img/0_obstacles/obstacle_4.png", 3180, 185, 260, 260, 20, 110, 0, 100),
+      new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1650, 305, 140, 140, 20, 48, 0, 36),
+      new Obstacle("assets/img/0_obstacles/obstacle_6.png", 2600, 185, 160, 260, 50, 55, 0, 20),
+      new Obstacle("assets/img/0_obstacles/obstacle_4.png", 4180, 185, 260, 260, 20, 110, 0, 100),
     ]
   );
 }

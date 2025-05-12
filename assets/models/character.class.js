@@ -93,7 +93,7 @@ class Character extends MovableObject {
   world;
   speedY = 0;
   acceleration = 1;
-  health = 10;
+  health = 100;
   damage = 50;
 
   constructor() {

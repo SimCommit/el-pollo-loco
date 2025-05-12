@@ -58,7 +58,7 @@ class World {
       !this.spawnCooldown &&
       !this.areHelpersAlive()
     ) {
-      let helperChonk = new Chonk(1650, 328, true);
+      let helperChonk = new Chonk(2500, 328, true);
       this.level.enemies.push(helperChonk);
       this.spawnCooldown = true;
       setTimeout(() => {
