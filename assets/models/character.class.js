@@ -118,7 +118,6 @@ class Character extends MovableObject {
 
   animate() {
     setStoppableInterval(() => {
-      // if (paused) return;
       this.updateState();
       this.world.camera_x = -this.x + 100;
 

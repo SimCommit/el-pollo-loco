@@ -239,6 +239,10 @@ class World {
   collisionEnemy(enemy) {
     if (this.character.isColliding(enemy)) {
       this.checkTopImpact(enemy);
+      if (enemy instanceof Endboss && !this.character.isInvincible()) {
+        this.character.hit(20, this.character, "left")
+      }
+
       if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
         this.character.hit(20, this.character, -1);
         this.healthBar.setPercentage(this.character.health);

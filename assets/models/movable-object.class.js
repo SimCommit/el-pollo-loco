@@ -6,7 +6,7 @@ class MovableObject extends DrawableObject {
   invincibleTrigger = 0;
   accelerationX = 1;
   stunTime = 1;
-  invincibleTime = 2;
+  invincibleTime = 1.5;
   longIdleThreshold = 10;
   skipFrame = 0;
   onCooldown = false;

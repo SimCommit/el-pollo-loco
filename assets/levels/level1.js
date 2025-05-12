@@ -11,6 +11,7 @@ function intiLevel() {
       new Chicken(570),
       new Chicken(750),
       new Chicken(1000),
+      new Chonk(2200),
       new Chonk(2400),
     ],
     [new Endboss()],
@@ -96,18 +97,26 @@ function intiLevel() {
       new Coin(1400, 300),
       new Coin(1450, 300),
       new Coin(1500, 300),
-      new Coin(1550, 275),
-      new Coin(1600, 250),
-      new Coin(1650, 225),
-      new Coin(1700, 250),
+      new Coin(1550, 300),
+      new Coin(1600, 275),
+      new Coin(1650, 250),
+      new Coin(1700, 225),
+      new Coin(1750, 250),
 
+      
+      new Coin(2100, 50),
+      new Coin(2100, 100),
+      new Coin(2100, 150),
+      new Coin(2100, 200),
+      new Coin(2100, 250),
 
-      new Coin(2650, 115),
+      new Coin(2650, 100),
 
       new Coin(2900, 325),
+            new Coin(2950, 325),
       new Coin(3000, 325),
-
-      new Coin(3200, 225),
+      new Coin(3050, 325),
+      new Coin(3100, 325),
       // new Coin(6000, 225),
       // new Coin(8000, 225),
       // new Coin(10000, 225),
@@ -116,7 +125,7 @@ function intiLevel() {
     [
       new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 95, 0, 95),
       new Obstacle("assets/img/0_obstacles/obstacle_2.png", 327, 331, 110, 110, 24, 28, 0, 28),
-      new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1625, 305, 140, 140, 20, 48, 0, 36),
+      new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1667, 305, 140, 140, 20, 48, 0, 36),
       new Obstacle("assets/img/0_obstacles/obstacle_6.png", 2600, 185, 160, 260, 50, 55, 0, 20),
       new Obstacle("assets/img/0_obstacles/obstacle_4.png", 4180, 185, 260, 260, 20, 110, 0, 100),
     ]
