@@ -273,12 +273,12 @@ class World {
 
   collisionCollectible(item) {
     if (this.character.isColliding(item)) {
-      if (item instanceof Coin && (this.coinAmount < 10 || this.character.health < 100)) {
+      if (item instanceof Coin && (this.coinAmount < 50 || this.character.health < 100)) {
         SoundManager.playOne(SoundManager.COIN_COLLECT, 1, 0.05, 200);
         despawnObject(item, this.level.collectibleObjects);
-        if (this.coinAmount < 10) {
+        if (this.coinAmount < 50) {
           this.coinAmount++;
-          this.coinBar.setPercentage(this.coinAmount * 10);
+          this.coinBar.setPercentage(this.coinAmount * 2);
         }
         if (this.character.health < 100) {
           this.character.health += 20;
