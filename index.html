@@ -62,59 +62,65 @@
 
 
         <section id="fullscreen" class="fullscreen-content">
-            <div class="game-menu-wrapper">
-                <div class="game-menu">
-                    <div class="game-menu-content">
-                        <button id="mute-btn" class="btn btn-mute" onclick="SoundManager.toggleMuteAll()">
-                            <img src="assets/img/ui/mute-icon-1.png" alt="Mute Icon">
-                        </button>
-                        <button id="restart" class="btn btn-restart" onclick="startGame()">
-                            <img src="assets/img/ui/restart-icon.png" alt="Restart Icon">
-                        </button>
-                        <button class="btn btn-quit" onclick="quitGame()">
-                            <img src="assets/img/ui/quit-icon.png" alt="Quit Icon">
-                        </button>
-                        <!-- <button class="btn btn-fullscreen" onclick="toggleFullscreen()">
-                        <img src="assets/img/ui/fullscreen-icon.png" alt="Fullscreen Icon">
-                    </button> -->
-                    </div>
-                </div>
-            </div>
             <canvas id="canvas" width="720" height="480">
             </canvas>
-            <div class="controls d-none">
-                <div class="controls-content">
 
-                    <div class="controls-movement">
-                        <button id="btn-move-left" class="btn btn-control">
-                            <img src="assets/img/ui/move-left-icon.png" alt="Move Left Icon">
-                        </button>
-                        <button id="btn-move-right" class="btn btn-control">
-                            <img src="assets/img/ui/move-right-icon.png" alt="Move Right Icon">
-                        </button>
+            <div class="btn-overlay">
+                <div class="game-menu-wrapper">
+                    <div class="game-menu">
+                        <div class="game-menu-content">
+                            <button id="mute-btn" class="btn btn-mute" onclick="SoundManager.toggleMuteAll()">
+                                <img src="assets/img/ui/mute-icon-1.png" alt="Mute Icon">
+                            </button>
+                            <button id="restart" class="btn btn-restart" onclick="startGame()">
+                                <img src="assets/img/ui/restart-icon.png" alt="Restart Icon">
+                            </button>
+                            <button class="btn btn-quit" onclick="quitGame()">
+                                <img src="assets/img/ui/quit-icon.png" alt="Quit Icon">
+                            </button>
+                            <!-- <button class="btn btn-fullscreen" onclick="toggleFullscreen()">
+                            <img src="assets/img/ui/fullscreen-icon.png" alt="Fullscreen Icon">
+                        </button> -->
+                        </div>
                     </div>
+                </div>
 
-                    <div class="controls-action">
-                        <button id="btn-jump" class="btn btn-control">
-                            <img src="assets/img/ui/jump-icon.png" alt="Jump Icon">
-                        </button>
-                        <button id="btn-throw" class="btn btn-control">
-                            <img src="assets/img/ui/throw-icon.png" alt="Throw Icon">
-                        </button>
+                <div class="endscreen-menu d-none">
+                    <div class="endscreen-menu-content">
+                        <div class="spacer"></div>
+                        <button class="btn" onclick="startGame()">RESTART</button>
+                        <button class="btn" onclick="quitGame()">QUIT</button>
                     </div>
+                </div>
 
+                <div class="controls">
+                    <div class="controls-content">
+
+                        <div class="controls-movement">
+                            <button id="btn-move-left" class="btn btn-control">
+                                <img src="assets/img/ui/move-left-icon.png" alt="Move Left Icon">
+                            </button>
+                            <button id="btn-move-right" class="btn btn-control">
+                                <img src="assets/img/ui/move-right-icon.png" alt="Move Right Icon">
+                            </button>
+                        </div>
+
+                        <div class="controls-action">
+                            <button id="btn-jump" class="btn btn-control">
+                                <img src="assets/img/ui/jump-icon.png" alt="Jump Icon">
+                            </button>
+                            <button id="btn-throw" class="btn btn-control">
+                                <img src="assets/img/ui/throw-icon.png" alt="Throw Icon">
+                            </button>
+                        </div>
+
+                    </div>
                 </div>
             </div>
+
         </section>
     </main>
 
-    <section class="endscreen-menu d-none">
-        <div class="endscreen-menu-content">
-            <div class="spacer"></div>
-            <button class="btn" onclick="startGame()">RESTART</button>
-            <button class="btn" onclick="quitGame()">QUIT</button>
-        </div>
-    </section>
 
     <div class="landscape-request">
         <p>Please turn your device to activate landscape mode</p>
