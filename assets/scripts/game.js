@@ -16,9 +16,14 @@ function init() {
 function countLoadedImages() {
   loadedImageCount++;
   console.log(loadedImageCount);
+  if (loadedImageCount === REQUIRED_IMAGE_COUNT) {
+      hideLoadingScreen();
+      loadedImageCount = 0;
+  }
 }
 
 function startGame() {
+  showLoadingScreen();
   loadFromLocalStorage();
   SoundManager.stopAll();
   lastInput = new Date().getTime() + 15000;

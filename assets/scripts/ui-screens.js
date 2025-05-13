@@ -24,6 +24,14 @@ function updateMuteButtonState() {
   }
 }
 
+function hideLoadingScreen() {
+  document.querySelector(".loading-screen").classList.add("d-none");
+}
+
+function showLoadingScreen() {
+  document.querySelector(".loading-screen").classList.remove("d-none");
+}
+
 function hideGameMenuButtons() {
   document.querySelector(".game-menu").classList.add("d-none");
 }
