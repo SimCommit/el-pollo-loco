@@ -4,11 +4,18 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let lastInput = new Date().getTime() + 15000;
+let loadedImageCount = 0;
+let REQUIRED_IMAGE_COUNT = 225;
 
 function init() {
   canvas = getElementByIdHelper("canvas");
   toggleInstructions();
   toggleInstructions();
+}
+
+function countLoadedImages() {
+  loadedImageCount++;
+  console.log(loadedImageCount);
 }
 
 function startGame() {
@@ -49,7 +56,7 @@ function stopAllIntervals() {
 window.addEventListener("load", () => {
   getElementByIdHelper("btn-move-left").addEventListener("touchstart", (e) => {
     if (e.cancelable) e.preventDefault();
-    
+
     keyboard.LEFT = true;
   });
 

@@ -206,8 +206,9 @@ class World {
   }
 
   collisionEnemy(enemy) {
-    if (this.character.isColliding(enemy)) {
+    if (this.character.isColliding(enemy) && !this.endscreenTriggered) {
       this.checkTopImpact(enemy);
+
       if (enemy instanceof Endboss && !this.character.isInvincible()) {
         this.character.hit(20, this.character, "left");
       }
@@ -223,7 +224,7 @@ class World {
   }
 
   collisionEnemyWithEnemy(enemy) {
-    this.level.enemies.forEach(e => {
+    this.level.enemies.forEach((e) => {
       if (e.isColliding(enemy) && e != enemy) {
         this.toggleSpriteDirection(enemy);
         this.reverseSpeed(enemy);
