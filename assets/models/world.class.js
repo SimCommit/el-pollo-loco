@@ -48,7 +48,7 @@ class World {
       this.checkBossDefeat();
       this.checkCharacterDefeat();
       this.checkChonkSpawn();
-      this.checkChickenSoundTrigger()
+      this.checkChickenSoundTrigger();
     }, 1000 / 60);
   }
 
@@ -92,8 +92,8 @@ class World {
   checkChickenSoundTrigger() {
     this.level.enemies.forEach((enemy) => {
       if (this.isCloseToCharacter(enemy, 200)) {
-        SoundManager.playOne(SoundManager.CHICKEN_NOISE, 1, 0.2, 5000)
-      };
+        SoundManager.playOne(SoundManager.CHICKEN_NOISE, 1, 0.2, 5000);
+      }
     });
   }
 
@@ -104,7 +104,7 @@ class World {
     SoundManager.stopOne(SoundManager.MUSIC_BACKGROUND);
     SoundManager.playOne(SoundManager.MUSIC_BOSS_INTRO);
     setTimeout(() => {
-      SoundManager.playOne(SoundManager.BOSS_INTRO, 1, 0.3)
+      SoundManager.playOne(SoundManager.BOSS_INTRO, 1, 0.3);
     }, 1500);
     setTimeout(() => {
       SoundManager.playOne(SoundManager.MUSIC_BOSS_FIGHT, 1, 0.2, 0, true);
@@ -189,6 +189,7 @@ class World {
       this.collisionEnemy(enemy);
       this.collisionThrowable(enemy);
       this.collisionObstacle(enemy);
+      this.collisionEnemyWithEnemy(enemy);
     });
 
     this.level.bosses.forEach((boss) => {
@@ -201,6 +202,32 @@ class World {
     });
     this.level.obstacles.forEach((obstacle) => {
       this.collisionCharacterWithObstacle(obstacle);
+    });
+  }
+
+  collisionEnemy(enemy) {
+    if (this.character.isColliding(enemy)) {
+      this.checkTopImpact(enemy);
+      if (enemy instanceof Endboss && !this.character.isInvincible()) {
+        this.character.hit(20, this.character, "left");
+      }
+
+      if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
+        this.character.hit(20, this.character, -1);
+        this.healthBar.setPercentage(this.character.health);
+      }
+      if (this.character.isHigher(enemy)) {
+        enemy.hit(this.character.damage, enemy);
+      }
+    }
+  }
+
+  collisionEnemyWithEnemy(enemy) {
+    this.level.enemies.forEach(e => {
+      if (e.isColliding(enemy) && e != enemy) {
+        this.toggleSpriteDirection(enemy);
+        this.reverseSpeed(enemy);
+      }
     });
   }
 
@@ -233,23 +260,6 @@ class World {
       object.otherDirection = true;
     } else if (object.otherDirection) {
       object.otherDirection = false;
-    }
-  }
-
-  collisionEnemy(enemy) {
-    if (this.character.isColliding(enemy)) {
-      this.checkTopImpact(enemy);
-      if (enemy instanceof Endboss && !this.character.isInvincible()) {
-        this.character.hit(20, this.character, "left")
-      }
-
-      if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
-        this.character.hit(20, this.character, -1);
-        this.healthBar.setPercentage(this.character.health);
-      }
-      if (this.character.isHigher(enemy)) {
-        enemy.hit(this.character.damage, enemy);
-      }
     }
   }
 
