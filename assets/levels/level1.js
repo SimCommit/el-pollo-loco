@@ -1,7 +1,19 @@
 // level1.js
 
+/**
+ * The current level of the game.
+ * 
+ * Initialized by {@link initLevel}.
+ *
+ * @type {Level}
+ */
 let level1;
 
+/**
+ * Initializes the first level of the game.
+ * Populates it with enemies, background objects, collectibles, obstacles, and clouds.
+ * Assigns the result to the global variable {@link level1}.
+ */
 function intiLevel() {
   level1 = new Level(
     [
@@ -101,7 +113,6 @@ function intiLevel() {
       new Coin(1700, 225),
       new Coin(1750, 250),
 
-      
       new Coin(2100, 50),
       new Coin(2100, 100),
       new Coin(2100, 150),
@@ -111,14 +122,10 @@ function intiLevel() {
       new Coin(2650, 100),
 
       new Coin(2900, 325),
-            new Coin(2950, 325),
+      new Coin(2950, 325),
       new Coin(3000, 325),
       new Coin(3050, 325),
       new Coin(3100, 325),
-      // new Coin(6000, 225),
-      // new Coin(8000, 225),
-      // new Coin(10000, 225),
-      // new Coin(12000, 225),
     ],
     [
       new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 95, 0, 95),

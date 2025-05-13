@@ -1,0 +1,10 @@
+{
+  "source": {
+    "include": ["assets/models", "assets/levels", "assets/scripts"],
+    "includePattern": ".js$"
+  },
+  "opts": {
+    "destination": "./out",
+    "recurse": true
+  }
+}
