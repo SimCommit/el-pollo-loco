@@ -104,7 +104,7 @@ Character.prototype.handleHurt = function () {
 Character.prototype.handleWalking = function () {
   if (this.currentState === "walking") {
     this.playAnimation(this.IMAGES_WALKING);
-    this.handleWalkingDirection();
+    this.handleHorizontalMovement(true);
     this.handleJumpInput();
     this.handleWalkingSound();
   }
@@ -113,19 +113,22 @@ Character.prototype.handleWalking = function () {
 /**
  * Moves the character left or right based on directional input.
  * Considers level boundaries and obstacles.
+ *
+ * @param {boolean} [updateFacing=false] - Whether to update the character's facing direction
+ * (e.g. for animations when walking on the ground).
  */
-Character.prototype.handleWalkingDirection = function () {
+Character.prototype.handleHorizontalMovement = function (updateFacing = false) {
   if (
     this.world.keyboard.RIGHT &&
     this.x < this.world.level.level_end_x &&
     !this.isblockedRight()
   ) {
-    this.otherDirection = false;
+    if (updateFacing) this.otherDirection = false;
     this.moveRight();
   }
 
   if (this.world.keyboard.LEFT && this.x > -200 && !this.isblockedLeft()) {
-    this.otherDirection = true;
+    if (updateFacing) this.otherDirection = true;
     this.moveLeft();
   }
 };
@@ -162,26 +165,8 @@ Character.prototype.handleJumping = function () {
       this.playAnimation(this.IMAGES_JUMPING);
     }
 
-    this.handleJumpingDirection();
+    this.handleHorizontalMovement(false);
     this.skipFrame += 1;
-  }
-};
-
-/**
- * Moves the character left or right while jumping,
- * if movement input is active and the path is not blocked.
- */
-Character.prototype.handleJumpingDirection = function () {
-  if (
-    this.world.keyboard.RIGHT &&
-    this.x < this.world.level.level_end_x &&
-    !this.isblockedRight()
-  ) {
-    this.moveRight();
-  }
-
-  if (this.world.keyboard.LEFT && this.x > -200 && !this.isblockedLeft()) {
-    this.moveLeft();
   }
 };
 
@@ -220,33 +205,41 @@ Character.prototype.handleIdle = function () {
 
 /**
  * Updates the character's current state based on internal conditions and user input.
- * Evaluates priority from top (death) to bottom (idle) and applies state changes accordingly.
- * Triggers image reset and frame skipping reset when a new state is entered.
+ * Uses resolveState() to determine the most appropriate state, and resets
+ * animation-related properties if the state has changed.
  */
 Character.prototype.updateState = function () {
-  let newState;
-
-  if (this.isDead()) {
-    newState = "dead";
-  } else if (this.world.isPlayingIntro()) {
-    newState = "frozen";
-  } else if (this.isHurt()) {
-    newState = "hurt";
-  } else if (this.isAboveGround()) {
-    newState = "jumping";
-  } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-    newState = "walking";
-  } else if (this.isLongIdle() && !this.world.bossTriggered) {
-    newState = "long_idle";
-  } else {
-    newState = "idle";
-  }
+  let newState = this.resolveState();
 
   if (newState !== this.currentState) {
     this.resetCurrentImage();
     this.resetSkipFrame();
   }
   this.currentState = newState;
+};
+
+/**
+ * Resolves and returns the appropriate character state based on current conditions.
+ * Priority is evaluated from most critical (death) to least (idle).
+ *
+ * @returns {string} The resolved state name (e.g., "dead", "walking", "idle")
+ */
+Character.prototype.resolveState = function () {
+  if (this.isDead()) {
+    return "dead";
+  } else if (this.world.isPlayingIntro()) {
+    return "frozen";
+  } else if (this.isHurt()) {
+    return "hurt";
+  } else if (this.isAboveGround()) {
+    return "jumping";
+  } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+    return "walking";
+  } else if (this.isLongIdle() && !this.world.bossTriggered) {
+    return "long_idle";
+  } else {
+    return "idle";
+  }
 };
 
 /**
