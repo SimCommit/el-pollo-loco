@@ -2,7 +2,7 @@
 
 /**
  * The current level of the game.
- * 
+ *
  * Initialized by {@link initLevel}.
  *
  * @type {Level}
@@ -17,10 +17,11 @@ let level1;
 function intiLevel() {
   level1 = new Level(
     [
-      new Chicken(450),
-      new Chicken(570),
-      new Chicken(750),
-      new Chicken(1000),
+      new Chicken(600),
+      new Chicken(900),
+      new Chicken(1200),
+      new Chicken(1500),
+      
       new Chonk(2200),
       new Chonk(2400),
     ],
@@ -119,6 +120,18 @@ function intiLevel() {
       new Coin(2100, 200),
       new Coin(2100, 250),
 
+      new Coin(2200, 50),
+      new Coin(2200, 100),
+      new Coin(2200, 150),
+      new Coin(2200, 200),
+      new Coin(2200, 250),
+
+      new Coin(2300, 50),
+      new Coin(2300, 100),
+      new Coin(2300, 150),
+      new Coin(2300, 200),
+      new Coin(2300, 250),
+
       new Coin(2650, 100),
 
       new Coin(2900, 325),
@@ -130,8 +143,8 @@ function intiLevel() {
     [
       new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 95, 0, 95),
       new Obstacle("assets/img/0_obstacles/obstacle_2.png", 327, 331, 110, 110, 24, 28, 0, 28),
-      new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1667, 305, 140, 140, 20, 48, 0, 36),
-      new Obstacle("assets/img/0_obstacles/obstacle_6.png", 2600, 185, 160, 260, 50, 55, 0, 20),
+      new Obstacle("assets/img/0_obstacles/obstacle_3.png", 1667, 305, 140, 140, 20, 36, 0, 32),
+      new Obstacle("assets/img/0_obstacles/obstacle_6.png", 2600, 185, 160, 260, 50, 55, 0, 30),
       new Obstacle("assets/img/0_obstacles/obstacle_4.png", 4180, 185, 260, 260, 20, 110, 0, 100),
     ]
   );

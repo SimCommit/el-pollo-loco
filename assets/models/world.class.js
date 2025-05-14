@@ -54,11 +54,13 @@ class World {
 
   checkChonkSpawn() {
     if (
-      this.isCloseToCharacter(this.level.obstacles[2], 300) &&
+      this.isCloseToCharacter(this.level.obstacles[2], 400) &&
       !this.spawnCooldown &&
-      !this.areHelpersAlive()
+      !this.areChonksAlive()
     ) {
-      let helperChonk = new Chonk(2500, 328, true);
+      let helperChonk = new Chonk(2400, 328, true);
+      helperChonk.otherDirection = true;
+      this.reverseSpeed(helperChonk);
       this.level.enemies.push(helperChonk);
       this.spawnCooldown = true;
       setTimeout(() => {
@@ -67,8 +69,8 @@ class World {
     }
   }
 
-  areHelpersAlive() {
-    return this.level.enemies.some((enemy) => enemy.isHelper);
+  areChonksAlive() {
+    return this.level.enemies.some((enemy) => enemy instanceof Chonk);
   }
 
   checkEnemyDefeat() {
