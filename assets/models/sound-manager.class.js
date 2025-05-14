@@ -69,6 +69,9 @@ class SoundManager {
   /** @type {HTMLAudioElement} Sound played when the player collects a coin */
   static COIN_COLLECT = new Audio("assets/audio/coin/collect_1.mp3");
 
+  /** @type {HTMLAudioElement} Sound played when the coin bar is full and a reward is triggered */
+  static COIN_BAR_FILLED_UP = new Audio("assets/audio/coin/bar_filled_up_1.mp3");
+
   /** @type {HTMLAudioElement} Looping background music for regular gameplay */
   static MUSIC_BACKGROUND = new Audio("assets/audio/music/background_loop_1.mp3");
 
@@ -109,6 +112,7 @@ class SoundManager {
     SoundManager.BOTTLE_BREAK,
     SoundManager.BOTTLE_COLLECT,
     SoundManager.COIN_COLLECT,
+    SoundManager.COIN_BAR_FILLED_UP,
 
     SoundManager.MUSIC_BACKGROUND,
     SoundManager.MUSIC_BOSS_INTRO,

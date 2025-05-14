@@ -23,7 +23,7 @@ function intiLevel() {
       new Chicken(1470),
 
       new Chonk(2200),
-      new Chonk(2400),
+      new Chonk(2500),
     ],
     [new Endboss()],
     [
@@ -80,9 +80,17 @@ function intiLevel() {
       new Bottle(550, 375),
       new Bottle(900, 375),
       new Bottle(1000, 375),
+      new Bottle(1100, 375),
+
       new Bottle(1900, 375),
+
+      new Bottle(2700, 375),
+
+      new Bottle(2900, 375),
+
+      new Bottle(3100, 375),
       new Bottle(3200, 375),
-      
+
       new Coin(-70, 225),
       new Coin(300, 250),
       new Coin(350, 225),

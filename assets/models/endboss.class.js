@@ -25,7 +25,7 @@ class Endboss extends MovableObject {
   attackStart = 0;
   switchDirectionStart = 0;
   ran = 0;
-  health = 200;
+  health = 250;
   damage = 50;
 
   IMAGES_WALKING = [
@@ -176,7 +176,6 @@ class Endboss extends MovableObject {
       }
       this.skipFrame += 1;
       SoundManager.playOne(SoundManager.BOSS_HURT, 1, 0.3, 1000);
-
     }
   }
 

@@ -66,7 +66,7 @@ class ThrowableObject extends MovableObject {
    * Damage dealt by the thrown bottle upon impact.
    * @type {number}
    */
-  damage = 200;
+  damage = 50;
 
   /**
    * Creates a new throwable bottle at the specified position.

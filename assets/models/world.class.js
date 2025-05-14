@@ -276,7 +276,7 @@ class World {
         SoundManager.playOne(SoundManager.BOTTLE_BREAK, 1, 0.3, 200);
         enemy.hit(this.throwableObjects[i].damage);
         if (enemy instanceof Endboss) {
-          this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2);
+          this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2.5);
         }
         despawnObject(this.throwableObjects[i], this.throwableObjects, 600);
         this.killMomentum(this.throwableObjects[i]);
@@ -295,12 +295,9 @@ class World {
         despawnObject(item, this.level.collectibleObjects);
         if (this.coinAmount < 50) {
           this.coinAmount++;
-          this.coinBar.setPercentage(this.coinAmount * 2);
+          this.coinBar.setPercentage(this.coinAmount * 5);
         }
-        if (this.character.health < 100) {
-          this.character.health += 20;
-          this.healthBar.setPercentage(this.character.health);
-        }
+        this.handleFullCoinBar();
       }
       if (item instanceof Bottle && this.bottleAmmo < 5) {
         SoundManager.playOne(SoundManager.BOTTLE_COLLECT, 1, 0.6, 200);
@@ -308,6 +305,18 @@ class World {
         this.bottleAmmo++;
         this.bottleBar.setPercentage(this.bottleAmmo * 20);
       }
+    }
+  }
+
+  handleFullCoinBar() {
+    if (this.coinAmount >= 20 && this.character.health < 100) {
+      this.character.health += 20;
+      this.healthBar.setPercentage(this.character.health);
+      if (this.character.health > 100) {
+        this.character.health = 100;
+      }
+      this.coinAmount = 0;
+      SoundManager.playOne(SoundManager.COIN_BAR_FILLED_UP, 1)
     }
   }
 

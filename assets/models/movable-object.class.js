@@ -136,7 +136,7 @@ class MovableObject extends DrawableObject {
    * @param {string} direction - The direction from which the hit came (used for rebound logic).
    */
   hit(damage, direction) {
-    if (!this.onCooldown) {
+    if (!this.onCooldown && !world.endscreenTriggered) {
       this.takeDamage(damage);
       this.handleHitCooldown();
     }
