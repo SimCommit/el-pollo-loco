@@ -353,13 +353,27 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Resets the animation frame index to 0.
-   * Typically called when switching animations.
+   * Plays an animation sequence at the defined frame delay.
+   * Increments the frame counter after each call.
    *
-   * @returns {number} The new frame index (0).
+   * @param {string[]} images - Array of image paths representing the animation.
+   * @param {number} frameDelay - Delay in frames between each animation step.
    */
-  resetCurrentImage() {
-    return (this.currentImage = 0);
+  playStateAnimation(images, frameDelay) {
+    if (this.skipFrame % frameDelay === 0) {
+      this.playAnimation(images);
+    }
+    this.skipFrame += 1;
+  }
+
+  /**
+   * Calculates the number of seconds that have passed since a given timestamp.
+   *
+   * @param {number} startTimestamp - Timestamp in milliseconds to compare against the current time.
+   * @returns {number} Seconds that have passed since the given timestamp.
+   */
+  secondsSince(startTimestamp) {
+    return (new Date().getTime() - startTimestamp) / 1000;
   }
 
   /**
@@ -370,6 +384,16 @@ class MovableObject extends DrawableObject {
    */
   resetSkipFrame() {
     return (this.skipFrame = 0);
+  }
+
+  /**
+   * Resets the animation frame index to 0.
+   * Typically called when switching animations.
+   *
+   * @returns {number} The new frame index (0).
+   */
+  resetCurrentImage() {
+    return (this.currentImage = 0);
   }
 
   /**
