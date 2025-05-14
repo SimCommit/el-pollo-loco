@@ -212,15 +212,15 @@ class World {
       this.checkTopImpact(enemy);
 
       if (enemy instanceof Endboss && !this.character.isInvincible()) {
-        this.character.hit(20, this.character, "left");
+        this.character.hit(20, "left");
       }
 
       if (!this.character.isHigher(enemy) && !this.character.isInvincible()) {
-        this.character.hit(20, this.character, -1);
+        this.character.hit(20);
         this.healthBar.setPercentage(this.character.health);
       }
       if (this.character.isHigher(enemy)) {
-        enemy.hit(this.character.damage, enemy);
+        enemy.hit(this.character.damage);
       }
     }
   }
@@ -236,11 +236,11 @@ class World {
 
   collisionCharacterWithObstacle(obstacle) {
     if (this.character.isTouchingFromLeft(obstacle) && !this.character.isInvincible()) {
-      this.character.hit(20, this.character, "left");
+      this.character.hit(20, "left");
     } else if (this.character.isTouchingFromRight(obstacle) && !this.character.isInvincible()) {
-      this.character.hit(20, this.character, "right");
+      this.character.hit(20, "right");
     } else if (this.character.isTouchingFromTop(obstacle) && !this.character.isInvincible()) {
-      this.character.hit(20, this.character, "up-left");
+      this.character.hit(20, "up-left");
     }
     this.healthBar.setPercentage(this.character.health);
   }
@@ -274,7 +274,7 @@ class World {
       ) {
         this.throwableObjects[i].isBroken = true;
         SoundManager.playOne(SoundManager.BOTTLE_BREAK, 1, 0.3, 200);
-        enemy.hit(this.throwableObjects[i].damage, enemy);
+        enemy.hit(this.throwableObjects[i].damage);
         if (enemy instanceof Endboss) {
           this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2);
         }
