@@ -1,7 +1,7 @@
 // status-bar.class.js
 
 class StatusBar extends DrawableObject {
-  x = 20;
+  x = 15;
   width = 188;
   height = 50;
   percentage = 100;
@@ -33,21 +33,3 @@ class StatusBar extends DrawableObject {
     }
   }
 }
-
-// setPercentage(percentage) {
-//   this.percentage = percentage; // => 0... 5
-
-//   if (this.percentage <= 0) {
-//     return imageNumber = 0;
-//   } else if (this.percentage > 0 && this.percentage < 40) {
-//     return imageNumber = 1;
-//   } else if (this.percentage > 20 && this.percentage < 60) {
-//     return imageNumber = 2;
-//   } else if (this.percentage > 40 && this.percentage < 80) {
-//     return imageNumber = 3;
-//   } else if (this.percentage > 60 && this.percentage < 100) {
-//     return imageNumber = 4;
-//   } else {
-//     return imageNumber = 5;
-//   }
-// }

@@ -21,7 +21,7 @@ function intiLevel() {
       new Chicken(870),
       new Chicken(1170),
       new Chicken(1470),
-      
+
       new Chonk(2200),
       new Chonk(2400),
     ],
@@ -82,6 +82,7 @@ function intiLevel() {
       new Bottle(1000, 375),
       new Bottle(1900, 375),
       new Bottle(3200, 375),
+      
       new Coin(-70, 225),
       new Coin(300, 250),
       new Coin(350, 225),
@@ -119,13 +120,21 @@ function intiLevel() {
       new Coin(2100, 150),
       new Coin(2100, 200),
       new Coin(2100, 250),
-
+      new Coin(2150, 50),
+      new Coin(2150, 100),
+      new Coin(2150, 150),
+      new Coin(2150, 200),
+      new Coin(2150, 250),
       new Coin(2200, 50),
       new Coin(2200, 100),
       new Coin(2200, 150),
       new Coin(2200, 200),
       new Coin(2200, 250),
-
+      new Coin(2250, 50),
+      new Coin(2250, 100),
+      new Coin(2250, 150),
+      new Coin(2250, 200),
+      new Coin(2250, 250),
       new Coin(2300, 50),
       new Coin(2300, 100),
       new Coin(2300, 150),

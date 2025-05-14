@@ -1,35 +1,94 @@
 // sound-manager.class.js
 
+/**
+ * @class SoundManager
+ *
+ * Static utility class for managing all game sounds.
+ * Handles sound playback, volume settings, and cooldowns to avoid audio spam.
+ */
 class SoundManager {
+  /**
+   * Maps sound objects to their individual cooldown timers.
+   * Prevents the same sound from being played repeatedly in quick succession.
+   * @type {Map<Audio, number>}
+   */
   static cooldowns = new Map();
+
+  /**
+   * Stores individual volume levels for each sound object.
+   * Allows for fine-grained volume control.
+   * @type {Map<Audio, number>}
+   */
   static volumes = new Map();
 
+  /** @type {HTMLAudioElement} Sound when the character dies */
   static CHARACTER_DEAD = new Audio("assets/audio/character/dead_1.mp3");
+
+  /** @type {HTMLAudioElement} Sound when the character gets hurt */
   static CHARACTER_HURT = new Audio("assets/audio/character/hurt_2.mp3");
+
+  /** @type {HTMLAudioElement} Sound when the character jumps */
   static CHARACTER_JUMP = new Audio("assets/audio/character/jump_2.mp3");
+
+  /** @type {HTMLAudioElement} Sound for walking steps */
   static CHARACTER_WALK = new Audio("assets/audio/character/walk_2.mp3");
+
+  /** @type {HTMLAudioElement} Snoring sound played during a long idle animation */
   static CHARACTER_LONG_IDLE = new Audio("assets/audio/character/long_idle_1.mp3");
+
+  /** @type {HTMLAudioElement} Sound played when the character throws a bottle */
   static CHARACTER_THROW = new Audio("assets/audio/character/throw_1.mp3");
+
+  /** @type {HTMLAudioElement} Sound for low bounce effect */
   static CHARACTER_BOUNCE_LOW = new Audio("assets/audio/character/bounce_1.mp3");
+
+  /** @type {HTMLAudioElement} Sound for high bounce effect */
   static CHARACTER_BOUNCE_HIGH = new Audio("assets/audio/character/bounce_2.mp3");
 
+  /** @type {HTMLAudioElement} Random chicken clucking sound */
   static CHICKEN_NOISE = new Audio("assets/audio/chicken/noise_1.mp3");
 
+  /** @type {HTMLAudioElement} Frying sound played when the boss dies */
   static BOSS_DEAD = new Audio("assets/audio/endboss/dead_3.mp3");
+
+  /** @type {HTMLAudioElement} Sound played when the boss takes damage */
   static BOSS_HURT = new Audio("assets/audio/endboss/hurt_1.mp3");
+
+  /** @type {HTMLAudioElement} Sound played when the boss performs an attack */
   static BOSS_ATTACK = new Audio("assets/audio/endboss/attack_1.mp3");
+
+  /** @type {HTMLAudioElement} Intro sound played when the boss is triggered */
   static BOSS_INTRO = new Audio("assets/audio/endboss/intro_1.mp3");
 
+  /** @type {HTMLAudioElement} Glass shattering sound played when the character throws a bottle */
   static BOTTLE_BREAK = new Audio("assets/audio/salsa_bottle/break_1.mp3");
+
+  /** @type {HTMLAudioElement} Sound played when the player collects a bottle */
   static BOTTLE_COLLECT = new Audio("assets/audio/salsa_bottle/collect_1.mp3");
+
+  /** @type {HTMLAudioElement} Sound played when the player collects a coin */
   static COIN_COLLECT = new Audio("assets/audio/coin/collect_1.mp3");
 
+  /** @type {HTMLAudioElement} Looping background music for regular gameplay */
   static MUSIC_BACKGROUND = new Audio("assets/audio/music/background_loop_1.mp3");
+
+  /** @type {HTMLAudioElement} Intro music played before the boss fight begins */
   static MUSIC_BOSS_INTRO = new Audio("assets/audio/music/boss_intro_1.mp3");
+
+  /** @type {HTMLAudioElement} Music played during the boss fight */
   static MUSIC_BOSS_FIGHT = new Audio("assets/audio/music/boss_7.mp3");
+
+  /** @type {HTMLAudioElement} Music played on game over screen */
   static MUSIC_GAME_OVER = new Audio("assets/audio/music/game_over_1.mp3");
+
+  /** @type {HTMLAudioElement} Music played during game victory screen */
   static MUSIC_GAME_WON = new Audio("assets/audio/music/credits_1.mp3");
 
+  /**
+   * Collection of all defined sound objects in the game.
+   * Used for batch operations like muting, unmuting, or pausing all sounds.
+   * @type {HTMLAudioElement[]}
+   */
   static allSounds = [
     SoundManager.CHARACTER_DEAD,
     SoundManager.CHARACTER_HURT,
@@ -58,8 +117,25 @@ class SoundManager {
     SoundManager.MUSIC_GAME_WON,
   ];
 
+  /**
+   * Indicates whether global sound output is currently muted.
+   * Used to toggle playback state for all sounds.
+   * @type {boolean}
+   */
   static isMuted = false;
 
+  /**
+   * Plays a sound once with specified settings.
+   * Handles playback rate, volume, cooldown prevention, loop state, and starting time.
+   * Skips playback if the sound is currently on cooldown.
+   *
+   * @param {HTMLAudioElement} sound - The sound to play.
+   * @param {number} [playbackRate=1] - Speed multiplier for the sound (e.g. 0.5 = slower, 2 = faster).
+   * @param {number} [volume=0.2] - Initial volume (0.0 to 1.0).
+   * @param {number} [cooldown=0] - Time in ms before the sound can be played again.
+   * @param {boolean} [loop=false] - Whether the sound should loop continuously.
+   * @param {number} [currentTime=0] - Position (in seconds) to start playback from.
+   */
   static playOne(
     sound,
     playbackRate = 1,
@@ -70,10 +146,7 @@ class SoundManager {
   ) {
     if (SoundManager.cooldowns.get(sound)) return;
     if (sound.readyState == 4) {
-      sound.playbackRate = playbackRate;
-      sound.volume = volume;
-      sound.loop = loop;
-      sound.currentTime = currentTime; // Startet ab einer bestimmten stelle (0=Anfang/ 5 = 5 sec.)
+      SoundManager.configureSound(sound, playbackRate, volume, loop, currentTime);
       SoundManager.volumes.set(sound, sound.volume);
       if (SoundManager.isMuted) {
         sound.volume = 0;
@@ -87,34 +160,81 @@ class SoundManager {
     }
   }
 
+  /**
+   * Applies playback settings to the given sound.
+   *
+   * @param {HTMLAudioElement} sound - The sound to configure.
+   * @param {number} playbackRate - Speed at which the sound plays.
+   * @param {number} volume - Volume level (0.0 to 1.0).
+   * @param {boolean} loop - Whether the sound should loop.
+   * @param {number} currentTime - Start time in seconds.
+   */
+  static configureSound(sound, playbackRate, volume, loop, currentTime) {
+    sound.playbackRate = playbackRate;
+    sound.volume = volume;
+    sound.loop = loop;
+    sound.currentTime = currentTime;
+  }
+
+  /**
+   * Stops (pauses) the given sound.
+   * Playback can later be resumed with `.play()` from the current position.
+   *
+   * @param {HTMLAudioElement} sound - The sound to stop.
+   */
   static stopOne(sound) {
     sound.pause();
   }
 
+  /**
+   * Stops (pauses) all registered sounds in the game.
+   * Useful for global pause scenarios or end-of-game transitions.
+   */
   static stopAll() {
     SoundManager.allSounds.forEach((sound) => {
       sound.pause();
     });
   }
 
+  /**
+   * Toggles the global mute state for all sounds.
+   * Mutes or unmutes all sounds depending on the current state,
+   * updates the mute button visually, and saves the state to local storage.
+   */
   static toggleMuteAll() {
     blurButton(".btn");
     if (!SoundManager.isMuted) {
-      SoundManager.allSounds.forEach((sound) => {
-        SoundManager.volumes.set(sound, sound.volume);
-        sound.volume = 0;
-      });
-      SoundManager.isMuted = true;
+      SoundManager.muteAll();
     } else {
-      SoundManager.allSounds.forEach((sound) => {
-        const savedVolume = SoundManager.volumes.get(sound);
-        if (typeof savedVolume === "number" && isFinite(savedVolume)) {
-          sound.volume = savedVolume;
-        }
-      });
-      SoundManager.isMuted = false;
+      SoundManager.unmuteAll();
     }
     saveToLocalStorage();
     updateMuteButtonState();
+  }
+
+  /**
+   * Mutes all sounds by setting their volume to 0
+   * and storing their current volume in a map for later restoration.
+   */
+  static muteAll() {
+    SoundManager.allSounds.forEach((sound) => {
+      SoundManager.volumes.set(sound, sound.volume);
+      sound.volume = 0;
+    });
+    SoundManager.isMuted = true;
+  }
+
+  /**
+   * Unmutes all sounds by restoring their previous volume
+   * from the volume map, if available.
+   */
+  static unmuteAll() {
+    SoundManager.allSounds.forEach((sound) => {
+      const savedVolume = SoundManager.volumes.get(sound);
+      if (typeof savedVolume === "number" && isFinite(savedVolume)) {
+        sound.volume = savedVolume;
+      }
+    });
+    SoundManager.isMuted = false;
   }
 }
