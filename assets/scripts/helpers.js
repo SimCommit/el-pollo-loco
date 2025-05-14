@@ -1,15 +1,32 @@
 // helpers.js
 
-// let soundCooldowns = new Map();
-let muted = true;
+/**
+ * Stores all interval IDs created via setStoppableInterval.
+ * Used by stopAllIntervals() to clear all game-related intervals at once.
+ * @type {number[]}
+ */
 let intervalIds = [];
 
+/**
+ * Creates a setInterval and registers its ID for global tracking.
+ * This allows all such intervals to be stopped later via stopAllIntervals().
+ *
+ * @param {Function} fn - The function to execute repeatedly.
+ * @param {number} time - The interval delay in milliseconds.
+ */
 function setStoppableInterval(fn, time) {
   let id = setInterval(fn, time);
   intervalIds.push(id);
 }
 
-// decides if delay is set or not
+/**
+ * Removes an object from an array, optionally after a delay.
+ * If a delay is specified, removal is deferred using setTimeout.
+ *
+ * @param {Object} object - The object to remove.
+ * @param {Array} array - The array from which to remove the object.
+ * @param {number} [delay=0] - Optional delay in milliseconds before removal.
+ */
 function despawnObject(object, array, delay = 0) {
   if (delay > 0) {
     setTimeout(() => {
@@ -20,19 +37,23 @@ function despawnObject(object, array, delay = 0) {
   }
 }
 
-// removes an object form an array
+/**
+ * Removes the specified object from the given array.
+ * If the object is not found, nothing happens.
+ *
+ * @param {Object} object - The object to remove.
+ * @param {Array} array - The array to modify.
+ */
 function removeFromArray(object, array) {
   let index = array.indexOf(object);
   array.splice(index, 1);
 }
 
 /**
- * Returns an HTML element by its ID.
- *
- * Simplifies `document.getElementById` calls throughout the code.
+ * Shorthand for document.getElementById.
  *
  * @param {string} id - The ID of the HTML element to retrieve.
- * @returns {HTMLElement} The matching HTML element.
+ * @returns {HTMLElement} The matching element.
  */
 function getElementByIdHelper(id) {
   let element = document.getElementById(id);
@@ -73,21 +94,18 @@ function showElementById(id) {
 }
 
 /**
- * Prevents the event from bubbling up to parent elements.
- *
- * Can be used in inline event handlers like `onclick` to stop parent elements from reacting to the same event.
- *
- * @param {Event} event - The event object to stop from propagating.
+ * Saves the current sound settings to local storage.
+ * Stores the mute state and individual sound volumes as serialized JSON.
  */
-function prevent(event) {
-  event.stopPropagation();
-}
-
 function saveToLocalStorage() {
   localStorage.setItem("muteState", JSON.stringify(SoundManager.isMuted));
   localStorage.setItem("volumeState", JSON.stringify(Array.from(SoundManager.volumes.entries())));
 }
 
+/**
+ * Loads sound settings from local storage and restores them.
+ * Applies the mute state and reconstructs the volume map for all sounds.
+ */
 function loadFromLocalStorage() {
   SoundManager.isMuted = JSON.parse(localStorage.getItem("muteState"));
   const rawVolumes = JSON.parse(localStorage.getItem("volumeState"));
