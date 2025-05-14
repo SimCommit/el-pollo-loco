@@ -11,7 +11,7 @@ class Bottle extends CollectibleObject {
    *
    * @type {string[]}
    */
-  IMAGES_BOTTLE = [
+  IMAGES = [
     "assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png",
     "assets/img/6_salsa_bottle/salsa_bottle.png",
     "assets/img/6_salsa_bottle/2_salsa_bottle_on_ground.png",
@@ -50,22 +50,8 @@ class Bottle extends CollectibleObject {
    * @param {number} y - The vertical position of the bottle.
    */
   constructor(x, y) {
-    super();
-
-    /**
-     * The horizontal position of the bottle in the game world.
-     *
-     * @type {number}
-     */
-    this.x = x;
-
-    /**
-     * The vertical position of the bottle in the game world.
-     *
-     * @type {number}
-     */
-    this.y = y;
-    this.loadImage(this.IMAGES_BOTTLE[0]);
-    this.loadImages(this.IMAGES_BOTTLE);
+    super(x, y);
+    this.loadImage(this.IMAGES[0]);
+    this.loadImages(this.IMAGES);
   }
 }
