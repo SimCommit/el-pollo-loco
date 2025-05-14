@@ -70,7 +70,7 @@ class DrawableObject {
       let img = new Image();
       img.src = path;
       this.imageCache[path] = img;
-      img.onload = countLoadedImages;
+      img.onload = handleImageLoad;
     });
   }
 

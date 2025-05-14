@@ -291,7 +291,7 @@ class World {
   collisionCollectible(item) {
     if (this.character.isColliding(item)) {
       if (item instanceof Coin && (this.coinAmount < 50 || this.character.health < 100)) {
-        SoundManager.playOne(SoundManager.COIN_COLLECT, 1, 0.05, 200);
+        SoundManager.playOne(SoundManager.COIN_COLLECT, 1, 0.05, 170);
         despawnObject(item, this.level.collectibleObjects);
         if (this.coinAmount < 50) {
           this.coinAmount++;
