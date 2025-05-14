@@ -10,16 +10,10 @@
  */
 class Obstacle extends DrawableObject {
   /**
-   * Defines the hitbox offset for the obstacle.
-   * Used to fine-tune collision detection.
-   * @type {{ top: number, bottom: number, left: number, right: number }}
+   * Hitbox offset object initialized as empty, populated in constructor.
+   * @type {{ top?: number, right?: number, bottom?: number, left?: number }}
    */
-  offset = {
-    top: 20,
-    bottom: 0,
-    left: 20,
-    right: 20,
-  };
+  offset = {};
 
   /**
    * Creates a new Obstacle instance with specified position, size, and collision offsets.
@@ -37,10 +31,36 @@ class Obstacle extends DrawableObject {
   constructor(path, x, y, width, height, top = 0, right = 0, bottom = 0, left = 0) {
     super();
     this.loadImage(path);
+
+    /**
+     * Horizontal position of the obstacle in the game world.
+     * @type {number}
+     */
     this.x = x;
+
+    /**
+     * Vertical position of the obstacle in the game world.
+     * @type {number}
+     */
     this.y = y;
+
+    /**
+     * Width of the obstacle in pixels.
+     * @type {number}
+     */
     this.width = width;
+
+    /**
+     * Height of the obstacle in pixels.
+     * @type {number}
+     */
     this.height = height;
+
+    /**
+     * Defines the hitbox offset for collision detection.
+     * Each side (top, right, bottom, left) can be adjusted independently.
+     * @type {{ top: number, right: number, bottom: number, left: number }}
+     */
     this.offset.top = top;
     this.offset.right = right;
     this.offset.bottom = bottom;
