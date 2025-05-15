@@ -1,4 +1,4 @@
-// character-behavior.class.js
+// character-behavior.js
 
 /**
  * Starts the animation loop for the character.
