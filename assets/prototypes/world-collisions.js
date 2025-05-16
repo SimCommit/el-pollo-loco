@@ -14,7 +14,7 @@ World.prototype.checkEnemyCollisions = function () {
   this.level.enemies.forEach((enemy) => {
     this.collisionEnemy(enemy);
     this.collisionThrowable(enemy);
-    this.collisionObstacle(enemy);
+    this.collisionEnemyWithObstacle(enemy);
     this.collisionEnemyWithEnemy(enemy);
   });
 };
@@ -108,9 +108,17 @@ World.prototype.handleEnemyContactFromSide = function (enemy) {
  */
 World.prototype.collisionEnemyWithEnemy = function (enemy) {
   this.level.enemies.forEach((e) => {
-    if (e.isColliding(enemy) && e != enemy) {
+    if (e.isColliding(enemy) && e != enemy && e.lastContactWith !== enemy) {
+      e.x += e.otherDirection ? -3 : 3;
+      enemy.x += enemy.otherDirection ? -3 : 3;
+      e.lastContactWith = enemy;
+      setTimeout(() => {
+        e.lastContactWith = null;
+      }, 200);
       this.toggleSpriteDirection(enemy);
       this.reverseSpeed(enemy);
+      this.toggleSpriteDirection(e);
+      this.reverseSpeed(e);
     }
   });
 };
@@ -137,9 +145,10 @@ World.prototype.collisionCharacterWithObstacle = function (obstacle) {
  *
  * @param {MovableObject} enemy - The enemy being checked against obstacles.
  */
-World.prototype.collisionObstacle = function (enemy) {
+World.prototype.collisionEnemyWithObstacle = function (enemy) {
   this.level.obstacles.forEach((obstacle) => {
     if (obstacle.isColliding(enemy)) {
+      enemy.x += enemy.otherDirection ? -3 : 3;
       this.toggleSpriteDirection(enemy);
       this.reverseSpeed(enemy);
     }

@@ -78,6 +78,8 @@ class Chicken extends MovableObject {
    */
   isMarkedForDespawn = false;
 
+  lastContactWith = {};
+
     /**
    * Creates a new chicken enemy at the specified x-position.
    * Loads all images and starts the animation loop.

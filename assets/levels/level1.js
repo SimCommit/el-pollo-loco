@@ -17,9 +17,9 @@ let level1;
 function intiLevel() {
   level1 = new Level(
     [
+      new Chicken(470),
       new Chicken(570),
-      new Chicken(870),
-      new Chicken(1170),
+      new Chicken(670),
       new Chicken(1470),
 
       new Chonk(2200),
