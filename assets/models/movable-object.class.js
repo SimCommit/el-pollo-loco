@@ -62,7 +62,7 @@ class MovableObject extends DrawableObject {
    * Indicates whether the object is currently in cooldown and cannot perform certain actions.
    * @type {boolean}
    */
-  onCooldown = false;
+  hitOnCooldown = false;
 
   /**
    * Vertical margin to adjust how precisely top collisions are detected.
@@ -136,7 +136,7 @@ class MovableObject extends DrawableObject {
    * @param {string} direction - The direction from which the hit came (used for rebound logic).
    */
   hit(damage, direction) {
-    if (!this.onCooldown && !world.endscreenTriggered) {
+    if (!this.hitOnCooldown && !world.endscreenTriggered) {
       this.takeDamage(damage);
       this.handleHitCooldown();
     }
@@ -163,9 +163,9 @@ class MovableObject extends DrawableObject {
    * Activates a temporary cooldown during which the object cannot be hit again.
    */
   handleHitCooldown() {
-    this.onCooldown = true;
+    this.hitOnCooldown = true;
     setTimeout(() => {
-      this.onCooldown = false;
+      this.hitOnCooldown = false;
     }, 1000);
   }
 

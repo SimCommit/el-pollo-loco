@@ -10,7 +10,7 @@
 Character.prototype.animate = function () {
   setStoppableInterval(() => {
     this.updateState();
-    this.world.camera_x = -this.x + 100;
+    this.world.cameraX = -this.x + 100;
 
     switch (this.currentState) {
       case "dead":
