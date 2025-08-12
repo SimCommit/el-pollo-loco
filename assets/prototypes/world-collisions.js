@@ -181,12 +181,16 @@ World.prototype.collisionThrowable = function (enemy) {
 World.prototype.handleThrowableHit = function (obj, enemy) {
   obj.isBroken = true;
   SoundManager.playOne(SoundManager.BOTTLE_BREAK, 1, 0.3, 200);
-  enemy.hit(obj.damage);
-  if (enemy instanceof Endboss) {
-    this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2.5);
-  }
   despawnObject(obj, this.throwableObjects, 600);
   this.killMomentum(obj);
+  if (enemy instanceof Endboss) {
+    this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2.5);
+    if (!enemy.canTakeDamage) {
+      console.log("hier sind wir");
+      return
+    }
+  }
+  enemy.hit(obj.damage);
 };
 
 World.prototype.killMomentum = function (o) {
@@ -264,5 +268,29 @@ World.prototype.handleFullCoinBar = function () {
     }
     this.coinAmount = 0;
     SoundManager.playOne(SoundManager.COIN_BAR_FILLED_UP, 1);
+  }
+};
+
+World.prototype.preventLeavingBoundaries = function () {
+  if (this.character.x < this.getLeftBoundary()) {
+    this.character.x = this.getLeftBoundary() + 2;
+  }
+
+  if (this.character.x > this.level.level_end_x) {
+    this.character.x = this.level.level_end_x - 2;
+  }
+};
+
+
+/**
+ * Checks for the current left level boundary.
+ *
+ * @returns {number}
+ */
+World.prototype.getLeftBoundary = function () {
+  if (this.bossTriggered) {
+    return 2670;
+  } else {
+    return -200;
   }
 };

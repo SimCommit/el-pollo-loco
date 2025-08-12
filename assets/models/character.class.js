@@ -133,7 +133,9 @@ class Character extends MovableObject {
    *
    * @type {number}
    */
-  x = 120;
+  x = 3000;
+  // x = 120;
+
 
   /**
    * The current vertical position of the character.

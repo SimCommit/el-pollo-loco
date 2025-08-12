@@ -85,7 +85,6 @@ class MovableObject extends DrawableObject {
    */
   applyGravity() {
     setStoppableInterval(() => {
-      // if (paused) return;
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
@@ -100,7 +99,11 @@ class MovableObject extends DrawableObject {
    */
   applyHorizontalForce() {
     setStoppableInterval(() => {
-      if (this.speedX < 0) {
+      if (this.speedX < 0 && this.x <= this.world.getLeftBoundary() + 2) {
+        this.speedX = 0;
+      } else if (this.speedX > 0 && this.x >= this.world.level.level_end_x - 2) {
+        this.speedX = 0;
+      } else if (this.speedX < 0) {
         this.x += this.speedX;
         this.speedX += this.accelerationX;
       } else if (this.speedX > 0) {
@@ -121,6 +124,8 @@ class MovableObject extends DrawableObject {
       return false;
     } else if (this instanceof ThrowableObject) {
       return true;
+    } else if (this instanceof Endboss) {
+      return this.y < 145;
     } else if (this.isOnTop()) {
       return false;
     } else {

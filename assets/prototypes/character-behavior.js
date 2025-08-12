@@ -10,7 +10,6 @@
 Character.prototype.animate = function () {
   setStoppableInterval(() => {
     this.updateState();
-    this.world.cameraX = -this.x + 100;
 
     switch (this.currentState) {
       case "dead":
@@ -37,6 +36,8 @@ Character.prototype.animate = function () {
         break;
     }
 
+    this.world.preventLeavingBoundaries();
+    this.world.cameraX = -this.x + 100;
     this.updateVerticalHistory();
   }, 1000 / 30);
 };
@@ -268,3 +269,4 @@ Character.prototype.isblockedLeft = function () {
 Character.prototype.isOnTop = function () {
   return this.world.level.obstacles.some((obstacle) => this.isTouchingFromTop(obstacle));
 };
+
