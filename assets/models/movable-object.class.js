@@ -140,7 +140,7 @@ class MovableObject extends DrawableObject {
    * @param {number} damage - The amount of damage to apply.
    * @param {string} direction - The direction from which the hit came (used for rebound logic).
    */
-  hit(damage, direction) {
+  hit(damage, direction = "left", isBoss = false) {
     if (!this.hitOnCooldown && !world.endscreenTriggered) {
       this.takeDamage(damage);
       this.handleHitCooldown();
@@ -148,7 +148,7 @@ class MovableObject extends DrawableObject {
 
     if (this.health > 0) {
       this.updateHitTimestamps();
-      this.rebound(direction);
+      this.rebound(direction, 15, isBoss);
     }
   }
 
@@ -198,17 +198,18 @@ class MovableObject extends DrawableObject {
    *
    * @param {string} direction - The direction of impact ("left", "right", or "up-left").
    */
-  rebound(direction) {
+  rebound(direction, momentum = 15, isBoss = false) {
+    if (isBoss) momentum = 20;
     switch (direction) {
       case "up-left":
-        this.speedY = 15;
-        this.speedX = -15;
+        this.speedY = momentum;
+        this.speedX = -1 * momentum;
         break;
       case "right":
-        this.speedX = 15;
+        this.speedX = momentum;
         break;
       case "left":
-        this.speedX = -15;
+        this.speedX = -1 * momentum;
         break;
     }
   }
