@@ -167,6 +167,10 @@ World.prototype.isCloseToCharacter = function (other, distance) {
   return Math.abs(other.x - this.character.x) < distance;
 };
 
+World.prototype.isLeftFromCharacter = function (other) {
+  return other.x < this.character.x;
+};
+
 /**
  * Checks whether the boss intro sequence is currently playing.
  *

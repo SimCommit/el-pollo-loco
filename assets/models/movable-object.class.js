@@ -33,11 +33,11 @@ class MovableObject extends DrawableObject {
    */
   accelerationX = 1;
 
-  /**
-   * Duration (in seconds) the object remains stunned after taking damage.
-   * @type {number}
-   */
-  stunTime = 1;
+  // /**
+  //  * Duration (in seconds) the object remains stunned after taking damage.
+  //  * @type {number}
+  //  */
+  // stunTime = 1;
 
   /**
    * Duration (in seconds) the object remains invincible after taking damage.
@@ -219,10 +219,10 @@ class MovableObject extends DrawableObject {
    *
    * @returns {boolean} True if the stun duration is still active.
    */
-  isHurt() {
+  isHurt(stunTime = 1) {
     let timePassed = new Date().getTime() - this.lastHit; // Difference in ms
     timePassed = timePassed / 1000; // Difference in s
-    return timePassed < this.stunTime;
+    return timePassed < stunTime;
   }
 
   /**

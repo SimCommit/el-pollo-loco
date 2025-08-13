@@ -26,6 +26,7 @@ class Endboss extends MovableObject {
     dead: 7,
     hurt: 3,
     alert: 9,
+    prepare: 7,
     attack: 9,
     flying: 5,
     walking: 5,
@@ -75,18 +76,24 @@ class Endboss extends MovableObject {
    */
   speed = 7;
 
+  prepareStart = 0;
+
   /**
    * Timestamp when the boss started attacking.
    * @type {number}
    */
   attackStart = 0;
+  recoverStart = 0;
+
+  isAttacking = false;
+  isRecovering = false;
+  isAllowedToWalk = true;
 
   hasJumpedThisAttack = false;
-
   hasRecentlyAttacked = false;
 
+  //useless???
   attackLockUntil = 0;
-
   attackCooldownUntil = 0;
 
   /**
@@ -148,16 +155,19 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
 
+  IMAGES_PREPARE = [
+    "assets/img/4_enemie_boss_chicken/3_attack/G13.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G14.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G15.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G16.png",
+  ];
+
   /**
    * Image paths for the attack animation sequence.
    * Includes repeated frames for visual emphasis.
    * @type {string[]}
    */
   IMAGES_ATTACK = [
-    "assets/img/4_enemie_boss_chicken/3_attack/G13.png",
-    "assets/img/4_enemie_boss_chicken/3_attack/G14.png",
-    "assets/img/4_enemie_boss_chicken/3_attack/G15.png",
-    "assets/img/4_enemie_boss_chicken/3_attack/G16.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G17.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
@@ -207,6 +217,7 @@ class Endboss extends MovableObject {
     super().loadImage(this.IMAGES_ALERT[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ALERT);
+    this.loadImages(this.IMAGES_PREPARE);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_FLYING);
     this.loadImages(this.IMAGES_HURT);
@@ -251,11 +262,17 @@ class Endboss extends MovableObject {
         case "intro":
           this.handleIntro();
           break;
-        case "hurt":
-          this.handleHurt();
+        case "prepare":
+          this.handlePrepare();
           break;
         case "attack":
           this.handleAttack();
+          break;
+        case "hurt":
+          this.handleHurt();
+          break;
+        case "recover":
+          this.handleRecover();
           break;
         case "alert":
           this.handleAlert();
@@ -327,7 +344,19 @@ class Endboss extends MovableObject {
     if (this.currentState === "hurt") {
       this.canTakeDamage = false;
       this.playStateAnimation(this.IMAGES_HURT, this.frameDelay.hurt);
-      SoundManager.playOne(SoundManager.BOSS_HURT, 1, 0.3, 1000);
+      SoundManager.playOne(SoundManager.BOSS_HURT, 1, 0.3, 3000);
+    }
+  }
+
+  handlePrepare() {
+    if (this.currentState === "prepare") {
+      this.canTakeDamage = false;
+      let timePassed = this.secondsSince(this.prepareStart);
+      this.playStateAnimation(this.IMAGES_PREPARE, this.frameDelay.prepare);
+
+      if (timePassed > 0.7) {
+        this.isAttacking = true;
+      }
     }
   }
 
@@ -341,54 +370,63 @@ class Endboss extends MovableObject {
   handleAttack() {
     if (this.currentState === "attack") {
       let timePassed = this.secondsSince(this.attackStart);
+      this.canTakeDamage = false;
+      this.playStateAnimation(this.IMAGES_ATTACK, this.frameDelay.attack);
 
-      if (timePassed < 2.5) {
-        this.playStateAnimation(this.IMAGES_ATTACK, this.frameDelay.attack);
-
-        if (timePassed >= 1 && timePassed < 2.5) {
-          this.canTakeDamage = false;
-          this.speed = 7;
-          SoundManager.playOne(SoundManager.BOSS_ATTACK, 1, 0.3, 2000);
-          this.moveLeft();
-        }
-      } else if (timePassed < 6.5) {
-        this.canTakeDamage = true;
+      if (timePassed < 1.5) {
         this.speed = 8;
-        this.jumpWhileAttacking();
-        this.moveRight();
-        this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
-        // } else if (timePassed < 9.5) {
-        //   this.canTakeDamage = true;
-        //   this.speed = 5;
-        //   this.moveRight();
-        //   this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.attack);
+        SoundManager.playOne(SoundManager.BOSS_ATTACK, 1, 0.3, 2000);
+        this.moveLeft();
       } else {
         this.hasRecentlyAttacked = true;
-        // this.currentState = "walking";
+        this.isAttacking = false;
+        this.isRecovering = true;
       }
     }
   }
 
-  jumpWhileAttacking() {
+  handleRecover() {
+    if (this.currentState === "recover") {
+      this.canTakeDamage = true;
+      let timePassed = this.secondsSince(this.recoverStart);
+
+      if (timePassed < 1.5) {
+        this.canTakeDamage = true;
+        this.speed = 6;
+        this.fly();
+        this.moveRight();
+        this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
+      } else {
+        this.isRecovering = false;
+        this.isAllowedToWalk = false;
+        // setTimeout(() => {
+        //   this.hasRecentlyAttacked = false;
+        // }, 7000);
+      }
+    }
+  }
+
+  canStartAttack() {
+    if (this.hasRecentlyAttacked || !this.world.isCloseToCharacter(this, 400) || this.isAttacking) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  isLockedToAttack() {
+    return !this.hasRecentlyAttacked && this.isAttacking;
+  }
+
+  isLockedToRecover() {
+    return this.hasRecentlyAttacked && !this.isAttacking && this.isRecovering;
+    // return this.hasRecentlyAttacked && !this.isAttacking && this.isRecovering || this.world.isLeftFromCharacter(this);
+  }
+
+  fly() {
     if (this.hasJumpedThisAttack) return;
     this.jump(15);
     this.hasJumpedThisAttack = true;
-  }
-
-  handleJumpAttack() {
-    if (this.hasJumpedThisAttack) return;
-    this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
-    this.hasJumpedThisAttack = true;
-    this.jump();
-  }
-
-  /**
-   * Handles the Endboss behavior during the "alert" state.
-   * Plays the alert animation at the defined frame rate.
-   */
-  handleAlert() {
-    this.canTakeDamage = true;
-    this.playStateAnimation(this.IMAGES_ALERT, this.frameDelay.alert);
   }
 
   /**
@@ -401,34 +439,22 @@ class Endboss extends MovableObject {
     this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
     // let timePassed = this.secondsSince(this.switchDirectionStart);
 
-    // if (timePassed > 2) {
-    //   this.ran = Math.random();
-    //   this.switchDirectionStart = new Date().getTime();
-    // }
-
-    if (this.hasRecentlyAttacked && this.x < this.maxX) {
-      this.speed = 4;
-      this.moveRight();
-    } else if (this.x > this.minX) {
+    if (this.x > this.minX) {
       this.speed = 4;
       this.moveLeft();
+    } else if (this.hasRecentlyAttacked && this.x < this.maxX) {
+      this.speed = 4;
+      this.moveRight();
     }
   }
 
-  canStartAttack() {
-    if (this.hasRecentlyAttacked && this.world.isCloseToCharacter(this, 300)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  isLockedToAttack() {
-    if (this.secondsSince(this.attackStart) < 5 ) {
-      return true;
-    } else {
-      return false;
-    }
+  /**
+   * Handles the Endboss behavior during the "alert" state.
+   * Plays the alert animation at the defined frame rate.
+   */
+  handleAlert() {
+    this.canTakeDamage = true;
+    this.playStateAnimation(this.IMAGES_ALERT, this.frameDelay.alert);
   }
 
   /**
@@ -436,18 +462,33 @@ class Endboss extends MovableObject {
    * If the state has changed, resets animation tracking and sets relevant timestamps.
    */
   updateState() {
-    let prev = this.currentState;
     let newState = this.resolveState();
 
     if (newState !== this.currentState) {
-      if (newState === "attack") this.hasJumpedThisAttack = false;
+      console.log(newState);
+
+      if (newState === "attack") {
+        this.hasJumpedThisAttack = false;
+      }
+      if (newState === "recover") {
+        setTimeout(() => {
+          this.isAllowedToWalk = true;
+          console.log("isAllowedToWalk: ", this.isAllowedToWalk);
+        }, 4000);
+        setTimeout(() => {
+          this.hasRecentlyAttacked = false;
+        }, 5000);
+      }
+
+      if (this.currentState === "hurt") {
+        this.hasRecentlyAttacked = false;
+      }
       this.resetCurrentImage();
       this.resetSkipFrame();
+      this.prepareStart = this.timestampIfState("prepare", newState);
       this.attackStart = this.timestampIfState("attack", newState);
+      this.recoverStart = this.timestampIfState("recover", newState);
       this.introStart = this.timestampIfState("intro", newState);
-      setTimeout(() => {
-        this.hasRecentlyAttacked = false;
-      }, 5000);
     }
 
     this.currentState = newState;
@@ -463,13 +504,15 @@ class Endboss extends MovableObject {
       return "dead";
     } else if (this.world.isPlayingIntro()) {
       return "intro";
-      // } else if (this.world.isCloseToCharacter(this, 200)) {
-      //   return "flying";
-    } else if (this.canStartAttack() || this.isLockedToAttack()) {
+    } else if (this.canStartAttack()) {
+      return "prepare";
+    } else if (this.isLockedToAttack()) {
       return "attack";
-    } else if (this.isHurt()) {
+    } else if (this.isHurt(2)) {
       return "hurt";
-    } else if (this.world.isCloseToCharacter(this, 840)) {
+    } else if (this.isLockedToRecover()) {
+      return "recover";
+    } else if (this.isAllowedToWalk) {
       return "walking";
     } else {
       return "alert";

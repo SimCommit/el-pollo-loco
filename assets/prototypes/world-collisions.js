@@ -186,7 +186,7 @@ World.prototype.handleThrowableHit = function (obj, enemy) {
   if (enemy instanceof Endboss) {
     this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2.5);
     if (!enemy.canTakeDamage) {
-      console.log("hier sind wir");
+      console.log("cant take damage atm");
       return
     }
   }
