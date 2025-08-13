@@ -26,9 +26,10 @@ class Endboss extends MovableObject {
     dead: 7,
     hurt: 3,
     alert: 9,
-    prepare: 7,
-    attack: 9,
+    prepare: 6,
+    attack: 8,
     flying: 5,
+    landing: 5,
     walking: 5,
     intro1: 10,
   };
@@ -172,13 +173,18 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
-    "assets/img/4_enemie_boss_chicken/3_attack/G19.png",
-    "assets/img/4_enemie_boss_chicken/3_attack/G20.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G17.png",
   ];
 
   IMAGES_FLYING = [
     "assets/img/4_enemie_boss_chicken/3_attack/G17.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+  ];
+
+  IMAGES_LANDING = [
+    "assets/img/4_enemie_boss_chicken/3_attack/G19.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G20.png",
   ];
 
   /**
@@ -220,6 +226,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_PREPARE);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_FLYING);
+    this.loadImages(this.IMAGES_LANDING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.applyGravity();
@@ -371,12 +378,14 @@ class Endboss extends MovableObject {
     if (this.currentState === "attack") {
       let timePassed = this.secondsSince(this.attackStart);
       this.canTakeDamage = false;
-      this.playStateAnimation(this.IMAGES_ATTACK, this.frameDelay.attack);
 
-      if (timePassed < 1.5) {
+      if (timePassed < 1.4) {
+        this.playStateAnimation(this.IMAGES_ATTACK, this.frameDelay.attack);
         this.speed = 8;
         SoundManager.playOne(SoundManager.BOSS_ATTACK, 1, 0.3, 2000);
         this.moveLeft();
+      } else if (timePassed < 1.7) {
+        this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
       } else {
         this.hasRecentlyAttacked = true;
         this.isAttacking = false;
@@ -390,12 +399,14 @@ class Endboss extends MovableObject {
       this.canTakeDamage = true;
       let timePassed = this.secondsSince(this.recoverStart);
 
-      if (timePassed < 1.5) {
+      if (timePassed < 1.55) {
         this.canTakeDamage = true;
-        this.speed = 6;
+        this.speed = 7;
         this.fly();
         this.moveRight();
         this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
+      } else if (timePassed < 1.8) {
+        this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
       } else {
         this.isRecovering = false;
         this.isAllowedToWalk = false;
@@ -425,7 +436,7 @@ class Endboss extends MovableObject {
 
   fly() {
     if (this.hasJumpedThisAttack) return;
-    this.jump(15);
+    this.jump(18);
     this.hasJumpedThisAttack = true;
   }
 
