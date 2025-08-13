@@ -351,6 +351,7 @@ class Endboss extends MovableObject {
     if (this.currentState === "hurt") {
       this.canTakeDamage = false;
       this.playStateAnimation(this.IMAGES_HURT, this.frameDelay.hurt);
+      SoundManager.playOne(SoundManager.BOSS_HURT_2, 1, 0.7, 2000);
       SoundManager.playOne(SoundManager.BOSS_HURT, 1, 0.3, 3000);
     }
   }

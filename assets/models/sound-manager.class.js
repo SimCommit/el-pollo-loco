@@ -54,6 +54,9 @@ class SoundManager {
   /** @type {HTMLAudioElement} Sound played when the boss takes damage */
   static BOSS_HURT = new Audio("assets/audio/endboss/hurt_1.mp3");
 
+  /** @type {HTMLAudioElement} Sound played when the boss takes damage */
+  static BOSS_HURT_2 = new Audio("assets/audio/endboss/dead_2.mp3");
+
   /** @type {HTMLAudioElement} Sound played when the boss performs an attack */
   static BOSS_ATTACK = new Audio("assets/audio/endboss/attack_1.mp3");
 
@@ -105,6 +108,7 @@ class SoundManager {
     SoundManager.CHICKEN_NOISE,
 
     SoundManager.BOSS_HURT,
+    SoundManager.BOSS_HURT_2,
     SoundManager.BOSS_DEAD,
     SoundManager.BOSS_ATTACK,
     SoundManager.BOSS_INTRO,
