@@ -93,9 +93,9 @@ class Endboss extends MovableObject {
   hasJumpedThisAttack = false;
   hasRecentlyAttacked = false;
 
-  //useless???
-  attackLockUntil = 0;
-  attackCooldownUntil = 0;
+  blinkOn = false;
+  blinkIntervalMs = 210;
+  lastBlinkToggleAt = 0;
 
   /**
    * Timestamp when the boss last changed direction.
@@ -246,6 +246,44 @@ class Endboss extends MovableObject {
   setWorld(world) {
     this.world = world;
     this.setMaxX();
+  }
+
+  draw(ctx) {
+    const now = Date.now();
+    const endscreenOn = !!(this.world && this.world.endscreenTriggered);
+
+    if (this.isHurt(2)) {
+      ctx.save();
+      ctx.filter = "hue-rotate(-40deg)";
+      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+      ctx.restore();
+      return;
+    }
+
+    if (this.canTakeDamage && !endscreenOn) {
+      if (this.lastBlinkToggleAt === 0) {
+        this.lastBlinkToggleAt = now;
+      }
+
+      if (now - this.lastBlinkToggleAt >= this.blinkIntervalMs) {
+        this.blinkOn = !this.blinkOn;
+        this.lastBlinkToggleAt = now;
+      }
+
+      ctx.save();
+
+      if (this.blinkOn) {
+        ctx.filter = "grayscale(30%) saturate(70%)";
+      }
+
+      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+      ctx.restore();
+      return;
+    }
+
+    this.blinkOn = false;
+    this.lastBlinkToggleAt = 0;
+    super.draw(ctx);
   }
 
   setMaxX() {
@@ -447,7 +485,7 @@ class Endboss extends MovableObject {
    * based on a periodically refreshed random value.
    */
   handleWalking() {
-    this.canTakeDamage = true;
+    this.canTakeDamage = false;
     this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
     // let timePassed = this.secondsSince(this.switchDirectionStart);
 

@@ -199,7 +199,7 @@ class MovableObject extends DrawableObject {
    * @param {string} direction - The direction of impact ("left", "right", or "up-left").
    */
   rebound(direction, momentum = 15, isBoss = false) {
-    if (isBoss) momentum = 20;
+    if (isBoss) momentum = 23;
     switch (direction) {
       case "up-left":
         this.speedY = momentum;
