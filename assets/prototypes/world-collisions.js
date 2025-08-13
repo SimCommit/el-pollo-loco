@@ -58,7 +58,7 @@ World.prototype.collisionEnemy = function (enemy) {
     this.handleTopImpact(enemy);
 
     if (enemy instanceof Endboss && !this.character.isInvincible()) {
-      this.character.hit(20, "left");
+      this.character.hit(20, "left", true);
     }
 
     this.handleEnemyContactFromSide(enemy);
@@ -184,13 +184,15 @@ World.prototype.handleThrowableHit = function (obj, enemy) {
   despawnObject(obj, this.throwableObjects, 600);
   this.killMomentum(obj);
   if (enemy instanceof Endboss) {
-    this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2.5);
     if (!enemy.canTakeDamage) {
       console.log("cant take damage atm");
-      return
+      return;
     }
   }
   enemy.hit(obj.damage);
+  if (enemy instanceof Endboss) {
+    this.bossHealthBars[0].setPercentage(this.level.bosses[0].health / 2.5);
+  }
 };
 
 World.prototype.killMomentum = function (o) {
@@ -280,7 +282,6 @@ World.prototype.preventLeavingBoundaries = function () {
     this.character.x = this.level.level_end_x - 2;
   }
 };
-
 
 /**
  * Checks for the current left level boundary.
