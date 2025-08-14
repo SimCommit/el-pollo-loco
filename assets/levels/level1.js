@@ -47,12 +47,13 @@ function intiLevel() {
       new BackgroundObject("assets/img/5_background/layers/3_third_layer/1.png", 0),
       new BackgroundObject("assets/img/5_background/layers/2_second_layer/1.png", 0),
       new BackgroundObject("assets/img/5_background/layers/1_first_layer/1.png", 0),
-      new Obstacle("assets/img/10_hints/signpost-right.png", 230, 296, 110, 110, 24, 28, 0, 28),
+      new Obstacle("assets/img/10_hints/signpost-right-2.png", 210, 276, 105, 130, 24, 28, 0, 28),
 
       new BackgroundObject("assets/img/5_background/layers/air.png", 719),
       new BackgroundObject("assets/img/5_background/layers/3_third_layer/2.png", 719),
       new BackgroundObject("assets/img/5_background/layers/2_second_layer/2.png", 719),
       new BackgroundObject("assets/img/5_background/layers/1_first_layer/2.png", 719),
+      new Obstacle("assets/img/10_hints/signpost-coin-logic-5.png", 990, 186, 180, 220, 24, 28, 0, 28),
 
       new BackgroundObject("assets/img/5_background/layers/air.png", 719 * 2),
       new BackgroundObject("assets/img/5_background/layers/3_third_layer/1.png", 719 * 2),
@@ -62,7 +63,7 @@ function intiLevel() {
       new BackgroundObject("assets/img/5_background/layers/3_third_layer/2.png", 719 * 3),
       new BackgroundObject("assets/img/5_background/layers/2_second_layer/2.png", 719 * 3),
       new BackgroundObject("assets/img/5_background/layers/1_first_layer/2.png", 719 * 3),
-      new Obstacle("assets/img/10_hints/signpost-up.png", 2480, 296, 110, 110, 24, 28, 0, 28),
+      new Obstacle("assets/img/10_hints/signpost-up-2.png", 2480, 276, 105, 130, 24, 28, 0, 28),
 
       new BackgroundObject("assets/img/5_background/layers/air.png", 719 * 4),
       new BackgroundObject("assets/img/5_background/layers/3_third_layer/1.png", 719 * 4),

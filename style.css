@@ -15,7 +15,6 @@
   --margin-canvas-small: clamp(0rem, 56.25vh - 18rem, 4.5rem);
   --margin-btn-overlay: clamp(0.5rem, 8.75vh - 1.25rem, 1.375rem);
   --heigth-btn-overlay: clamp(20rem, 68.75vw - 0.625rem, 31rem);
-  /* --margin-btn-overlay-test: clamp(0.5rem, 8.75vw - 1.25rem, 1.375rem); */
   --height-spacer-vh: clamp(10.375rem, 42.045vh + 1.966rem, 15rem);
   --height-spacer-vw: clamp(10.375rem, 30.833vw + 1.125rem, 15rem);
   --height-overlay-wrapper: clamp(2.5rem, 4.762vh + 1.548rem, 3rem);
@@ -82,7 +81,6 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* gap: var(--gap-main); */
 }
 
 h1 {
@@ -111,11 +109,6 @@ h2 {
   align-items: center;
 }
 
-/* .canvas-spacer {
-  height: var(--heigth-btn-overlay);
-} */
-
-
 /* Canvas styling */
 canvas {
   display: block;
@@ -135,7 +128,6 @@ canvas {
   margin: calc(var(--heigth-btn-overlay) * -1);
   height: var(--heigth-btn-overlay);
   width: 720px;
-  /* border-top: 8px solid rgba(0, 0, 0, 0); */
 }
 
 /* Overlay Buttons */
@@ -149,7 +141,6 @@ canvas {
 
 .game-menu {
   position: relative;
-  /* width: min(696px, 100%); */
   z-index: 10;
 }
 
@@ -175,7 +166,6 @@ canvas {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  /* margin-top: 100px; */
 }
 
 .spacer {
@@ -197,7 +187,6 @@ canvas {
 
 .controls {
   position: relative;
-  /* width: min(696px, 100%); */
   z-index: 10;
 }
 
@@ -270,8 +259,6 @@ canvas {
   width: 800px;
   height: auto;
   margin-top: 10px;
-  /* border: 2px solid var(--light-brown); */
-  /* border-radius: 8px; */
 }
 
 /* Button Design */
@@ -322,18 +309,9 @@ canvas {
   height: var(--margin-btn-height);
 }
 
-/* .btn-control img {
-  width: 24px;
-  height: 24px;
-} */
-
 .landscape-request {
   display: none;
 }
-
-/* footer {
-  height: 40px;
-} */
 
 .loading-screen {
   position: absolute;
@@ -357,14 +335,6 @@ canvas {
   h1 {
     font-size: var(--font-size-h1);
   }
-
-  /* h2 {
-    display: none;
-  } */
-
-  /* .controls {
-      width: min(696px, 100%);
-  } */
 
   main {
     padding: 0px;
@@ -402,15 +372,6 @@ canvas {
     border-radius: 0;
   }
 
-  /* h1 {
-    font-size: 40px;
-    margin: 8px;
-  } */
-
-  /* h2 {
-    display: none;
-  } */
-
   .start-screen-content img {
     height: var(--height-instructions);
   }
@@ -422,10 +383,6 @@ canvas {
 
 @media only screen and (max-height: 496px) {
 
-  /* .fullscreen-content {
-    height: 100vh;
-  } */
-
   main {
     padding: 0px;
   }
@@ -435,11 +392,6 @@ canvas {
     border: none;
     border-radius: 0;
   }
-
-  /* h1 {
-    font-size: 40px;
-    margin: 8px;
-  } */
 
   h2 {
     display: none;

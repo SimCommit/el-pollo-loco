@@ -133,7 +133,7 @@ class Character extends MovableObject {
    *
    * @type {number}
    */
-  x = 120;
+  x = 110;
 
 
   /**
