@@ -1,12 +1,21 @@
 // game.js
 
-/** @type {HTMLCanvasElement} The game's rendering surface */
+/**
+ * The game's rendering surface
+ * @type {HTMLCanvasElement}
+ */
 let canvas;
 
-/** @type {World} The main game world instance */
+/**
+ * The main game world instance
+ * @type {World}
+ */
 let world;
 
-/** @type {Keyboard} Stores the current input state of all relevant keys */
+/**
+ * Stores the current input state of all relevant keys
+ * @type {Keyboard}
+ */
 let keyboard = new Keyboard();
 
 /**

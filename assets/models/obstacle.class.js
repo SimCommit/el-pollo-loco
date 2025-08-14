@@ -11,7 +11,7 @@
 class Obstacle extends DrawableObject {
   /**
    * Hitbox offset object initialized as empty, populated in constructor.
-   * @type {{ top?: number, right?: number, bottom?: number, left?: number }}
+ * @type {{ top: number=, right: number=, bottom: number=, left: number= }}
    */
   offset = {};
 

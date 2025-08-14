@@ -15,10 +15,16 @@ class CollectibleObject extends DrawableObject {
   constructor(x, y) {
     super();
 
-    /** @type {number} Horizontal position of the object */
+    /**
+     * Horizontal position of the object
+     * @type {number}
+     */
     this.x = x;
 
-    /** @type {number} Vertical position of the object */
+    /**
+     * Vertical position of the object
+     * @type {number}
+     */
     this.y = y;
   }
 }

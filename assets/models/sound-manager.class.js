@@ -21,73 +21,165 @@ class SoundManager {
    */
   static volumes = new Map();
 
-  /** @type {HTMLAudioElement} Sound when the character dies */
+  /**
+   * Sound when the character dies
+   * @type {HTMLAudioElement}
+   *
+   * */
   static CHARACTER_DEAD = new Audio("assets/audio/character/dead_1.mp3");
 
-  /** @type {HTMLAudioElement} Sound when the character gets hurt */
+  /**
+   * Sound when the character gets hurt
+   * @type {HTMLAudioElement}
+   *
+   * */
   static CHARACTER_HURT = new Audio("assets/audio/character/hurt_2.mp3");
 
-  /** @type {HTMLAudioElement} Sound when the character jumps */
+  /**
+   * Sound when the character jumps
+   * @type {HTMLAudioElement}
+   *
+   * */
   static CHARACTER_JUMP = new Audio("assets/audio/character/jump_2.mp3");
 
-  /** @type {HTMLAudioElement} Sound for walking steps */
+  /**
+   * Sound for walking steps
+   * @type {HTMLAudioElement}
+   *
+   * */
   static CHARACTER_WALK = new Audio("assets/audio/character/walk_2.mp3");
 
-  /** @type {HTMLAudioElement} Snoring sound played during a long idle animation */
+  /**
+   * Snoring sound played during a long idle animation
+   * @type {HTMLAudioElement}
+   *
+   * */
   static CHARACTER_LONG_IDLE = new Audio("assets/audio/character/long_idle_1.mp3");
 
-  /** @type {HTMLAudioElement} Sound played when the character throws a bottle */
+  /**
+   * Sound played when the character throws a bottle
+   * @type {HTMLAudioElement}
+   *
+   * */
   static CHARACTER_THROW = new Audio("assets/audio/character/throw_1.mp3");
 
-  /** @type {HTMLAudioElement} Sound for low bounce effect */
+  /**
+   * Sound for low bounce effect
+   * @type {HTMLAudioElement}
+   *
+   * */
   static CHARACTER_BOUNCE_LOW = new Audio("assets/audio/character/bounce_1.mp3");
 
-  /** @type {HTMLAudioElement} Sound for high bounce effect */
+  /**
+   * Sound for high bounce effect
+   * @type {HTMLAudioElement}
+   *
+   * */
   static CHARACTER_BOUNCE_HIGH = new Audio("assets/audio/character/bounce_2.mp3");
 
-  /** @type {HTMLAudioElement} Random chicken clucking sound */
+  /**
+   * Random chicken clucking sound
+   * @type {HTMLAudioElement}
+   *
+   * */
   static CHICKEN_NOISE = new Audio("assets/audio/chicken/noise_1.mp3");
 
-  /** @type {HTMLAudioElement} Frying sound played when the boss dies */
+  /**
+   * Frying sound played when the boss dies
+   * @type {HTMLAudioElement}
+   *
+   * */
   static BOSS_DEAD = new Audio("assets/audio/endboss/dead_3.mp3");
 
-  /** @type {HTMLAudioElement} Sound played when the boss takes damage */
+  /**
+   * Sound played when the boss takes damage
+   * @type {HTMLAudioElement}
+   *
+   * */
   static BOSS_HURT = new Audio("assets/audio/endboss/hurt_1.mp3");
 
-  /** @type {HTMLAudioElement} Sound played when the boss takes damage */
+  /**
+   * Sound played when the boss takes damage
+   * @type {HTMLAudioElement}
+   *
+   * */
   static BOSS_HURT_2 = new Audio("assets/audio/endboss/dead_2.mp3");
 
-  /** @type {HTMLAudioElement} Sound played when the boss performs an attack */
+  /**
+   * Sound played when the boss performs an attack
+   * @type {HTMLAudioElement}
+   *
+   * */
   static BOSS_ATTACK = new Audio("assets/audio/endboss/attack_1.mp3");
 
-  /** @type {HTMLAudioElement} Intro sound played when the boss is triggered */
+  /**
+   * Intro sound played when the boss is triggered
+   * @type {HTMLAudioElement}
+   *
+   * */
   static BOSS_INTRO = new Audio("assets/audio/endboss/intro_1.mp3");
 
-  /** @type {HTMLAudioElement} Glass shattering sound played when the character throws a bottle */
+  /**
+   * Glass shattering sound played when the character throws a bottle
+   * @type {HTMLAudioElement}
+   *
+   * */
   static BOTTLE_BREAK = new Audio("assets/audio/salsa_bottle/break_1.mp3");
 
-  /** @type {HTMLAudioElement} Sound played when the player collects a bottle */
+  /**
+   * Sound played when the player collects a bottle
+   * @type {HTMLAudioElement}
+   *
+   * */
   static BOTTLE_COLLECT = new Audio("assets/audio/salsa_bottle/collect_1.mp3");
 
-  /** @type {HTMLAudioElement} Sound played when the player collects a coin */
+  /**
+   * Sound played when the player collects a coin
+   * @type {HTMLAudioElement}
+   *
+   * */
   static COIN_COLLECT = new Audio("assets/audio/coin/collect_1.mp3");
 
-  /** @type {HTMLAudioElement} Sound played when the coin bar is full and a reward is triggered */
+  /**
+   * Sound played when the coin bar is full and a reward is triggered
+   * @type {HTMLAudioElement}
+   *
+   * */
   static COIN_BAR_FILLED_UP = new Audio("assets/audio/coin/bar_filled_up_1.mp3");
 
-  /** @type {HTMLAudioElement} Looping background music for regular gameplay */
+  /**
+   * Looping background music for regular gameplay
+   * @type {HTMLAudioElement}
+   *
+   * */
   static MUSIC_BACKGROUND = new Audio("assets/audio/music/background_loop_1.mp3");
 
-  /** @type {HTMLAudioElement} Intro music played before the boss fight begins */
+  /**
+   * Intro music played before the boss fight begins
+   * @type {HTMLAudioElement}
+   *
+   * */
   static MUSIC_BOSS_INTRO = new Audio("assets/audio/music/boss_intro_1.mp3");
 
-  /** @type {HTMLAudioElement} Music played during the boss fight */
+  /**
+   * Music played during the boss fight
+   * @type {HTMLAudioElement}
+   *
+   * */
   static MUSIC_BOSS_FIGHT = new Audio("assets/audio/music/boss_7.mp3");
 
-  /** @type {HTMLAudioElement} Music played on game over screen */
+  /**
+   * Music played on game over screen
+   * @type {HTMLAudioElement}
+   *
+   * */
   static MUSIC_GAME_OVER = new Audio("assets/audio/music/game_over_1.mp3");
 
-  /** @type {HTMLAudioElement} Music played during game victory screen */
+  /**
+   * Music played during game victory screen
+   * @type {HTMLAudioElement}
+   *
+   * */
   static MUSIC_GAME_WON = new Audio("assets/audio/music/credits_1.mp3");
 
   /**

@@ -118,26 +118,26 @@ class World {
   /**
    * Collection of status bars that are always displayed in the UI.
    * Typically includes the health bar, coin bar, and bottle bar.
-   * @type {(HealthBar|CoinBar|BottleBar)[]}
+ * @type {Array<HealthBar|CoinBar|BottleBar>}
    */
   statusBars = [this.healthBar, this.coinBar, this.bottleBar];
 
   /**
    * Collection of health bars for bosses, shown during boss fights.
    * Empty if no boss is active.
-   * @type {BossHealthBar[]}
+ * @type {Array<BossHealthBar>}
    */
   bossHealthBars = [];
 
   /**
    * All throwable objects currently active in the world, such as bottles in flight.
-   * @type {ThrowableObject[]}
+   * @type {Array<ThrowableObject>}
    */
   throwableObjects = [];
 
   /**
    * All objects displayed on the endscreen after the game ends.
-   * @type {DrawableObject[]}
+   * @type {Array<DrawableObject>}
    */
   endscreenObjects = [];
 
