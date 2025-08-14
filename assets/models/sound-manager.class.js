@@ -222,7 +222,7 @@ class SoundManager {
    * Used to toggle playback state for all sounds.
    * @type {boolean}
    */
-  static isMuted = false;
+  static isMuted = true;
 
   /**
    * Plays a sound once with specified settings.
