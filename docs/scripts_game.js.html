@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scripts/game.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scripts/game.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// game.js
+
+/**
+ * The game's rendering surface
+ * @type {HTMLCanvasElement}
+ */
+let canvas;
+
+/**
+ * The main game world instance
+ * @type {World}
+ */
+let world;
+
+/**
+ * Stores the current input state of all relevant keys
+ * @type {Keyboard}
+ */
+let keyboard = new Keyboard();
+
+/**
+ * Timestamp of the most recent user interaction.
+ * Used for detecting idle time (e.g. long idle animation).
+ * Starts with a 15s offset to delay initial idle checks.
+ * @type {number}
+ */
+let lastInput = new Date().getTime() + 15000;
+
+/**
+ * Counter for tracking how many images have finished loading.
+ * Used to control loading screens or game start conditions.
+ * @type {number}
+ */
+let loadedImageCount = 0;
+
+/**
+ * The total number of images required before the game can start.
+ * @type {number}
+ */
+let REQUIRED_IMAGE_COUNT = 265;
+
+/**
+ * Initializes the game by assigning the canvas element
+ * and triggering the initial UI instruction toggle sequence.
+ * Called once on page load.
+ */
+function init() {
+  canvas = getElementByIdHelper("canvas");
+  toggleInstructions();
+  toggleInstructions();
+}
+
+/**
+ * Increments the loaded image counter and checks if all required images are loaded.
+ * Once loading is complete, hides the loading screen, starts background music,
+ * and resets the counter for future loading sequences.
+ */
+function handleImageLoad() {
+  loadedImageCount++;
+  console.log(loadedImageCount);
+  if (loadedImageCount === REQUIRED_IMAGE_COUNT) {
+    hideLoadingScreen();
+    SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.04, 0, true);
+    loadedImageCount = 0;
+  }
+}
+
+/**
+ * Starts the game by preparing the state, initializing the world,
+ * and setting up all presentation-related elements such as sound, UI, and idle timing.
+ */
+function startGame() {
+  prepareGameState();
+  initializeWorld();
+  initializePresentation();
+}
+
+/**
+ * Resets essential game state components before a new round starts.
+ * Clears previous intervals, restores local storage data, and stops all sounds.
+ */
+function prepareGameState() {
+  showLoadingScreen();
+  loadFromLocalStorage();
+  SoundManager.stopAll();
+  stopAllIntervals();
+}
+
+/**
+ * Initializes the game world and its level data,
+ * then creates a new World instance using the canvas and keyboard input.
+ */
+function initializeWorld() {
+  intiLevel();
+  world = new World(canvas, keyboard);
+}
+
+/**
+ * Initializes the visual game state including UI reset and input timing.
+ * Prevents premature long idle detection by delaying the idle timer.
+ */
+function initializePresentation() {
+  resetUi();
+  blurButton(".btn");
+  lastInput = new Date().getTime() + 15000;
+}
+
+/**
+ * Restarts the game during active play unless the endscreen has already been triggered.
+ */
+function restartDuringPlay() {
+  if (world.endscreenTriggered) return;
+  startGame();
+}
+
+/**
+ * Quits the game during active play unless the endscreen has already been triggered.
+ */
+function quitDuringPlay() {
+  if (world.endscreenTriggered) return;
+  quitGame();
+}
+
+/**
+ * Quits the game and returns to the start screen.
+ * Stops all sounds and intervals, resets the UI, and re-enables start interaction.
+ */
+function quitGame() {
+  SoundManager.stopAll();
+  stopAllIntervals();
+  showElementById("start-screen");
+  resetUi();
+  blurButton(".btn");
+}
+
+/**
+ * Clears all active intervals that were stored in the global interval list.
+ * Used to fully stop game-related update loops (e.g. animation, movement).
+ */
+function stopAllIntervals() {
+  intervalIds.forEach(clearInterval);
+}
+
+/**
+ * Sets up touch event listeners for mobile controls after the page has fully loaded.
+ * Maps touch interactions to virtual keyboard input (LEFT, RIGHT, SPACE, D),
+ * and updates the idle timer to avoid triggering long idle animations.
+ */
+window.addEventListener("load", () => {
+  getElementByIdHelper("btn-move-left").addEventListener("touchstart", (e) => {
+    if (e.cancelable) e.preventDefault();
+
+    keyboard.LEFT = true;
+  });
+
+  getElementByIdHelper("btn-move-left").addEventListener("touchend", (e) => {
+    if (e.cancelable) e.preventDefault();
+
+    keyboard.LEFT = false;
+    lastInput = new Date().getTime();
+  });
+
+  getElementByIdHelper("btn-move-right").addEventListener("touchstart", (e) => {
+    if (e.cancelable) e.preventDefault();
+
+    keyboard.RIGHT = true;
+  });
+
+  getElementByIdHelper("btn-move-right").addEventListener("touchend", (e) => {
+    if (e.cancelable) e.preventDefault();
+
+    keyboard.RIGHT = false;
+    lastInput = new Date().getTime();
+  });
+
+  getElementByIdHelper("btn-jump").addEventListener("touchstart", (e) => {
+    if (e.cancelable) e.preventDefault();
+
+    keyboard.SPACE = true;
+  });
+  getElementByIdHelper("btn-jump").addEventListener("touchend", (e) => {
+    if (e.cancelable) e.preventDefault();
+
+    keyboard.SPACE = false;
+    lastInput = new Date().getTime();
+  });
+
+  getElementByIdHelper("btn-throw").addEventListener("touchstart", (e) => {
+    if (e.cancelable) e.preventDefault();
+
+    keyboard.D = true;
+  });
+  getElementByIdHelper("btn-throw").addEventListener("touchend", (e) => {
+    if (e.cancelable) e.preventDefault();
+
+    keyboard.D = false;
+    lastInput = new Date().getTime();
+  });
+});
+
+/**
+ * Listens for keyboard keydown events and maps them to the game's virtual keyboard state.
+ * Enables movement, jumping, and throwing via arrow keys, spacebar, and D key.
+ */
+document.addEventListener("keydown", (event) => {
+  switch (event.key) {
+    case "ArrowRight":
+      keyboard.RIGHT = true;
+      break;
+    case "ArrowLeft":
+      keyboard.LEFT = true;
+      break;
+    case " ":
+      keyboard.SPACE = true;
+      break;
+    case "d":
+    case "D":
+      keyboard.D = true;
+      break;
+  }
+});
+
+/**
+ * Listens for keyboard keyup events and resets the corresponding input state.
+ * Also updates the lastInput timestamp to prevent long idle animations.
+ */
+document.addEventListener("keyup", (event) => {
+  lastInput = new Date().getTime();
+  switch (event.key) {
+    case "ArrowRight":
+      keyboard.RIGHT = false;
+      break;
+    case "ArrowLeft":
+      keyboard.LEFT = false;
+      break;
+    case " ":
+      keyboard.SPACE = false;
+      break;
+    case "d":
+    case "D":
+      keyboard.D = false;
+      break;
+  }
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="BottleBar.html">BottleBar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Chonk.html">Chonk</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinBar.html">CoinBar</a></li><li><a href="CollectibleObject.html">CollectibleObject</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="EndbossHealthBar.html">EndbossHealthBar</a></li><li><a href="HealthBar.html">HealthBar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="Obstacle.html">Obstacle</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="UiObject.html">UiObject</a></li><li><a href="World.html">World</a></li></ul><h3>Global</h3><ul><li><a href="global.html#REQUIRED_IMAGE_COUNT">REQUIRED_IMAGE_COUNT</a></li><li><a href="global.html#blurButton">blurButton</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#despawnObject">despawnObject</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#getElementByIdHelper">getElementByIdHelper</a></li><li><a href="global.html#handleImageLoad">handleImageLoad</a></li><li><a href="global.html#hideControlButtons">hideControlButtons</a></li><li><a href="global.html#hideElementById">hideElementById</a></li><li><a href="global.html#hideEndscreenButtons">hideEndscreenButtons</a></li><li><a href="global.html#hideGameMenuButtons">hideGameMenuButtons</a></li><li><a href="global.html#hideLoadingScreen">hideLoadingScreen</a></li><li><a href="global.html#hideStartScreen">hideStartScreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializePresentation">initializePresentation</a></li><li><a href="global.html#initializeWorld">initializeWorld</a></li><li><a href="global.html#intervalIds">intervalIds</a></li><li><a href="global.html#intiLevel">intiLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#lastInput">lastInput</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadFromLocalStorage">loadFromLocalStorage</a></li><li><a href="global.html#loadedImageCount">loadedImageCount</a></li><li><a href="global.html#prepareGameState">prepareGameState</a></li><li><a href="global.html#quitDuringPlay">quitDuringPlay</a></li><li><a href="global.html#quitGame">quitGame</a></li><li><a href="global.html#removeFromArray">removeFromArray</a></li><li><a href="global.html#resetUi">resetUi</a></li><li><a href="global.html#restartDuringPlay">restartDuringPlay</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#setStoppableInterval">setStoppableInterval</a></li><li><a href="global.html#shouldShowTouchControls">shouldShowTouchControls</a></li><li><a href="global.html#showControlButtons">showControlButtons</a></li><li><a href="global.html#showElementById">showElementById</a></li><li><a href="global.html#showEndscreenButtons">showEndscreenButtons</a></li><li><a href="global.html#showGameMenuButtons">showGameMenuButtons</a></li><li><a href="global.html#showKeyboardInstructions">showKeyboardInstructions</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#showTouchInstructions">showTouchInstructions</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#stopAllIntervals">stopAllIntervals</a></li><li><a href="global.html#toggleFullscreen">toggleFullscreen</a></li><li><a href="global.html#toggleInstructions">toggleInstructions</a></li><li><a href="global.html#updateMuteButtonState">updateMuteButtonState</a></li><li><a href="global.html#world">world</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Aug 14 2025 13:57:19 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

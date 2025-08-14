@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/endboss.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/endboss.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// endboss.class.js
+
+/**
+ * @class Endboss
+ *
+ * Represents the final boss enemy in the game.
+ * Inherits movement and physics from MovableObject.
+ */
+class Endboss extends MovableObject {
+  /**
+   * Hitbox offset values to adjust collision detection.
+   * @type {{ top: number, bottom: number, left: number, right: number }}
+   */
+  offset = {
+    top: 108,
+    bottom: 68,
+    left: 52,
+    right: 52,
+  };
+
+  /**
+   * Frame delays for each animation state of the boss.
+   * Includes: dead, hurt, alert, prepare, attack, flying, landing, walking, intro1.
+   * @type {{ dead: number, hurt: number, alert: number, prepare: number, attack: number, flying: number, landing: number, walking: number, intro1: number }}
+   */
+  frameDelay = {
+    dead: 7,
+    hurt: 3,
+    alert: 9,
+    prepare: 6,
+    attack: 8,
+    flying: 5,
+    landing: 5,
+    walking: 5,
+    intro1: 10,
+  };
+
+  /**
+   * Reference to the world object containing game entities.
+   * @type {World}
+   */
+  world;
+
+  /**
+   * Vertical position of the boss.
+   * @type {number}
+   */
+  y = 145;
+
+  /**
+   * Width of the boss sprite.
+   * @type {number}
+   */
+  width = 300;
+
+  /**
+   * Height of the boss sprite.
+   * @type {number}
+   */
+  height = 300;
+
+  /**
+   * Left boundary of the boss's allowed horizontal movement range.
+   * @type {number}
+   */
+  minX = 2690;
+
+  /**
+   * Right boundary of the boss's allowed horizontal movement range.
+   * This value is set dynamically based on the level's end position.
+   * @type {number}
+   */
+  maxX = 4036;
+
+  /**
+   * Movement speed of the boss.
+   * @type {number}
+   */
+  speed = 7;
+
+  /**
+   * Timestamp when the boss entered the "prepare" state (ms since epoch).
+   * @type {number}
+   * */
+  prepareStart = 0;
+
+  /**
+   * Timestamp when the boss started attacking (ms since epoch).
+   * @type {number}
+   */
+  attackStart = 0;
+
+  /**
+   * Timestamp when the boss started recovering (ms since epoch).
+   * @type {number}
+   */
+  recoverStart = 0;
+
+  /**
+   * Timestamp when the boss intro sequence started (ms since epoch).
+   * @type {number}
+   */
+  introStart = 0;
+
+  /**
+   * Whether the boss is currently in the attack sequence (locked until it ends).
+   * @type {boolean}
+   */
+  isAttacking = false;
+
+  /**
+   * Whether the boss is currently in the recover sequence (locked until it ends).
+   * @type {boolean}
+   */
+  isRecovering = false;
+
+  /**
+   * Whether free walking between minX/maxX is allowed (outside attack/recover locks).
+   * @type {boolean}
+   */
+  isAllowedToWalk = true;
+
+  /**
+   * One-shot flag to ensure jump during attack happens only once.
+   * @type {boolean}
+   */
+  hasJumpedThisAttack = false;
+
+  /**
+   * Cooldown flag: prevents immediately starting a new attack after the last one.
+   * @type {boolean}
+   */
+  hasRecentlyAttacked = false;
+
+  /**
+   * Current on/off state for the vulnerable blink overlay.
+   * @type {boolean}
+   */
+  blinkOn = false;
+
+  /**
+   * Interval between blink toggles in milliseconds.
+   * @type {number}
+   */
+  blinkIntervalMs = 210;
+
+  /**
+   * Timestamp of the last blink toggle (ms since epoch).
+   * @type {number}
+   */
+  lastBlinkToggleAt = 0;
+
+  /**
+   * Vertical acceleration applied to the character (simulates gravity).
+   *
+   * @type {number}
+   */
+  acceleration = 1;
+
+  canTakeDamage = true;
+
+  /**
+   * Current health of the boss.
+   * @type {number}
+   */
+  health = 250;
+
+  /**
+   * Amount of damage the boss deals.
+   * @type {number}
+   */
+  damage = 50;
+
+  /**
+   * Image paths for the walking animation.
+   * @type {string[]}
+   */
+  IMAGES_WALKING = [
+    "assets/img/4_enemie_boss_chicken/1_walk/G1.png",
+    "assets/img/4_enemie_boss_chicken/1_walk/G2.png",
+    "assets/img/4_enemie_boss_chicken/1_walk/G3.png",
+    "assets/img/4_enemie_boss_chicken/1_walk/G4.png",
+  ];
+
+  /**
+   * Image paths for the alert animation sequence.
+   * @type {string[]}
+   */
+  IMAGES_ALERT = [
+    "assets/img/4_enemie_boss_chicken/2_alert/G5.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G6.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G7.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G8.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G9.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G10.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
+  ];
+
+  /**
+   * Image paths for the prepare animation sequence.
+   * Shown before the boss initiates an attack.
+   * @type {string[]}
+   */
+  IMAGES_PREPARE = [
+    "assets/img/4_enemie_boss_chicken/3_attack/G13.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G14.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G15.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G16.png",
+  ];
+
+  /**
+   * Image paths for the attack animation sequence.
+   * Includes repeated frames for visual emphasis.
+   * @type {string[]}
+   */
+  IMAGES_ATTACK = [
+    "assets/img/4_enemie_boss_chicken/3_attack/G17.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G17.png",
+  ];
+
+  /**
+   * Image paths for the flying animation sequence during recovery.
+   * @type {string[]}
+   */
+  IMAGES_FLYING = [
+    "assets/img/4_enemie_boss_chicken/3_attack/G17.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
+  ];
+
+  /**
+   * Image paths for the landing animation sequence after flight or attack.
+   * @type {string[]}
+   */
+  IMAGES_LANDING = [
+    "assets/img/4_enemie_boss_chicken/3_attack/G19.png",
+    "assets/img/4_enemie_boss_chicken/3_attack/G20.png",
+  ];
+
+  /**
+   * Image paths for the hurt animation sequence.
+   * @type {string[]}
+   */
+  IMAGES_HURT = [
+    "assets/img/4_enemie_boss_chicken/4_hurt/G21.png",
+    "assets/img/4_enemie_boss_chicken/4_hurt/G22.png",
+    "assets/img/4_enemie_boss_chicken/4_hurt/G23.png",
+  ];
+
+  /**
+   * Image paths for the death animation sequence.
+   * Includes frames shared with the hurt animation and dedicated death frames.
+   * @type {string[]}
+   */
+  IMAGES_DEAD = [
+    "assets/img/4_enemie_boss_chicken/4_hurt/G21.png",
+    "assets/img/4_enemie_boss_chicken/4_hurt/G22.png",
+    "assets/img/4_enemie_boss_chicken/4_hurt/G23.png",
+    "assets/img/4_enemie_boss_chicken/5_dead/G24.png",
+    "assets/img/4_enemie_boss_chicken/5_dead/G25.png",
+    "assets/img/4_enemie_boss_chicken/5_dead/G26.png",
+  ];
+
+  /**
+   * Initializes the Endboss by:
+   * - Loading all animation sequences into the image cache.
+   * - Setting the default displayed image to the first alert frame.
+   * - Applying gravity.
+   * - Setting the starting horizontal position to x = 3800.
+   */
+  constructor() {
+    super().loadImage(this.IMAGES_ALERT[0]);
+    this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_ALERT);
+    this.loadImages(this.IMAGES_PREPARE);
+    this.loadImages(this.IMAGES_ATTACK);
+    this.loadImages(this.IMAGES_FLYING);
+    this.loadImages(this.IMAGES_LANDING);
+    this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_DEAD);
+    this.applyGravity();
+    /**
+     * Horizontal starting position of the boss in the level.
+     * @type {number}
+     */
+    this.x = 3800;
+  }
+
+  /**
+   * Assigns the current game world to the boss.
+   * Also recalculates the maximum allowed horizontal position (`maxX`)
+   * based on the level's end boundary.
+   *
+   * @param {World} world - Reference to the active game world instance.
+   */
+  setWorld(world) {
+    this.world = world;
+    this.setMaxX();
+  }
+
+  /**
+   * Draws the boss on the provided 2D canvas context.
+   * - If hurt: applies hue shift and calls {@link drawHurtIndicator}.
+   * - If vulnerable and not in endscreen: applies blink effect via {@link drawVulnerableIndicator}.
+   * - Otherwise: draws normally without filters.
+   *
+   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context.
+   */
+  draw(ctx) {
+    const now = Date.now();
+    const endscreenOn = !!(this.world &amp;&amp; this.world.endscreenTriggered);
+
+    if (this.isHurt(2)) {
+      this.drawHurtIndicator(ctx);
+      return;
+    }
+
+    if (this.canTakeDamage &amp;&amp; !endscreenOn) {
+      this.drawVulnerableIndicator(ctx, now);
+      return;
+    }
+
+    this.blinkOn = false;
+    this.lastBlinkToggleAt = 0;
+    super.draw(ctx);
+  }
+
+  /**
+   * Renders the boss with a hue-rotated filter to indicate the hurt state.
+   *
+   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context.
+   */
+  drawHurtIndicator(ctx) {
+    ctx.save();
+    ctx.filter = "hue-rotate(-40deg)";
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    ctx.restore();
+  }
+
+  /**
+   * Renders the boss with a timed grayscale/saturation blink effect
+   * to indicate the vulnerable state.
+   *
+   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context.
+   * @param {number} now - Current timestamp in milliseconds.
+   */
+  drawVulnerableIndicator(ctx, now) {
+    if (this.lastBlinkToggleAt === 0) {
+      this.lastBlinkToggleAt = now;
+    }
+
+    if (now - this.lastBlinkToggleAt >= this.blinkIntervalMs) {
+      this.blinkOn = !this.blinkOn;
+      this.lastBlinkToggleAt = now;
+    }
+
+    ctx.save();
+
+    if (this.blinkOn) {
+      ctx.filter = "grayscale(30%) saturate(70%)";
+    }
+
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    ctx.restore();
+  }
+
+  /**
+   * Updates `maxX` to match the level's end boundary minus a fixed offset
+   * to account for boss sprite width and positioning.
+   */
+  setMaxX() {
+    this.maxX = this.world.level.level_end_x - 214;
+  }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="BottleBar.html">BottleBar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Chonk.html">Chonk</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinBar.html">CoinBar</a></li><li><a href="CollectibleObject.html">CollectibleObject</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="EndbossHealthBar.html">EndbossHealthBar</a></li><li><a href="HealthBar.html">HealthBar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="Obstacle.html">Obstacle</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="UiObject.html">UiObject</a></li><li><a href="World.html">World</a></li></ul><h3>Global</h3><ul><li><a href="global.html#REQUIRED_IMAGE_COUNT">REQUIRED_IMAGE_COUNT</a></li><li><a href="global.html#blurButton">blurButton</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#despawnObject">despawnObject</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#getElementByIdHelper">getElementByIdHelper</a></li><li><a href="global.html#handleImageLoad">handleImageLoad</a></li><li><a href="global.html#hideControlButtons">hideControlButtons</a></li><li><a href="global.html#hideElementById">hideElementById</a></li><li><a href="global.html#hideEndscreenButtons">hideEndscreenButtons</a></li><li><a href="global.html#hideGameMenuButtons">hideGameMenuButtons</a></li><li><a href="global.html#hideLoadingScreen">hideLoadingScreen</a></li><li><a href="global.html#hideStartScreen">hideStartScreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializePresentation">initializePresentation</a></li><li><a href="global.html#initializeWorld">initializeWorld</a></li><li><a href="global.html#intervalIds">intervalIds</a></li><li><a href="global.html#intiLevel">intiLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#lastInput">lastInput</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadFromLocalStorage">loadFromLocalStorage</a></li><li><a href="global.html#loadedImageCount">loadedImageCount</a></li><li><a href="global.html#prepareGameState">prepareGameState</a></li><li><a href="global.html#quitDuringPlay">quitDuringPlay</a></li><li><a href="global.html#quitGame">quitGame</a></li><li><a href="global.html#removeFromArray">removeFromArray</a></li><li><a href="global.html#resetUi">resetUi</a></li><li><a href="global.html#restartDuringPlay">restartDuringPlay</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#setStoppableInterval">setStoppableInterval</a></li><li><a href="global.html#shouldShowTouchControls">shouldShowTouchControls</a></li><li><a href="global.html#showControlButtons">showControlButtons</a></li><li><a href="global.html#showElementById">showElementById</a></li><li><a href="global.html#showEndscreenButtons">showEndscreenButtons</a></li><li><a href="global.html#showGameMenuButtons">showGameMenuButtons</a></li><li><a href="global.html#showKeyboardInstructions">showKeyboardInstructions</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#showTouchInstructions">showTouchInstructions</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#stopAllIntervals">stopAllIntervals</a></li><li><a href="global.html#toggleFullscreen">toggleFullscreen</a></li><li><a href="global.html#toggleInstructions">toggleInstructions</a></li><li><a href="global.html#updateMuteButtonState">updateMuteButtonState</a></li><li><a href="global.html#world">world</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Aug 14 2025 13:57:19 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
