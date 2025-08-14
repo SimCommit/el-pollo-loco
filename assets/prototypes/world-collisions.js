@@ -1,5 +1,11 @@
 // world-collisions.js
 
+/**
+ * Runs the per‑frame collision pipeline for the world.
+ * Delegates to specific collision checks for enemies, bosses, collectibles, and obstacles.
+ * Call order is intentional so that enemy interactions and throwable hits are processed
+ * before obstacle resolution.
+ */
 World.prototype.checkCollisions = function () {
   this.checkEnemyCollisions();
   this.checkBossCollisions();
@@ -195,6 +201,12 @@ World.prototype.handleThrowableHit = function (obj, enemy) {
   }
 };
 
+/**
+ * Immediately cancels an object's movement by zeroing its horizontal and vertical momentum.
+ * Useful after collisions (e.g., bottle breaks) to prevent sliding or drifting.
+ *
+ * @param {MovableObject} o - The object whose momentum should be stopped.
+ */
 World.prototype.killMomentum = function (o) {
   o.speedX = 0;
   o.speedY = 0;
@@ -217,7 +229,7 @@ World.prototype.handleThrowableOutOfBounds = function (obj) {
  */
 World.prototype.collisionCollectible = function (item) {
   if (this.character.isColliding(item)) {
-    if (item instanceof Coin && (this.coinAmount < 50 || this.character.health < 100)) {
+    if (item instanceof Coin) {
       this.collectCoin(item);
     }
     if (item instanceof Bottle && this.bottleAmmo < 5) {
@@ -249,10 +261,10 @@ World.prototype.collectBottle = function (item) {
 World.prototype.collectCoin = function (item) {
   this.coinAmount++;
   SoundManager.playOne(SoundManager.COIN_COLLECT, 1, 0.05, 170);
-  if (this.coinAmount < 21) {
-    this.coinBar.setPercentage(this.coinAmount * 5);
-  }
   this.handleFullCoinBar();
+  if (this.coinAmount < 6) {
+    this.coinBar.setPercentage(this.coinAmount * 20);
+  }
   despawnObject(item, this.level.collectibleObjects);
 };
 
@@ -262,7 +274,7 @@ World.prototype.collectCoin = function (item) {
  * and plays a corresponding sound effect.
  */
 World.prototype.handleFullCoinBar = function () {
-  if (this.coinAmount >= 20 && this.character.health < 100) {
+  if (this.coinAmount >= 5 && this.character.health < 100) {
     this.character.health += 20;
     this.healthBar.setPercentage(this.character.health);
     if (this.character.health > 100) {
@@ -273,6 +285,12 @@ World.prototype.handleFullCoinBar = function () {
   }
 };
 
+/**
+ * Prevents the character from leaving the level boundaries.
+ * Applies a small positional nudge (±2px) to keep the character inside.
+ * The left boundary can change dynamically (e.g., during the boss fight)
+ * via {@link World#getLeftBoundary}.
+ */
 World.prototype.preventLeavingBoundaries = function () {
   if (this.character.x < this.getLeftBoundary()) {
     this.character.x = this.getLeftBoundary() + 2;
@@ -284,9 +302,10 @@ World.prototype.preventLeavingBoundaries = function () {
 };
 
 /**
- * Checks for the current left level boundary.
+ * Determines the current left boundary of the playable level in pixels.
+ * The value changes depending on whether the boss fight has been triggered.
  *
- * @returns {number}
+ * @returns {number} X-coordinate of the leftmost position the character can occupy.
  */
 World.prototype.getLeftBoundary = function () {
   if (this.bossTriggered) {
