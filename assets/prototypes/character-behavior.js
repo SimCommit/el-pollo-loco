@@ -10,32 +10,7 @@
 Character.prototype.animate = function () {
   setStoppableInterval(() => {
     this.updateState();
-
-    switch (this.currentState) {
-      case "dead":
-        this.handleDead();
-        break;
-      case "frozen":
-        this.handleFrozen();
-        console.log(this.currentState);
-        break;
-      case "hurt":
-        this.handleHurt();
-        break;
-      case "walking":
-        this.handleWalking();
-        break;
-      case "jumping":
-        this.handleJumping();
-        break;
-      case "long_idle":
-        this.handleLongIdle();
-        break;
-      case "idle":
-        this.handleIdle();
-        break;
-    }
-
+    this.handleCurrentState();
     this.world.preventLeavingBoundaries();
     this.world.cameraX = -this.x + 100;
     this.updateVerticalHistory();
@@ -43,7 +18,39 @@ Character.prototype.animate = function () {
 };
 
 /**
- * Shifts Y position history for smoother vertical movement tracking.
+ * Executes the handler corresponding to the character's current state.
+ * Uses a switch statement to call the appropriate behavior method.
+ */
+Character.prototype.handleCurrentState = function () {
+  switch (this.currentState) {
+    case "dead":
+      this.handleDead();
+      break;
+    case "frozen":
+      this.handleFrozen();
+      break;
+    case "hurt":
+      this.handleHurt();
+      break;
+    case "walking":
+      this.handleWalking();
+      break;
+    case "jumping":
+      this.handleJumping();
+      break;
+    case "long_idle":
+      this.handleLongIdle();
+      break;
+    case "idle":
+      this.handleIdle();
+      break;
+  }
+};
+
+/**
+ * Shifts the recorded Y-position history down by one slot and stores the current Y position.
+ * This keeps track of the last three vertical positions to enable smooth movement detection
+ * and improve accuracy for collision checks like {@link MovableObject#isHigher}.
  */
 Character.prototype.updateVerticalHistory = function () {
   this.lastY3 = this.lastY2;
@@ -112,11 +119,11 @@ Character.prototype.handleWalking = function () {
 };
 
 /**
- * Moves the character left or right based on directional input.
- * Considers level boundaries and obstacles.
+ * Moves the character left or right based on directional input from the keyboard.
+ * Movement is constrained by level boundaries and blocking obstacles.
  *
- * @param {boolean} [updateFacing=false] - Whether to update the character's facing direction
- * (e.g. for animations when walking on the ground).
+ * @param {boolean} [updateFacing=false] - If true, updates the character's facing direction
+ * for animations (e.g., when walking on the ground).
  */
 Character.prototype.handleHorizontalMovement = function (updateFacing = false) {
   if (
@@ -135,7 +142,8 @@ Character.prototype.handleHorizontalMovement = function (updateFacing = false) {
 };
 
 /**
- * Triggers a jump if a jump input is active (e.g. SPACE key or mobile jump button).
+ * Triggers a jump if any jump input is currently active (e.g., SPACE key or mobile jump button).
+ * Does nothing if no jump input is detected.
  */
 Character.prototype.handleJumpInput = function () {
   if (this.world.keyboard.SPACE) {
@@ -144,7 +152,9 @@ Character.prototype.handleJumpInput = function () {
 };
 
 /**
- * Plays walking sound when movement input is active and movement is allowed.
+ * Plays the walking sound effect when horizontal movement input is active
+ * and movement is possible. Uses the {@link SoundManager} to prevent rapid
+ * re-triggering of the sound via its internal cooldown logic.
  */
 Character.prototype.handleWalkingSound = function () {
   if (
@@ -269,4 +279,3 @@ Character.prototype.isblockedLeft = function () {
 Character.prototype.isOnTop = function () {
   return this.world.level.obstacles.some((obstacle) => this.isTouchingFromTop(obstacle));
 };
-
