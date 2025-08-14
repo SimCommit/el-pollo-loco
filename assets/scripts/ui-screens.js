@@ -10,12 +10,29 @@
 function resetUi() {
   showGameMenuButtons();
   hideEndscreenButtons();
-  updateMuteButtonState();
+  initMuteDefaultUsingStorage();
 
   if (shouldShowTouchControls()) {
     showControlButtons();
     toggleInstructions();
   }
+}
+
+function initMuteDefaultUsingStorage() {
+  const stored = localStorage.getItem("muteState");
+
+  if (stored === null) {
+    SoundManager.muteAll();
+    saveToLocalStorage();
+  } else {
+    loadFromLocalStorage();
+    if (SoundManager.isMuted) {
+      SoundManager.muteAll();
+    } else {
+      SoundManager.unmuteAll();
+    }
+  }
+  updateMuteButtonState();
 }
 
 /**
@@ -132,7 +149,8 @@ function toggleInstructions() {
  * to display the image for touch-based input.
  */
 function showTouchInstructions() {
-  getElementByIdHelper("input-instructions").src = "assets/img/ui/touch-controls-stardos-stencil.png";
+  getElementByIdHelper("input-instructions").src =
+    "assets/img/ui/touch-controls-stardos-stencil.png";
 }
 
 /**
@@ -141,7 +159,8 @@ function showTouchInstructions() {
  * to display the image for keyboard-based input.
  */
 function showKeyboardInstructions() {
-  getElementByIdHelper("input-instructions").src = "assets/img/ui/keyboard-controls-stardos-stencil.png";
+  getElementByIdHelper("input-instructions").src =
+    "assets/img/ui/keyboard-controls-stardos-stencil.png";
 }
 
 /**
