@@ -33,12 +33,6 @@ class MovableObject extends DrawableObject {
    */
   accelerationX = 1;
 
-  // /**
-  //  * Duration (in seconds) the object remains stunned after taking damage.
-  //  * @type {number}
-  //  */
-  // stunTime = 1;
-
   /**
    * Duration (in seconds) the object remains invincible after taking damage.
    * @type {number}
@@ -224,8 +218,8 @@ class MovableObject extends DrawableObject {
    * @returns {boolean} True if the stun duration is still active.
    */
   isHurt(stunTime = 1) {
-    let timePassed = new Date().getTime() - this.lastHit; // Difference in ms
-    timePassed = timePassed / 1000; // Difference in s
+    let timePassed = new Date().getTime() - this.lastHit;
+    timePassed = timePassed / 1000;
     return timePassed < stunTime;
   }
 
@@ -236,8 +230,8 @@ class MovableObject extends DrawableObject {
    * @returns {boolean} True if the invincibility duration is still active.
    */
   isInvincible() {
-    let timePassed = new Date().getTime() - this.invincibleTrigger; // Difference in ms
-    timePassed = timePassed / 1000; // Difference in s
+    let timePassed = new Date().getTime() - this.invincibleTrigger; 
+    timePassed = timePassed / 1000; 
     return timePassed < this.invincibleTime;
   }
 
@@ -257,8 +251,8 @@ class MovableObject extends DrawableObject {
    * @returns {boolean} True if idle duration exceeds the threshold.
    */
   isLongIdle() {
-    let timePassed = new Date().getTime() - lastInput; // Difference in ms
-    timePassed = timePassed / 1000; // Difference in s
+    let timePassed = new Date().getTime() - lastInput; 
+    timePassed = timePassed / 1000;
     return timePassed > this.longIdleThreshold;
   }
 

@@ -54,7 +54,7 @@ class DrawableObject {
    * @param {string} path - The path to the image file.
    */
   loadImage(path) {
-    this.img = new Image(); // this.img = document.getElementById('image') <img id="image">
+    this.img = new Image();
     this.img.src = path;
   }
 

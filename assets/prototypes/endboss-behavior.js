@@ -1,6 +1,4 @@
 // endboss-behavior.js
-// Behavior- und State-Logik für Endboss
-// Muss NACH endboss.class.js geladen werden.
 
 /**
  * Starts the animation loop for the Endboss.

@@ -57,7 +57,6 @@ function init() {
  */
 function handleImageLoad() {
   loadedImageCount++;
-  console.log(loadedImageCount);
   if (loadedImageCount === REQUIRED_IMAGE_COUNT) {
     hideLoadingScreen();
     SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.04, 0, true);

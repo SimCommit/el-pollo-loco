@@ -191,7 +191,6 @@ World.prototype.handleThrowableHit = function (obj, enemy) {
   this.killMomentum(obj);
   if (enemy instanceof Endboss) {
     if (!enemy.canTakeDamage) {
-      console.log("cant take damage atm");
       return;
     }
   }
