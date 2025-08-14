@@ -20,7 +20,8 @@ class Endboss extends MovableObject {
 
   /**
    * Frame delays for each animation state of the boss.
-   * @type {{ dead: number, hurt: number, alert: number, attack: number, walking: number, intro1: number }}
+   * Includes: dead, hurt, alert, prepare, attack, flying, landing, walking, intro1.
+   * @type {{ dead: number, hurt: number, alert: number, prepare: number, attack: number, flying: number, landing: number, walking: number, intro1: number }}
    */
   frameDelay = {
     dead: 7,
@@ -77,31 +78,77 @@ class Endboss extends MovableObject {
    */
   speed = 7;
 
+  /**
+   * Timestamp when the boss entered the "prepare" state (ms since epoch).
+   * @type {number}
+   * */
   prepareStart = 0;
 
   /**
-   * Timestamp when the boss started attacking.
+   * Timestamp when the boss started attacking (ms since epoch).
    * @type {number}
    */
   attackStart = 0;
-  recoverStart = 0;
-
-  isAttacking = false;
-  isRecovering = false;
-  isAllowedToWalk = true;
-
-  hasJumpedThisAttack = false;
-  hasRecentlyAttacked = false;
-
-  blinkOn = false;
-  blinkIntervalMs = 210;
-  lastBlinkToggleAt = 0;
 
   /**
-   * Timestamp when the boss last changed direction.
+   * Timestamp when the boss started recovering (ms since epoch).
    * @type {number}
    */
-  switchDirectionStart = 0;
+  recoverStart = 0;
+
+  /**
+   * Timestamp when the boss intro sequence started (ms since epoch).
+   * @type {number}
+   */
+  introStart = 0;
+
+  /**
+   * Whether the boss is currently in the attack sequence (locked until it ends).
+   * @type {boolean}
+   */
+  isAttacking = false;
+
+  /**
+   * Whether the boss is currently in the recover sequence (locked until it ends).
+   * @type {boolean}
+   */
+  isRecovering = false;
+
+  /**
+   * Whether free walking between minX/maxX is allowed (outside attack/recover locks).
+   * @type {boolean}
+   */
+  isAllowedToWalk = true;
+
+  /**
+   * One-shot flag to ensure jump during attack happens only once.
+   * @type {boolean}
+   */
+  hasJumpedThisAttack = false;
+
+  /**
+   * Cooldown flag: prevents immediately starting a new attack after the last one.
+   * @type {boolean}
+   */
+  hasRecentlyAttacked = false;
+
+  /**
+   * Current on/off state for the vulnerable blink overlay.
+   * @type {boolean}
+   */
+  blinkOn = false;
+
+  /**
+   * Interval between blink toggles in milliseconds.
+   * @type {number}
+   */
+  blinkIntervalMs = 210;
+
+  /**
+   * Timestamp of the last blink toggle (ms since epoch).
+   * @type {number}
+   */
+  lastBlinkToggleAt = 0;
 
   /**
    * Vertical acceleration applied to the character (simulates gravity).
@@ -109,12 +156,6 @@ class Endboss extends MovableObject {
    * @type {number}
    */
   acceleration = 1;
-
-  /**
-   * Random value used to influence boss behavior.
-   * @type {number}
-   */
-  ran = 0;
 
   canTakeDamage = true;
 
@@ -156,6 +197,11 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
 
+  /**
+   * Image paths for the prepare animation sequence.
+   * Shown before the boss initiates an attack.
+   * @type {string[]}
+   */
   IMAGES_PREPARE = [
     "assets/img/4_enemie_boss_chicken/3_attack/G13.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G14.png",
@@ -177,11 +223,19 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/3_attack/G17.png",
   ];
 
+  /**
+   * Image paths for the flying animation sequence during recovery.
+   * @type {string[]}
+   */
   IMAGES_FLYING = [
     "assets/img/4_enemie_boss_chicken/3_attack/G17.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G18.png",
   ];
 
+  /**
+   * Image paths for the landing animation sequence after flight or attack.
+   * @type {string[]}
+   */
   IMAGES_LANDING = [
     "assets/img/4_enemie_boss_chicken/3_attack/G19.png",
     "assets/img/4_enemie_boss_chicken/3_attack/G20.png",
@@ -212,12 +266,11 @@ class Endboss extends MovableObject {
   ];
 
   /**
-   * Initializes the Endboss by loading all animation image sequences
-   * and setting the initial horizontal position.
-   *
-   * - Loads walking, alert, attack, hurt, and dead animations
-   * - Displays the first alert frame as default image
-   * - Places the boss at x = 3800 (typically near the end of the level)
+   * Initializes the Endboss by:
+   * - Loading all animation sequences into the image cache.
+   * - Setting the default displayed image to the first alert frame.
+   * - Applying gravity.
+   * - Setting the starting horizontal position to x = 3800.
    */
   constructor() {
     super().loadImage(this.IMAGES_ALERT[0]);
@@ -238,46 +291,36 @@ class Endboss extends MovableObject {
   }
 
   /**
-   * Sets the reference to the current game world for the boss.
-   * Also updates the maximum X boundary based on the level end.
+   * Assigns the current game world to the boss.
+   * Also recalculates the maximum allowed horizontal position (`maxX`)
+   * based on the level's end boundary.
    *
-   * @param {World} world - The current game world instance.
+   * @param {World} world - Reference to the active game world instance.
    */
   setWorld(world) {
     this.world = world;
     this.setMaxX();
   }
 
+  /**
+   * Draws the boss on the provided 2D canvas context.
+   * - If hurt: applies hue shift and calls {@link drawHurtIndicator}.
+   * - If vulnerable and not in endscreen: applies blink effect via {@link drawVulnerableIndicator}.
+   * - Otherwise: draws normally without filters.
+   *
+   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context.
+   */
   draw(ctx) {
     const now = Date.now();
     const endscreenOn = !!(this.world && this.world.endscreenTriggered);
 
     if (this.isHurt(2)) {
-      ctx.save();
-      ctx.filter = "hue-rotate(-40deg)";
-      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-      ctx.restore();
+      this.drawHurtIndicator(ctx);
       return;
     }
 
     if (this.canTakeDamage && !endscreenOn) {
-      if (this.lastBlinkToggleAt === 0) {
-        this.lastBlinkToggleAt = now;
-      }
-
-      if (now - this.lastBlinkToggleAt >= this.blinkIntervalMs) {
-        this.blinkOn = !this.blinkOn;
-        this.lastBlinkToggleAt = now;
-      }
-
-      ctx.save();
-
-      if (this.blinkOn) {
-        ctx.filter = "grayscale(30%) saturate(70%)";
-      }
-
-      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-      ctx.restore();
+      this.drawVulnerableIndicator(ctx, now);
       return;
     }
 
@@ -286,302 +329,50 @@ class Endboss extends MovableObject {
     super.draw(ctx);
   }
 
+  /**
+   * Renders the boss with a hue-rotated filter to indicate the hurt state.
+   *
+   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context.
+   */
+  drawHurtIndicator(ctx) {
+    ctx.save();
+    ctx.filter = "hue-rotate(-40deg)";
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    ctx.restore();
+  }
+
+  /**
+   * Renders the boss with a timed grayscale/saturation blink effect
+   * to indicate the vulnerable state.
+   *
+   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context.
+   * @param {number} now - Current timestamp in milliseconds.
+   */
+  drawVulnerableIndicator(ctx, now) {
+    if (this.lastBlinkToggleAt === 0) {
+      this.lastBlinkToggleAt = now;
+    }
+
+    if (now - this.lastBlinkToggleAt >= this.blinkIntervalMs) {
+      this.blinkOn = !this.blinkOn;
+      this.lastBlinkToggleAt = now;
+    }
+
+    ctx.save();
+
+    if (this.blinkOn) {
+      ctx.filter = "grayscale(30%) saturate(70%)";
+    }
+
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    ctx.restore();
+  }
+
+  /**
+   * Updates `maxX` to match the level's end boundary minus a fixed offset
+   * to account for boss sprite width and positioning.
+   */
   setMaxX() {
     this.maxX = this.world.level.level_end_x - 214;
-  }
-
-  /**
-   * Starts the animation loop for the Endboss.
-   * Updates the animation state and handles behavior based on the current state.
-   *
-   * Runs at a fixed interval of 30 FPS.
-   */
-  animate() {
-    setStoppableInterval(() => {
-      this.updateState();
-
-      switch (this.currentState) {
-        case "dead":
-          this.handleDead();
-          break;
-        case "intro":
-          this.handleIntro();
-          break;
-        case "prepare":
-          this.handlePrepare();
-          break;
-        case "attack":
-          this.handleAttack();
-          break;
-        case "hurt":
-          this.handleHurt();
-          break;
-        case "recover":
-          this.handleRecover();
-          break;
-        case "alert":
-          this.handleAlert();
-          break;
-        case "walking":
-          this.handleWalking();
-          break;
-      }
-
-      this.preventBossLeavingBoundaries();
-    }, 1000 / 30);
-  }
-
-  preventBossLeavingBoundaries() {
-    if (this.x < this.minX) {
-      this.x = this.minX;
-    } else if (this.x > this.maxX) {
-      this.x = this.maxX;
-    }
-  }
-
-  /**
-   * Handles the Endboss behavior during the "dead" state.
-   * Plays the death animation and triggers sound effects.
-   * Once the animation is complete, the hitbox is disabled.
-   */
-  handleDead() {
-    if (this.currentState === "dead") {
-      this.canTakeDamage = false;
-
-      if (this.currentImage < this.IMAGES_DEAD.length) {
-        if (this.skipFrame % this.frameDelay.dead === 0) {
-          this.playAnimation(this.IMAGES_DEAD);
-          SoundManager.playOne(SoundManager.BOSS_HURT, 1, 0.3, 10000);
-          SoundManager.playOne(SoundManager.BOSS_DEAD, 1, 0.4, 10000);
-        }
-      } else {
-        this.img = this.imageCache["assets/img/4_enemie_boss_chicken/5_dead/G26.png"];
-        this.disableHitbox();
-      }
-      this.skipFrame += 1;
-    }
-  }
-
-  /**
-   * Handles the Endboss behavior during the "dead" state.
-   * Plays the death animation and triggers sound effects.
-   * Once the animation is complete, the hitbox is disabled.
-   */
-  handleIntro() {
-    this.canTakeDamage = false;
-    let timePassed = this.secondsSince(this.introStart);
-
-    if (timePassed < 1.8) {
-      this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.intro1);
-      this.moveLeft();
-    }
-
-    if (timePassed >= 1.8 && timePassed < 2.5) {
-      this.playStateAnimation(this.IMAGES_ALERT, this.frameDelay.alert);
-    }
-  }
-
-  /**
-   * Handles the Endboss behavior during the "hurt" state.
-   * Plays the hurt animation and triggers the corresponding sound effect.
-   */
-  handleHurt() {
-    if (this.currentState === "hurt") {
-      this.canTakeDamage = false;
-      this.playStateAnimation(this.IMAGES_HURT, this.frameDelay.hurt);
-      SoundManager.playOne(SoundManager.BOSS_HURT_2, 1, 0.7, 2000);
-      SoundManager.playOne(SoundManager.BOSS_HURT, 1, 0.3, 3000);
-    }
-  }
-
-  handlePrepare() {
-    if (this.currentState === "prepare") {
-      this.canTakeDamage = false;
-      let timePassed = this.secondsSince(this.prepareStart);
-      this.playStateAnimation(this.IMAGES_PREPARE, this.frameDelay.prepare);
-
-      if (timePassed > 0.7) {
-        this.isAttacking = true;
-      }
-    }
-  }
-
-  /**
-   * Handles the Endboss behavior during the "attack" state.
-   *
-   * - Plays the attack animation for the first 2.5 seconds
-   * - Between second 1 and 2.5, the boss charges left and plays a sound
-   * - After 2.5 seconds, the boss retreats to the right with walking animation
-   */
-  handleAttack() {
-    if (this.currentState === "attack") {
-      let timePassed = this.secondsSince(this.attackStart);
-      this.canTakeDamage = false;
-
-      if (timePassed < 1.4) {
-        this.playStateAnimation(this.IMAGES_ATTACK, this.frameDelay.attack);
-        this.speed = 8;
-        SoundManager.playOne(SoundManager.BOSS_ATTACK, 1, 0.3, 2000);
-        this.moveLeft();
-      } else if (timePassed < 1.7) {
-        this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
-      } else {
-        this.hasRecentlyAttacked = true;
-        this.isAttacking = false;
-        this.isRecovering = true;
-      }
-    }
-  }
-
-  handleRecover() {
-    if (this.currentState === "recover") {
-      this.canTakeDamage = true;
-      let timePassed = this.secondsSince(this.recoverStart);
-
-      if (timePassed < 1.55) {
-        this.canTakeDamage = true;
-        this.speed = 7;
-        this.fly();
-        this.moveRight();
-        this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
-      } else if (timePassed < 1.8) {
-        this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
-      } else {
-        this.isRecovering = false;
-        this.isAllowedToWalk = false;
-        // setTimeout(() => {
-        //   this.hasRecentlyAttacked = false;
-        // }, 7000);
-      }
-    }
-  }
-
-  canStartAttack() {
-    if (this.hasRecentlyAttacked || !this.world.isCloseToCharacter(this, 400) || this.isAttacking) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  isLockedToAttack() {
-    return !this.hasRecentlyAttacked && this.isAttacking;
-  }
-
-  isLockedToRecover() {
-    return this.hasRecentlyAttacked && !this.isAttacking && this.isRecovering;
-    // return this.hasRecentlyAttacked && !this.isAttacking && this.isRecovering || this.world.isLeftFromCharacter(this);
-  }
-
-  fly() {
-    if (this.hasJumpedThisAttack) return;
-    this.jump(18);
-    this.hasJumpedThisAttack = true;
-  }
-
-  /**
-   * Handles the Endboss behavior during the "walking" state.
-   * Plays the walking animation and moves the boss left or right
-   * based on a periodically refreshed random value.
-   */
-  handleWalking() {
-    this.canTakeDamage = false;
-    this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
-    // let timePassed = this.secondsSince(this.switchDirectionStart);
-
-    if (this.x > this.minX) {
-      this.speed = 4;
-      this.moveLeft();
-    } else if (this.hasRecentlyAttacked && this.x < this.maxX) {
-      this.speed = 4;
-      this.moveRight();
-    }
-  }
-
-  /**
-   * Handles the Endboss behavior during the "alert" state.
-   * Plays the alert animation at the defined frame rate.
-   */
-  handleAlert() {
-    this.canTakeDamage = true;
-    this.playStateAnimation(this.IMAGES_ALERT, this.frameDelay.alert);
-  }
-
-  /**
-   * Updates the current state of the Endboss based on behavior logic.
-   * If the state has changed, resets animation tracking and sets relevant timestamps.
-   */
-  updateState() {
-    let newState = this.resolveState();
-
-    if (newState !== this.currentState) {
-      console.log(newState);
-
-      if (newState === "attack") {
-        this.hasJumpedThisAttack = false;
-      }
-      if (newState === "recover") {
-        setTimeout(() => {
-          this.isAllowedToWalk = true;
-          console.log("isAllowedToWalk: ", this.isAllowedToWalk);
-        }, 4000);
-        setTimeout(() => {
-          this.hasRecentlyAttacked = false;
-        }, 5000);
-      }
-
-      if (this.currentState === "hurt") {
-        this.hasRecentlyAttacked = false;
-      }
-      this.resetCurrentImage();
-      this.resetSkipFrame();
-      this.prepareStart = this.timestampIfState("prepare", newState);
-      this.attackStart = this.timestampIfState("attack", newState);
-      this.recoverStart = this.timestampIfState("recover", newState);
-      this.introStart = this.timestampIfState("intro", newState);
-    }
-
-    this.currentState = newState;
-  }
-
-  /**
-   * Determines the next logical state of the Endboss based on its condition and environment.
-   *
-   * @returns {string} The resolved state: "dead", "intro", "hurt", "attack", "walking", or "alert".
-   */
-  resolveState() {
-    if (this.isDead()) {
-      return "dead";
-    } else if (this.world.isPlayingIntro()) {
-      return "intro";
-    } else if (this.canStartAttack()) {
-      return "prepare";
-    } else if (this.isLockedToAttack()) {
-      return "attack";
-    } else if (this.isHurt(2)) {
-      return "hurt";
-    } else if (this.isLockedToRecover()) {
-      return "recover";
-    } else if (this.isAllowedToWalk) {
-      return "walking";
-    } else {
-      return "alert";
-    }
-  }
-
-  /**
-   * Returns a new timestamp if the given state matches the new state.
-   * Otherwise returns the previously stored timestamp for that state.
-   *
-   * @param {string} state - The state to compare against.
-   * @param {string} newState - The currently evaluated new state.
-   * @returns {number} A new timestamp (in ms) or the existing one for the given state.
-   */
-  timestampIfState(state, newState) {
-    if (newState === state) {
-      return new Date().getTime();
-    } else {
-      return this[state + "Start"];
-    }
   }
 }
