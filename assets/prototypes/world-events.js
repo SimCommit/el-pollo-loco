@@ -167,6 +167,12 @@ World.prototype.isCloseToCharacter = function (other, distance) {
   return Math.abs(other.x - this.character.x) < distance;
 };
 
+/**
+ * Checks whether another object is positioned to the left of the character (by x-coordinate).
+ *
+ * @param {{ x: number }} other - The object to compare with the character.
+ * @returns {boolean} True if the object is left of the character, otherwise false.
+ */
 World.prototype.isLeftFromCharacter = function (other) {
   return other.x < this.character.x;
 };

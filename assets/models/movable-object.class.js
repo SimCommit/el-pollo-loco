@@ -133,13 +133,14 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  /**
-   * Processes a hit on the object, applying damage, triggering cooldown,
-   * and handling rebound effects if the object survives.
-   *
-   * @param {number} damage - The amount of damage to apply.
-   * @param {string} direction - The direction from which the hit came (used for rebound logic).
-   */
+/**
+ * Processes a hit on the object, applying damage, triggering cooldown,
+ * and handling rebound effects if the object survives.
+ *
+ * @param {number} damage - The amount of damage to apply.
+ * @param {string} [direction="left"] - The direction the object is knocked back toward after the hit.
+ * @param {boolean} [isBoss=false] - Whether the hit originated from a boss, which increases knockback.
+ */
   hit(damage, direction = "left", isBoss = false) {
     if (!this.hitOnCooldown && !world.endscreenTriggered) {
       this.takeDamage(damage);
@@ -192,12 +193,14 @@ class MovableObject extends DrawableObject {
     this.offset.top = 504;
   }
 
-  /**
-   * Applies a rebound force to the object based on the given direction.
-   * Simulates knockback after being hit.
-   *
-   * @param {string} direction - The direction of impact ("left", "right", or "up-left").
-   */
+/**
+ * Applies a rebound force to the object based on the given knockback direction.
+ * Simulates pushback after being hit.
+ *
+ * @param {string} direction - The direction to push the object ("left", "right", or "up-left").
+ * @param {number} [momentum=15] - Base impulse applied to speed components.
+ * @param {boolean} [isBoss=false] - If true, uses a stronger momentum for boss hits.
+ */
   rebound(direction, momentum = 15, isBoss = false) {
     if (isBoss) momentum = 23;
     switch (direction) {
