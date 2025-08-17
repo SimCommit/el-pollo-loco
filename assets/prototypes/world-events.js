@@ -119,7 +119,7 @@ World.prototype.checkChonkSpawn = function () {
  */
 World.prototype.shouldChonkSpawn = function () {
   return (
-    this.isCloseToCharacter(this.level.obstacles[2], 400) &&
+    this.isCloseToCharacter(this.level.obstacles[2], 650) &&
     !this.spawnOnCooldown &&
     !this.areChonksAlive()
   );

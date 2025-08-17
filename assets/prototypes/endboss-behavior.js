@@ -119,7 +119,7 @@ Endboss.prototype.handleHurt = function () {
  */
 Endboss.prototype.handlePrepare = function () {
   if (this.currentState === "prepare") {
-    this.canTakeDamage = false;
+    this.canTakeDamage = true;
     let timePassed = this.secondsSince(this.prepareStart);
     this.playStateAnimation(this.IMAGES_PREPARE, this.frameDelay.prepare);
 
@@ -212,7 +212,7 @@ Endboss.prototype.handleAlert = function () {
  * Moves left until reaching `minX`, or right after a recent attack until `maxX`.
  */
 Endboss.prototype.handleWalking = function () {
-  this.canTakeDamage = false;
+  this.canTakeDamage = true;
   this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
 
   if (this.x > this.minX) {
@@ -259,12 +259,12 @@ Endboss.prototype.resolveState = function () {
     return "dead";
   } else if (this.world.isPlayingIntro()) {
     return "intro";
-  } else if (this.canStartAttack()) {
-    return "prepare";
   } else if (this.isLockedToAttack()) {
     return "attack";
   } else if (this.isHurt(2)) {
     return "hurt";
+  } else if (this.canStartAttack()) {
+    return "prepare";
   } else if (this.isLockedToRecover()) {
     return "recover";
   } else if (this.isAllowedToWalk) {

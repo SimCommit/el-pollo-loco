@@ -57,7 +57,7 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: var(--beige);
   color: var(--dark-brown);
-  background-image: url('assets/img/ui/background.png');
+  background-image: url('assets/img/ui/background.webp');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -218,7 +218,7 @@ canvas {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('assets/img/ui/background.png');
+  background-image: url('assets/img/ui/background.webp');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -323,7 +323,7 @@ canvas {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('assets/img/ui/background.png');
+  background-image: url('assets/img/ui/background.webp');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
