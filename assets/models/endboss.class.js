@@ -142,7 +142,7 @@ class Endboss extends MovableObject {
    * Interval between blink toggles in milliseconds.
    * @type {number}
    */
-  blinkIntervalMs = 210;
+  blinkIntervalMs = 150;
 
   /**
    * Timestamp of the last blink toggle (ms since epoch).
@@ -319,7 +319,7 @@ class Endboss extends MovableObject {
       return;
     }
 
-    if (this.canTakeDamage && !endscreenOn) {
+    if (!this.canTakeDamage && !endscreenOn && this.world.introPlayed) {
       this.drawVulnerableIndicator(ctx, now);
       return;
     }
@@ -361,7 +361,7 @@ class Endboss extends MovableObject {
     ctx.save();
 
     if (this.blinkOn) {
-      ctx.filter = "grayscale(30%) saturate(70%)";
+      ctx.filter = "invert(100%)";
     }
 
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
