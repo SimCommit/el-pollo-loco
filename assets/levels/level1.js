@@ -53,7 +53,7 @@ function intiLevel() {
       new BackgroundObject("assets/img/5_background/layers/3_third_layer/2.png", 719),
       new BackgroundObject("assets/img/5_background/layers/2_second_layer/2.png", 719),
       new BackgroundObject("assets/img/5_background/layers/1_first_layer/2.png", 719),
-      new Obstacle("assets/img/10_hints/signpost-coin-logic-5.png", 990, 186, 180, 220, 24, 28, 0, 28),
+      new Obstacle("assets/img/10_hints/signpost-coin-logic-10.png", 990, 186, 180, 220, 24, 28, 0, 28),
 
       new BackgroundObject("assets/img/5_background/layers/air.png", 719 * 2),
       new BackgroundObject("assets/img/5_background/layers/3_third_layer/1.png", 719 * 2),
