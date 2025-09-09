@@ -80,20 +80,20 @@ function intiLevel() {
       new BackgroundObject("assets/img/5_background/layers/1_first_layer/1.png", 719 * 6),
     ],
     [
-      new Bottle(-40, 375),
-      new Bottle(550, 375),
-      new Bottle(900, 375),
-      new Bottle(1000, 375),
-      new Bottle(1100, 375),
+      new Bottle(-40, 380),
+      new Bottle(550, 380),
+      new Bottle(900, 380),
+      new Bottle(1000, 380),
+      new Bottle(1100, 380),
 
-      new Bottle(1900, 375),
+      new Bottle(1900, 380),
 
-      new Bottle(2700, 375),
+      new Bottle(2700, 380),
 
-      new Bottle(2900, 375),
+      new Bottle(2900, 380),
 
-      new Bottle(3100, 375),
-      new Bottle(3200, 375),
+      new Bottle(3100, 380),
+      new Bottle(3200, 380),
 
       new Coin(-70, 225),
       new Coin(300, 250),

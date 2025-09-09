@@ -75,6 +75,13 @@ World.prototype.checkEnemyDefeat = function () {
     if (enemy.health <= 0 && !enemy.isMarkedForDespawn) {
       enemy.isMarkedForDespawn = true;
       despawnObject(enemy, this.level.enemies, 2000);
+      if (enemy instanceof Chicken && enemy.isMinion) {
+        let drop = new Bottle(enemy.x, 380);
+
+        setTimeout(() => {
+          this.level.collectibleObjects.push(drop);
+        }, 200);
+      }
     }
   });
 };
@@ -139,20 +146,9 @@ World.prototype.spawnChonk = function () {
  * Spawns a new minion Chicken and positions it.
  */
 World.prototype.spawnChicken = function (i = 0) {
-  // setTimeout(() => {
-  //   for (let i = this.countMinionsAlive(); i < 3; i++) {
-  //     let x = 3600 + 50 * i;
-  //     let y = 300 - 50 * i;
-  //     let minionChicken = new Chicken(x, y, true);
-
-  //     this.level.enemies.push(minionChicken);
-  //   }
-  // }, 100 + 250 * this.countMinionsAlive());
-
   let x = 3650 + 80 * i;
   let y = 325 - 75 * i;
-  
-  let minionChicken = new Chicken(x, y, true);
+  let minionChicken = new Chicken(x, y, true, 1);
   this.level.enemies.push(minionChicken);
 };
 
