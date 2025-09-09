@@ -101,7 +101,7 @@ World.prototype.checkBossDefeat = function () {
  * Checks whether a helper Chonk should spawn and triggers the spawn if allowed.
  * Applies a cooldown of 4 seconds to prevent repeated spawns.
  */
-World.prototype.checkChonkSpawn = function () {
+World.prototype.checkEnemySpawn = function () {
   if (this.shouldChonkSpawn()) {
     this.spawnChonk();
     this.spawnOnCooldown = true;
@@ -125,6 +125,7 @@ World.prototype.shouldChonkSpawn = function () {
   );
 };
 
+
 /**
  * Spawns a new helper Chonk, positions it, and reverses its movement direction.
  */
@@ -136,12 +137,24 @@ World.prototype.spawnChonk = function () {
 };
 
 /**
+ * Spawns a new minion Chicken and positions it.
+ */
+World.prototype.spawnChicken = function () {
+  let minionChicken = new Chicken(3625, 300, true);
+  this.level.enemies.push(minionChicken);
+};
+
+/**
  * Checks whether at least one Chonk is currently present in the enemy list.
  *
  * @returns {boolean} True if any Chonk is alive, otherwise false.
  */
 World.prototype.areChonksAlive = function () {
   return this.level.enemies.some((enemy) => enemy instanceof Chonk);
+};
+
+World.prototype.areMinionsAlive = function () {
+  return this.level.enemies.some((enemy) => enemy instanceof Chicken && enemy.isMinion);
 };
 
 /**

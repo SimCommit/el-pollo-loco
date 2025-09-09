@@ -191,7 +191,7 @@ class World {
       this.checkEnemyDefeat();
       this.checkBossDefeat();
       this.checkCharacterDefeat();
-      this.checkChonkSpawn();
+      this.checkEnemySpawn();
       this.checkChickenSoundTrigger();
     }, 1000 / 60);
   }

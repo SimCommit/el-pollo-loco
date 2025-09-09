@@ -50,12 +50,16 @@ class Chicken extends MovableObject {
    */
   height = 50;
 
-  /**
-   * Vertical position of the chicken on the canvas (from top).
-   * Typically aligned with the ground level.
-   * @type {number}
-   */
-  y = 375;
+  // /**
+  //  * Vertical position of the chicken on the canvas (from top).
+  //  * Typically aligned with the ground level.
+  //  * @type {number}
+  //  */
+  // y = 375;
+
+  speedY = -5;
+
+  acceleration = 1;
 
   /**
    * Delay in frames between changes in the walking animation.
@@ -80,35 +84,41 @@ class Chicken extends MovableObject {
 
   lastContactWith = {};
 
-    /**
+  /**
    * Creates a new chicken enemy at the specified x-position.
    * Loads all images and starts the animation loop.
-   * 
+   *
    * @param {number} x - Horizontal starting position of the chicken.
    */
-  constructor(x) {
+  constructor(x, y = 375, isMinion = false, speed = 0.35) {
     super().loadImage("assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
 
-        /**
+    /**
      * Horizontal position of the chicken on the canvas.
      * Can be randomized to space out enemies.
      * @type {number}
      */
     this.x = x;
 
-        /**
+    this.y = y;
+
+    /**
      * Movement speed of the chicken.
-     * Affects how fast it walks to the left.
+     * Affects how fast it walks.
      * @type {number}
      */
-    this.speed = 0.35;
+    this.speed = speed;
+
+    this.isMinion = isMinion;
+
+    this.applyGravity();
 
     this.animate();
   }
 
-    /**
+  /**
    * Starts the chicken's animation loop.
    * Updates the character state and triggers the corresponding behavior
    * (e.g. walking animation or death handling) 60 times per second.
@@ -128,7 +138,7 @@ class Chicken extends MovableObject {
     }, 1000 / 60);
   }
 
-    /**
+  /**
    * Handles the behavior of the chicken in the "dead" state.
    * Plays the dead animation and disables the hitbox for collision detection.
    */
@@ -137,13 +147,15 @@ class Chicken extends MovableObject {
     this.disableHitbox();
   }
 
-    /**
+  /**
    * Handles the behavior of the chicken in the "walking" state.
    * Moves the chicken to the left and plays walking animation
    * with frame skipping logic for performance-controlled animation speed.
    */
   handleWalkingChicken() {
-    this.moveLeft();
+    if (!this.isAboveGround()) {
+      this.moveLeft();
+    }
 
     if (this.skipFrame % this.frameDelayWalking === 0) {
       this.playAnimation(this.IMAGES_WALKING);
@@ -151,7 +163,7 @@ class Chicken extends MovableObject {
     this.skipFrame += 1;
   }
 
-    /**
+  /**
    * Updates the current state of the chicken based on its internal status.
    * Sets the state to "dead" if the chicken is dead, otherwise to "walking".
    */

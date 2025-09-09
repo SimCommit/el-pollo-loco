@@ -120,6 +120,8 @@ class MovableObject extends DrawableObject {
       return true;
     } else if (this instanceof Endboss) {
       return this.y < 145;
+    } else if (this instanceof Chicken) {
+      return this.y < 374;
     } else if (this.isOnTop()) {
       return false;
     } else {
@@ -127,14 +129,14 @@ class MovableObject extends DrawableObject {
     }
   }
 
-/**
- * Processes a hit on the object, applying damage, triggering cooldown,
- * and handling rebound effects if the object survives.
- *
- * @param {number} damage - The amount of damage to apply.
- * @param {string} [direction="left"] - The direction the object is knocked back toward after the hit.
- * @param {boolean} [isBoss=false] - Whether the hit originated from a boss, which increases knockback.
- */
+  /**
+   * Processes a hit on the object, applying damage, triggering cooldown,
+   * and handling rebound effects if the object survives.
+   *
+   * @param {number} damage - The amount of damage to apply.
+   * @param {string} [direction="left"] - The direction the object is knocked back toward after the hit.
+   * @param {boolean} [isBoss=false] - Whether the hit originated from a boss, which increases knockback.
+   */
   hit(damage, direction = "left", isBoss = false) {
     if (!this.hitOnCooldown && !world.endscreenTriggered) {
       this.takeDamage(damage);
@@ -187,14 +189,14 @@ class MovableObject extends DrawableObject {
     this.offset.top = 504;
   }
 
-/**
- * Applies a rebound force to the object based on the given knockback direction.
- * Simulates pushback after being hit.
- *
- * @param {string} direction - The direction to push the object ("left", "right", or "up-left").
- * @param {number} [momentum=15] - Base impulse applied to speed components.
- * @param {boolean} [isBoss=false] - If true, uses a stronger momentum for boss hits.
- */
+  /**
+   * Applies a rebound force to the object based on the given knockback direction.
+   * Simulates pushback after being hit.
+   *
+   * @param {string} direction - The direction to push the object ("left", "right", or "up-left").
+   * @param {number} [momentum=15] - Base impulse applied to speed components.
+   * @param {boolean} [isBoss=false] - If true, uses a stronger momentum for boss hits.
+   */
   rebound(direction, momentum = 15, isBoss = false) {
     if (isBoss) momentum = 23;
     switch (direction) {
@@ -230,8 +232,8 @@ class MovableObject extends DrawableObject {
    * @returns {boolean} True if the invincibility duration is still active.
    */
   isInvincible() {
-    let timePassed = new Date().getTime() - this.invincibleTrigger; 
-    timePassed = timePassed / 1000; 
+    let timePassed = new Date().getTime() - this.invincibleTrigger;
+    timePassed = timePassed / 1000;
     return timePassed < this.invincibleTime;
   }
 
@@ -251,7 +253,7 @@ class MovableObject extends DrawableObject {
    * @returns {boolean} True if idle duration exceeds the threshold.
    */
   isLongIdle() {
-    let timePassed = new Date().getTime() - lastInput; 
+    let timePassed = new Date().getTime() - lastInput;
     timePassed = timePassed / 1000;
     return timePassed > this.longIdleThreshold;
   }

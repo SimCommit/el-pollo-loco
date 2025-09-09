@@ -152,7 +152,7 @@ Endboss.prototype.handleAttack = function () {
       this.speed = 8;
       SoundManager.playOne(SoundManager.BOSS_ATTACK, 1, 0.3, 2000);
       this.moveLeft();
-    } else if (timePassed < 1.7 || this.x === 2740) {
+    } else if (timePassed < 1.7 || (this.x === 2740 && timePassed < 1.7)) {
       this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
     } else {
       this.endAttackstate();
@@ -222,6 +222,9 @@ Endboss.prototype.handleSpawningMinions = function () {
     if (timePassed < 2) {
       // console.log("timePassed: ", timePassed);
       this.jumpSpwan();
+      if (timePassed > 1 && !this.world.areMinionsAlive()) {
+        this.world.spawnChicken();
+      }
     } else if (timePassed > 2) {
       this.isSpawningMinions = false;
       this.hasRecentlySpawned = true;

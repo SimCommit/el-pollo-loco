@@ -89,6 +89,7 @@ class Chonk extends Chicken {
      * @type {boolean}
      */
     this.isHelper = isHelper;
+
     this.animate();
   }
 }

@@ -287,6 +287,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.applyGravity();
+    
     /**
      * Horizontal starting position of the boss in the level.
      * @type {number}
