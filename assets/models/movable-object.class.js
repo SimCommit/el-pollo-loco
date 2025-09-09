@@ -120,8 +120,10 @@ class MovableObject extends DrawableObject {
       return true;
     } else if (this instanceof Endboss) {
       return this.y < 145;
+    } else if (this instanceof Chonk) {
+      return this.y < 320;
     } else if (this instanceof Chicken) {
-      return this.y < 374;
+      return this.y < 370;
     } else if (this.isOnTop()) {
       return false;
     } else {

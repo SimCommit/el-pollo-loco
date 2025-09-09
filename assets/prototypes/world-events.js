@@ -125,12 +125,11 @@ World.prototype.shouldChonkSpawn = function () {
   );
 };
 
-
 /**
  * Spawns a new helper Chonk, positions it, and reverses its movement direction.
  */
 World.prototype.spawnChonk = function () {
-  let helperChonk = new Chonk(2400, 328, true);
+  let helperChonk = new Chonk(2425, 180, true);
   helperChonk.otherDirection = true;
   this.reverseSpeed(helperChonk);
   this.level.enemies.push(helperChonk);
@@ -139,8 +138,21 @@ World.prototype.spawnChonk = function () {
 /**
  * Spawns a new minion Chicken and positions it.
  */
-World.prototype.spawnChicken = function () {
-  let minionChicken = new Chicken(3625, 300, true);
+World.prototype.spawnChicken = function (i = 0) {
+  // setTimeout(() => {
+  //   for (let i = this.countMinionsAlive(); i < 3; i++) {
+  //     let x = 3600 + 50 * i;
+  //     let y = 300 - 50 * i;
+  //     let minionChicken = new Chicken(x, y, true);
+
+  //     this.level.enemies.push(minionChicken);
+  //   }
+  // }, 100 + 250 * this.countMinionsAlive());
+
+  let x = 3650 + 80 * i;
+  let y = 325 - 75 * i;
+  
+  let minionChicken = new Chicken(x, y, true);
   this.level.enemies.push(minionChicken);
 };
 
@@ -155,6 +167,13 @@ World.prototype.areChonksAlive = function () {
 
 World.prototype.areMinionsAlive = function () {
   return this.level.enemies.some((enemy) => enemy instanceof Chicken && enemy.isMinion);
+};
+
+World.prototype.countMinionsAlive = function () {
+  let miniosAlive = this.level.enemies.filter(
+    (enemy) => enemy instanceof Chicken && enemy.isMinion
+  );
+  return miniosAlive.length;
 };
 
 /**

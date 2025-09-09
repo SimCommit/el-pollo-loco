@@ -220,10 +220,13 @@ Endboss.prototype.handleSpawningMinions = function () {
     this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
 
     if (timePassed < 2) {
-      // console.log("timePassed: ", timePassed);
       this.jumpSpwan();
-      if (timePassed > 1 && !this.world.areMinionsAlive()) {
-        this.world.spawnChicken();
+      if (timePassed > 0.2 && this.world.countMinionsAlive() === 0) {
+        this.world.spawnChicken(0);
+      } else if (timePassed > 0.4 && this.world.countMinionsAlive() === 1) {
+        this.world.spawnChicken(1);
+      } else if (timePassed > 0.6 && this.world.countMinionsAlive() === 2) {
+        this.world.spawnChicken(2);
       }
     } else if (timePassed > 2) {
       this.isSpawningMinions = false;

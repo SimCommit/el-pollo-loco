@@ -155,6 +155,10 @@ class World {
    */
   INTRO_LENGTH = 4000;
 
+  minion1IsAlive = false;
+  minion2IsAlive = false;
+  minion3IsAlive = false;
+
   /**
    * Creates a new game world instance and initializes rendering, entities, and game loop.
    *
