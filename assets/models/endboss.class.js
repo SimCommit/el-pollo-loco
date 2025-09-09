@@ -96,6 +96,8 @@ class Endboss extends MovableObject {
    */
   recoverStart = 0;
 
+  spawningStart = 0;
+
   /**
    * Timestamp when the boss intro sequence started (ms since epoch).
    * @type {number}
@@ -113,6 +115,8 @@ class Endboss extends MovableObject {
    * @type {boolean}
    */
   isRecovering = false;
+
+  isSpawningMinions = false;
 
   /**
    * Whether free walking between minX/maxX is allowed (outside attack/recover locks).

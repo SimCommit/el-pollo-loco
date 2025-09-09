@@ -61,7 +61,9 @@ class World {
    * Current number of bottles (ammunition) available to the player.
    * @type {number}
    */
-  bottleAmmo = 4;
+  // bottleAmmo = 4;
+  bottleAmmo = 0;
+
 
   /**
    * Current number of coins the player is holding.

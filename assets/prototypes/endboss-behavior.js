@@ -38,6 +38,12 @@ Endboss.prototype.handleCurrentState = function () {
     case "recover":
       this.handleRecover();
       break;
+    case "positioning":
+      this.handlePositioning();
+      break;
+    case "spawning":
+      this.handleSpawningMinions();
+      break;
     case "alert":
       this.handleAlert();
       break;
@@ -141,12 +147,12 @@ Endboss.prototype.handleAttack = function () {
     let timePassed = this.secondsSince(this.attackStart);
     this.canTakeDamage = false;
 
-    if (timePassed < 1.4) {
+    if (timePassed < 1.4 && this.x > 2740) {
       this.playStateAnimation(this.IMAGES_ATTACK, this.frameDelay.attack);
       this.speed = 8;
       SoundManager.playOne(SoundManager.BOSS_ATTACK, 1, 0.3, 2000);
       this.moveLeft();
-    } else if (timePassed < 1.7) {
+    } else if (timePassed < 1.7 || this.x === 2740) {
       this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
     } else {
       this.endAttackstate();
@@ -178,7 +184,7 @@ Endboss.prototype.handleRecover = function () {
     if (timePassed < 1.55) {
       this.canTakeDamage = true;
       this.speed = 7;
-      this.fly();
+      this.jumpRecover();
       this.moveRight();
       this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
     } else if (timePassed < 1.8) {
@@ -189,11 +195,46 @@ Endboss.prototype.handleRecover = function () {
   }
 };
 
+Endboss.prototype.handlePositioning = function () {
+  if (this.currentState === "positioning") {
+    this.canTakeDamage = true;
+    this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
+
+    if (this.x > 3600) {
+      // console.log("left");
+      this.moveLeft();
+    } else if (this.x < 3550) {
+      // console.log("right");
+      this.moveRight();
+    } else {
+      // console.log("end");
+      this.isSpawningMinions = true;
+    }
+  }
+};
+
+Endboss.prototype.handleSpawningMinions = function () {
+  if (this.currentState === "spawning") {
+    this.canTakeDamage = false;
+    let timePassed = this.secondsSince(this.spawningStart);
+    this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
+
+    if (timePassed < 2) {
+      // console.log("timePassed: ", timePassed);
+      this.jumpSpwan();
+    } else if (timePassed > 2) {
+      this.isSpawningMinions = false;
+      this.hasRecentlySpawned = true;
+    }
+  }
+};
+
 /**
  * Ends the "recover" state.
  * Locks walking until `setDelayFlags` re-enables it.
  */
 Endboss.prototype.endRecoverState = function () {
+  console.log("end of recover");
   this.isRecovering = false;
   this.isAllowedToWalk = false;
 };
@@ -232,12 +273,21 @@ Endboss.prototype.updateState = function () {
   let newState = this.resolveState();
 
   if (newState !== this.currentState) {
+    console.log(newState);
+
     if (newState === "attack") {
       this.hasJumpedThisAttack = false;
     }
 
     if (newState === "recover") {
       this.setDelayFlags();
+    }
+
+    if (newState === "spawning") {
+      this.hasJumpedThisSpawn = false;
+      setTimeout(() => {
+        this.hasRecentlySpawned = false;
+      }, 6000);
     }
 
     if (this.currentState === "hurt") {
@@ -261,8 +311,12 @@ Endboss.prototype.resolveState = function () {
     return "intro";
   } else if (this.isLockedToAttack()) {
     return "attack";
+  } else if (this.isLockedToMinionSpawn()) {
+    return "spawning";
   } else if (this.isHurt(2)) {
     return "hurt";
+  } else if (this.canStartMinionSpawn()) {
+    return "positioning";
   } else if (this.canStartAttack()) {
     return "prepare";
   } else if (this.isLockedToRecover()) {
@@ -282,6 +336,7 @@ Endboss.prototype.resolveState = function () {
 Endboss.prototype.resetAnimationAndTimestamps = function (newState) {
   this.resetCurrentImage();
   this.resetSkipFrame();
+  this.spawningStart = this.timestampIfState("spawning", newState);
   this.prepareStart = this.timestampIfState("prepare", newState);
   this.attackStart = this.timestampIfState("attack", newState);
   this.recoverStart = this.timestampIfState("recover", newState);
@@ -330,6 +385,19 @@ Endboss.prototype.canStartAttack = function () {
   }
 };
 
+Endboss.prototype.canStartMinionSpawn = function () {
+  return (
+    !this.isAttacking &&
+    !this.isRecovering &&
+    !this.hasRecentlySpawned &&
+    this.world.bottleAmmo <= 1
+  );
+};
+
+Endboss.prototype.isLockedToMinionSpawn = function () {
+  return this.isSpawningMinions && !this.hasRecentlySpawned;
+};
+
 /**
  * Checks if the boss is currently locked into the attack state.
  *
@@ -351,8 +419,16 @@ Endboss.prototype.isLockedToRecover = function () {
 /**
  * Makes the boss perform a jump during the attack phase, if not already done.
  */
-Endboss.prototype.fly = function () {
+Endboss.prototype.jumpRecover = function () {
   if (this.hasJumpedThisAttack) return;
+
   this.jump(18);
   this.hasJumpedThisAttack = true;
+};
+
+Endboss.prototype.jumpSpwan = function () {
+  if (this.hasJumpedThisSpawn) return;
+
+  this.jump(23);
+  this.hasJumpedThisSpawn = true;
 };
