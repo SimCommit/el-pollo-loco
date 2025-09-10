@@ -200,10 +200,10 @@ Endboss.prototype.handlePositioning = function () {
     this.canTakeDamage = true;
     this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
 
-    if (this.x > 3600) {
+    if (this.x > 3400) {
       // console.log("left");
       this.moveLeft();
-    } else if (this.x < 3550) {
+    } else if (this.x < 3350 && this.world.isCloseToCharacter(this, 200)) {
       // console.log("right");
       this.moveRight();
     } else {
@@ -219,15 +219,18 @@ Endboss.prototype.handleSpawningMinions = function () {
     let timePassed = this.secondsSince(this.spawningStart);
     this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
 
-    if (timePassed < 2) {
+    if (timePassed < 1.5) {
       this.jumpSpwan();
-      if (timePassed > 0.2 && this.world.countMinionsAlive() === 0) {
+      this.moveRight(8);
+      if (timePassed > 0.1 && timePassed < 0.2 && this.world.countMinionsAlive() === 0) {
         this.world.spawnChicken(0);
-      } else if (timePassed > 0.4 && this.world.countMinionsAlive() === 1) {
+      } else if (timePassed > 0.3 && timePassed < 0.4 && this.world.countMinionsAlive() === 1) {
         this.world.spawnChicken(1);
-      } else if (timePassed > 0.6 && this.world.countMinionsAlive() === 2) {
+      } else if (timePassed > 0.5 && timePassed < 0.6 && this.world.countMinionsAlive() === 2) {
         this.world.spawnChicken(2);
       }
+    // } else if (timePassed > 2 && timePassed < 4) {
+    //   this.moveRight(9);
     } else if (timePassed > 2) {
       this.isSpawningMinions = false;
       this.hasRecentlySpawned = true;
@@ -435,6 +438,6 @@ Endboss.prototype.jumpRecover = function () {
 Endboss.prototype.jumpSpwan = function () {
   if (this.hasJumpedThisSpawn) return;
 
-  this.jump(23);
+  this.jump(17);
   this.hasJumpedThisSpawn = true;
 };

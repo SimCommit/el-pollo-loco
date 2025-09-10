@@ -82,6 +82,14 @@ World.prototype.checkEnemyDefeat = function () {
           this.level.collectibleObjects.push(drop);
         }, 200);
       }
+
+      if (enemy instanceof Chonk) {
+        let drop = new Coin(enemy.x + 20, 340);
+
+        setTimeout(() => {
+          this.level.collectibleObjects.push(drop);
+        }, 200);
+      }
     }
   });
 };
@@ -136,7 +144,7 @@ World.prototype.shouldChonkSpawn = function () {
  * Spawns a new helper Chonk, positions it, and reverses its movement direction.
  */
 World.prototype.spawnChonk = function () {
-  let helperChonk = new Chonk(2425, 180, true);
+  let helperChonk = new Chonk(2425, -100, true);
   helperChonk.otherDirection = true;
   this.reverseSpeed(helperChonk);
   this.level.enemies.push(helperChonk);
@@ -146,8 +154,10 @@ World.prototype.spawnChonk = function () {
  * Spawns a new minion Chicken and positions it.
  */
 World.prototype.spawnChicken = function (i = 0) {
-  let x = 3650 + 80 * i;
-  let y = 325 - 75 * i;
+  let bossPositionX = this.level.bosses[0].x;
+  let bossPositionY = this.level.bosses[0].y;
+  let x = bossPositionX + 150 + 25 * i;
+  let y = bossPositionY + 175;
   let minionChicken = new Chicken(x, y, true, 1);
   this.level.enemies.push(minionChicken);
 };
