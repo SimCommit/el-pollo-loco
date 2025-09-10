@@ -77,6 +77,9 @@ World.prototype.checkEnemyDefeat = function () {
       despawnObject(enemy, this.level.enemies, 2000);
       if (enemy instanceof Chicken && enemy.isMinion) {
         let drop = new Bottle(enemy.x, 380);
+        if ((this.countMinionsAlive() + this.countMinionsMarkedForDespawn()) % 2 !== 0) {
+          drop = new Coin(enemy.x, 340);
+        }
 
         setTimeout(() => {
           this.level.collectibleObjects.push(drop);
@@ -84,7 +87,7 @@ World.prototype.checkEnemyDefeat = function () {
       }
 
       if (enemy instanceof Chonk) {
-        let drop = new Coin(enemy.x + 20, 340);
+        let drop = new Coin(enemy.x + 20, 365);
 
         setTimeout(() => {
           this.level.collectibleObjects.push(drop);
@@ -178,6 +181,13 @@ World.prototype.areMinionsAlive = function () {
 World.prototype.countMinionsAlive = function () {
   let miniosAlive = this.level.enemies.filter(
     (enemy) => enemy instanceof Chicken && enemy.isMinion
+  );
+  return miniosAlive.length;
+};
+
+World.prototype.countMinionsMarkedForDespawn = function () {
+  let miniosAlive = this.level.enemies.filter(
+    (enemy) => enemy instanceof Chicken && enemy.isMinion && enemy.isMarkedForDespawn
   );
   return miniosAlive.length;
 };

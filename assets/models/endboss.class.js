@@ -98,6 +98,8 @@ class Endboss extends MovableObject {
 
   spawningStart = 0;
 
+  retreatStart = 0;
+
   /**
    * Timestamp when the boss intro sequence started (ms since epoch).
    * @type {number}
@@ -118,6 +120,8 @@ class Endboss extends MovableObject {
 
   isSpawningMinions = false;
 
+  isGettingInPosition = false;
+
   /**
    * Whether free walking between minX/maxX is allowed (outside attack/recover locks).
    * @type {boolean}
@@ -135,6 +139,10 @@ class Endboss extends MovableObject {
    * @type {boolean}
    */
   hasRecentlyAttacked = false;
+
+  hasRecentlySpawned = false;
+
+  hasRecentlyRetreated = false;
 
   /**
    * Current on/off state for the vulnerable blink overlay.
@@ -287,7 +295,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.applyGravity();
-    
+
     /**
      * Horizontal starting position of the boss in the level.
      * @type {number}

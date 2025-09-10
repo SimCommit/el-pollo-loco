@@ -107,13 +107,7 @@ function intiLevel() {
       new Coin(750, 300),
       new Coin(800, 300),
       new Coin(850, 300),
-      // new Coin(900, 300),
-      // new Coin(950, 300),
-      // new Coin(1000, 300),
-      // new Coin(1050, 300),
-      // new Coin(1100, 300),
-      // new Coin(1150, 300),
-      // new Coin(1200, 300),
+
       new Coin(1250, 300),
       new Coin(1300, 300),
       new Coin(1350, 300),
@@ -154,11 +148,11 @@ function intiLevel() {
 
       new Coin(2650, 100),
 
-      new Coin(2900, 325),
-      new Coin(2950, 325),
-      new Coin(3000, 325),
-      new Coin(3050, 325),
-      new Coin(3100, 325),
+      new Coin(2900, 340),
+      new Coin(2950, 340),
+      new Coin(3000, 340),
+      new Coin(3050, 340),
+      new Coin(3100, 340),
     ],
     [
       new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 95, 0, 95),

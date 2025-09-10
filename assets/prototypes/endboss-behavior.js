@@ -38,11 +38,14 @@ Endboss.prototype.handleCurrentState = function () {
     case "recover":
       this.handleRecover();
       break;
-    case "positioning":
-      this.handlePositioning();
-      break;
-    case "spawning":
-      this.handleSpawningMinions();
+    // case "positioning":
+    //   this.handlePositioning();
+    //   break;
+    // case "spawning":
+    //   this.handleSpawningMinions();
+    //   break;
+    case "retreat":
+      this.handleRetreat();
       break;
     case "alert":
       this.handleAlert();
@@ -130,7 +133,12 @@ Endboss.prototype.handlePrepare = function () {
     this.playStateAnimation(this.IMAGES_PREPARE, this.frameDelay.prepare);
 
     if (timePassed > 0.7) {
+      // if (this.canStartMinionSpawn) {
+      //   this.isGettingInPosition = true;
+      //   // this.isSpawningMinions = true;
+      // } else {
       this.isAttacking = true;
+      // }
     }
   }
 };
@@ -187,6 +195,15 @@ Endboss.prototype.handleRecover = function () {
       this.jumpRecover();
       this.moveRight();
       this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
+      if (this.world.bottleAmmo <= 1) {
+        if (timePassed > 0.1 && timePassed < 0.2 && this.world.countMinionsAlive() === 0) {
+          this.world.spawnChicken(0);
+        } else if (timePassed > 0.3 && timePassed < 0.4 && this.world.countMinionsAlive() === 1) {
+          this.world.spawnChicken(1);
+        } else if (timePassed > 0.5 && timePassed < 0.6 && this.world.countMinionsAlive() === 2) {
+          this.world.spawnChicken(2);
+        }
+      }
     } else if (timePassed < 1.8) {
       this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
     } else {
@@ -229,11 +246,24 @@ Endboss.prototype.handleSpawningMinions = function () {
       } else if (timePassed > 0.5 && timePassed < 0.6 && this.world.countMinionsAlive() === 2) {
         this.world.spawnChicken(2);
       }
-    // } else if (timePassed > 2 && timePassed < 4) {
-    //   this.moveRight(9);
+      // } else if (timePassed > 2 && timePassed < 4) {
+      //   this.moveRight(9);
     } else if (timePassed > 2) {
       this.isSpawningMinions = false;
       this.hasRecentlySpawned = true;
+    }
+  }
+};
+
+Endboss.prototype.handleRetreat = function () {
+  if (this.currentState === "retreat") {
+    this.canTakeDamage = true;
+    let timePassed = this.secondsSince(this.retreatStart);
+    this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
+    if (timePassed < 2) {
+      this.moveRight(7);
+    } else {
+      this.hasRecentlyRetreated = true;
     }
   }
 };
@@ -299,6 +329,11 @@ Endboss.prototype.updateState = function () {
       }, 6000);
     }
 
+    if (newState === "retreat") {
+      setTimeout(() => {
+        this.hasRecentlyRetreated = false;
+      }, 8000);
+    }
     if (this.currentState === "hurt") {
       this.hasRecentlyAttacked = false;
     }
@@ -320,16 +355,18 @@ Endboss.prototype.resolveState = function () {
     return "intro";
   } else if (this.isLockedToAttack()) {
     return "attack";
-  } else if (this.isLockedToMinionSpawn()) {
-    return "spawning";
+    // } else if (this.isLockedToMinionSpawn()) {
+    //   return "spawning";
   } else if (this.isHurt(2)) {
     return "hurt";
-  } else if (this.canStartMinionSpawn()) {
-    return "positioning";
-  } else if (this.canStartAttack()) {
-    return "prepare";
+    // } else if (this.isLockedToPositioning()) {
+    //   return "positioning";
   } else if (this.isLockedToRecover()) {
     return "recover";
+  } else if (this.canRetreat()) {
+    return "retreat";
+  } else if (this.canStartAttack()) {
+    return "prepare";
   } else if (this.isAllowedToWalk) {
     return "walking";
   } else {
@@ -345,6 +382,7 @@ Endboss.prototype.resolveState = function () {
 Endboss.prototype.resetAnimationAndTimestamps = function (newState) {
   this.resetCurrentImage();
   this.resetSkipFrame();
+  this.retreatStart = this.timestampIfState("retreat", newState);
   this.spawningStart = this.timestampIfState("spawning", newState);
   this.prepareStart = this.timestampIfState("prepare", newState);
   this.attackStart = this.timestampIfState("attack", newState);
@@ -394,13 +432,22 @@ Endboss.prototype.canStartAttack = function () {
   }
 };
 
-Endboss.prototype.canStartMinionSpawn = function () {
-  return (
-    !this.isAttacking &&
-    !this.isRecovering &&
-    !this.hasRecentlySpawned &&
-    this.world.bottleAmmo <= 1
-  );
+// Endboss.prototype.canStartMinionSpawn = function () {
+//   return (
+//     !this.isAttacking &&
+//     !this.isRecovering &&
+//     !this.hasRecentlySpawned &&
+//     this.world.bottleAmmo <= 1 &&
+//     this.x < 3700
+//   );
+// };
+
+Endboss.prototype.canRetreat = function () {
+  return this.world.countMinionsAlive() > 0 && !this.hasRecentlyRetreated && this.x < 3800;
+};
+
+Endboss.prototype.isLockedToPositioning = function () {
+  return this.isGettingInPosition && !this.hasRecentlySpawned;
 };
 
 Endboss.prototype.isLockedToMinionSpawn = function () {
