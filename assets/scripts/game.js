@@ -57,10 +57,10 @@ function init() {
  */
 function handleImageLoad() {
   loadedImageCount++;
+  
   if (loadedImageCount === REQUIRED_IMAGE_COUNT) {
     hideLoadingScreen();
     SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.04, 0, true);
-    loadedImageCount = 0;
   }
 }
 
@@ -69,6 +69,7 @@ function handleImageLoad() {
  * and setting up all presentation-related elements such as sound, UI, and idle timing.
  */
 function startGame() {
+  loadedImageCount = 0;
   prepareGameState();
   initializeWorld();
   initializePresentation();
