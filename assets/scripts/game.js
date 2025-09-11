@@ -37,7 +37,7 @@ let loadedImageCount = 0;
  * The total number of images required before the game can start.
  * @type {number}
  */
-let REQUIRED_IMAGE_COUNT = 265;
+let REQUIRED_IMAGE_COUNT = 260;
 
 /**
  * Initializes the game by assigning the canvas element
@@ -57,7 +57,7 @@ function init() {
  */
 function handleImageLoad() {
   loadedImageCount++;
-  
+
   if (loadedImageCount === REQUIRED_IMAGE_COUNT) {
     hideLoadingScreen();
     SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.04, 0, true);

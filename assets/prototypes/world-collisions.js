@@ -261,8 +261,8 @@ World.prototype.collectCoin = function (item) {
   this.coinAmount++;
   SoundManager.playOne(SoundManager.COIN_COLLECT, 1, 0.05, 170);
   this.handleFullCoinBar();
-  if (this.coinAmount < 11) {
-    this.coinBar.setPercentage(this.coinAmount * 10);
+  if (this.coinAmount < 6) {
+    this.coinBar.setPercentage(this.coinAmount * 20);
   }
   despawnObject(item, this.level.collectibleObjects);
 };
@@ -273,7 +273,7 @@ World.prototype.collectCoin = function (item) {
  * and plays a corresponding sound effect.
  */
 World.prototype.handleFullCoinBar = function () {
-  if (this.coinAmount >= 10 && this.character.health < 100) {
+  if (this.coinAmount >= 5 && this.character.health < 100) {
     this.character.health += 20;
     this.healthBar.setPercentage(this.character.health);
     if (this.character.health > 100) {

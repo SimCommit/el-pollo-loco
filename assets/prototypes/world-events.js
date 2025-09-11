@@ -76,7 +76,7 @@ World.prototype.checkEnemyDefeat = function () {
       enemy.isMarkedForDespawn = true;
       despawnObject(enemy, this.level.enemies, 2000);
       if (enemy instanceof Chicken && enemy.isMinion) {
-        let drop = new Bottle(enemy.x, 380);
+        let drop = new Bottle(enemy.x, 370);
         if ((this.countMinionsAlive() + this.countMinionsMarkedForDespawn()) % 2 !== 0) {
           drop = new Coin(enemy.x, 340);
         }
@@ -87,7 +87,7 @@ World.prototype.checkEnemyDefeat = function () {
       }
 
       if (enemy instanceof Chonk) {
-        let drop = new Coin(enemy.x + 20, 365);
+        let drop = new Coin(enemy.x + 20, 340);
 
         setTimeout(() => {
           this.level.collectibleObjects.push(drop);
@@ -147,7 +147,7 @@ World.prototype.shouldChonkSpawn = function () {
  * Spawns a new helper Chonk, positions it, and reverses its movement direction.
  */
 World.prototype.spawnChonk = function () {
-  let helperChonk = new Chonk(2425, -100, true);
+  let helperChonk = new Chonk(2425, -50, true);
   helperChonk.otherDirection = true;
   this.reverseSpeed(helperChonk);
   this.level.enemies.push(helperChonk);
@@ -161,7 +161,7 @@ World.prototype.spawnChicken = function (i = 0) {
   let bossPositionY = this.level.bosses[0].y;
   let x = bossPositionX + 150 + 25 * i;
   let y = bossPositionY + 175;
-  let minionChicken = new Chicken(x, y, true, 1);
+  let minionChicken = new Chicken(x, y, true, 0.8);
   this.level.enemies.push(minionChicken);
 };
 

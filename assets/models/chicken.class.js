@@ -90,7 +90,7 @@ class Chicken extends MovableObject {
    *
    * @param {number} x - Horizontal starting position of the chicken.
    */
-  constructor(x, y = 375, isMinion = false, speed = 0.35) {
+  constructor(x, y = 375, isMinion = false, speed = 0.4) {
     super().loadImage("assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
