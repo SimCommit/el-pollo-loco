@@ -33,6 +33,7 @@ class Endboss extends MovableObject {
     landing: 5,
     walking: 5,
     intro1: 10,
+    intro2: 6
   };
 
   /**
@@ -209,6 +210,27 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
 
+    /**
+   * Image paths for the alert animation intro sequence.
+   * @type {string[]}
+   */
+  IMAGES_INTRO2 = [
+    // "assets/img/4_enemie_boss_chicken/2_alert/G5.png",
+    // "assets/img/4_enemie_boss_chicken/2_alert/G6.png",
+    // "assets/img/4_enemie_boss_chicken/2_alert/G7.png",
+    // "assets/img/4_enemie_boss_chicken/2_alert/G8.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G9.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G10.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
+  ];
+
   /**
    * Image paths for the prepare animation sequence.
    * Shown before the boss initiates an attack.
@@ -288,6 +310,7 @@ class Endboss extends MovableObject {
     super().loadImage(this.IMAGES_ALERT[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ALERT);
+    this.loadImages(this.IMAGES_INTRO2);
     this.loadImages(this.IMAGES_PREPARE);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_FLYING);

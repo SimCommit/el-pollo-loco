@@ -105,7 +105,7 @@ Endboss.prototype.handleIntro = function () {
   }
 
   if (timePassed >= 1.8 && timePassed < 2.5) {
-    this.playStateAnimation(this.IMAGES_ALERT, this.frameDelay.alert);
+    this.playStateAnimation(this.IMAGES_INTRO2, this.frameDelay.intro2);
   }
 };
 
