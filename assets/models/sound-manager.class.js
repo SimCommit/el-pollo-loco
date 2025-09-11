@@ -84,6 +84,14 @@ class SoundManager {
    * */
   static CHICKEN_NOISE = new Audio("assets/audio/chicken/noise_1.mp3");
 
+    /**
+   * Chicken spawn sound
+   * @type {HTMLAudioElement}
+   *
+   * */
+  static CHICKEN_SPAWN_1 = new Audio("assets/audio/chicken/spawn-1.mp3");
+
+
   /**
    * Frying sound played when the boss dies
    * @type {HTMLAudioElement}
@@ -198,7 +206,7 @@ class SoundManager {
     SoundManager.CHARACTER_BOUNCE_HIGH,
 
     SoundManager.CHICKEN_NOISE,
-
+    SoundManager.CHICKEN_SPAWN_1,
     SoundManager.BOSS_HURT,
     SoundManager.BOSS_HURT_2,
     SoundManager.BOSS_DEAD,
