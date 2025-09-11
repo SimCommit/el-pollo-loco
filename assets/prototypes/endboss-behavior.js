@@ -241,9 +241,9 @@ Endboss.prototype.handleSpawningMinions = function () {
       this.moveRight(8);
       if (timePassed > 0.1 && timePassed < 0.2 && this.world.countMinionsAlive() === 0) {
         this.world.spawnChicken(0);
-      } else if (timePassed > 0.3 && timePassed < 0.4 && this.world.countMinionsAlive() === 1) {
+      } else if (timePassed > 0.25 && timePassed < 0.4 && this.world.countMinionsAlive() === 1) {
         this.world.spawnChicken(1);
-      } else if (timePassed > 0.5 && timePassed < 0.6 && this.world.countMinionsAlive() === 2) {
+      } else if (timePassed > 0.45 && timePassed < 0.6 && this.world.countMinionsAlive() === 2) {
         this.world.spawnChicken(2);
       }
       // } else if (timePassed > 2 && timePassed < 4) {
@@ -258,12 +258,14 @@ Endboss.prototype.handleSpawningMinions = function () {
 Endboss.prototype.handleRetreat = function () {
   if (this.currentState === "retreat") {
     this.canTakeDamage = true;
+    this.isAllowedToWalk = false;
     let timePassed = this.secondsSince(this.retreatStart);
     this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
-    if (timePassed < 2) {
+    if (timePassed < 2 && this.x < 3800) {
       this.moveRight(7);
     } else {
       this.hasRecentlyRetreated = true;
+      this.isAllowedToWalk = true;
     }
   }
 };
@@ -443,7 +445,7 @@ Endboss.prototype.canStartAttack = function () {
 // };
 
 Endboss.prototype.canRetreat = function () {
-  return this.world.countMinionsAlive() > 0 && !this.hasRecentlyRetreated && this.x < 3800;
+  return this.world.countMinionsAlive() > 0 && !this.hasRecentlyRetreated;
 };
 
 Endboss.prototype.isLockedToPositioning = function () {
