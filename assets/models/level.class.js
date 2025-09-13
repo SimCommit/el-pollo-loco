@@ -14,6 +14,13 @@ class Level {
    */
   backgroundObjects = [];
 
+    /**
+   * All static background layers (e.g. hills, sky, trees).
+   * Rendered in parallax and not interactive.
+   * @type {MovingBackgroundObject[]}
+   */
+  movingBackgroundObjects = [];
+
   /**
    * Cloud objects that move independently across the level.
    * Used for visual depth (parallax effect).
@@ -63,11 +70,12 @@ class Level {
    * @param {CollectibleObject[]} collectibleObjects - Items the player can pick up.
    * @param {Obstacle[]} obstacles - Static objects that block or hurt the player.
    */
-  constructor(enemies, bosses, clouds, backgroundObjects, collectibleObjects, obstacles) {
+  constructor(enemies, bosses, clouds, backgroundObjects, movingBackgroundObjects, collectibleObjects, obstacles) {
     this.enemies = enemies;
     this.bosses = bosses;
     this.clouds = clouds;
     this.backgroundObjects = backgroundObjects;
+    this.movingBackgroundObjects = movingBackgroundObjects;
     this.collectibleObjects = collectibleObjects;
     this.obstacles = obstacles;
   }

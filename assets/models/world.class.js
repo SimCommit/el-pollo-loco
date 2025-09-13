@@ -19,6 +19,8 @@ class World {
    */
   level = level1;
 
+
+
   /**
    * Reference to the HTML canvas element used for rendering.
    * @type {HTMLCanvasElement}
@@ -63,7 +65,6 @@ class World {
    */
   // bottleAmmo = 4;
   bottleAmmo = 0;
-
 
   /**
    * Current number of coins the player is holding.
@@ -120,14 +121,14 @@ class World {
   /**
    * Collection of status bars that are always displayed in the UI.
    * Typically includes the health bar, coin bar, and bottle bar.
- * @type {Array<HealthBar|CoinBar|BottleBar>}
+   * @type {Array<HealthBar|CoinBar|BottleBar>}
    */
   statusBars = [this.healthBar, this.coinBar, this.bottleBar];
 
   /**
    * Collection of health bars for bosses, shown during boss fights.
    * Empty if no boss is active.
- * @type {Array<BossHealthBar>}
+   * @type {Array<BossHealthBar>}
    */
   bossHealthBars = [];
 
@@ -181,6 +182,7 @@ class World {
   setWorld() {
     this.character.setWorld(this);
     this.level.bosses[0].setWorld(this);
+    this.level.movingBackgroundObjects.forEach(obj => obj.setWorld(this));
   }
 
   /**
@@ -234,6 +236,11 @@ class World {
     this.ctx.translate(this.cameraX, 0);
     // --- Space for background objects ---
     this.addObjectsToMap(this.level.backgroundObjects);
+
+    // back
+    // this.ctx.translate(-this.cameraX, 0);
+    this.addObjectsToMap(this.level.movingBackgroundObjects);
+    // this.ctx.translate(this.cameraX, 0);
 
     // --- Space for movable objects ---
     this.addObjectsToMap(this.level.clouds);
