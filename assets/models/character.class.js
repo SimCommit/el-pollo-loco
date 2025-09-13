@@ -128,8 +128,8 @@ class Character extends MovableObject {
    *
    * @type {number}
    */
-  x = 110;
-  // x = 3000;
+  // x = 110;
+  x = 3000;
 
 
   /**
@@ -196,7 +196,7 @@ class Character extends MovableObject {
    *
    * @type {number}
    */
-  acceleration = 1;
+  acceleration = 0.9;
 
   /**
    * The current health of the character (0–100).

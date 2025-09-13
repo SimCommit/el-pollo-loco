@@ -168,7 +168,7 @@ class Endboss extends MovableObject {
    *
    * @type {number}
    */
-  acceleration = 1;
+  acceleration = 1.2;
 
   canTakeDamage = true;
 

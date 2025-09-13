@@ -85,10 +85,10 @@ World.prototype.handleTopImpact = function (enemy) {
   if (this.character.isHigher(enemy) && this.character.isFalling()) {
     if (enemy instanceof Chonk) {
       this.character.jump(20);
-      SoundManager.playOne(SoundManager.CHARACTER_BOUNCE_HIGH, 1, 0.3, 1000);
+      SoundManager.playOne(SoundManager.CHARACTER_BOUNCE_HIGH, 1, 0.3, 800);
     } else {
       this.character.jump(14);
-      SoundManager.playOne(SoundManager.CHARACTER_BOUNCE_LOW, 1, 0.3, 1000);
+      SoundManager.playOne(SoundManager.CHARACTER_BOUNCE_LOW, 1, 0.3, 800);
     }
   }
 };

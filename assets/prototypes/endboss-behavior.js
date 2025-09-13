@@ -480,13 +480,13 @@ Endboss.prototype.isLockedToRecover = function () {
 Endboss.prototype.jumpRecover = function () {
   if (this.hasJumpedThisAttack) return;
 
-  this.jump(18);
+  this.jump(24);
   this.hasJumpedThisAttack = true;
 };
 
-Endboss.prototype.jumpSpwan = function () {
-  if (this.hasJumpedThisSpawn) return;
+// Endboss.prototype.jumpSpwan = function () {
+//   if (this.hasJumpedThisSpawn) return;
 
-  this.jump(17);
-  this.hasJumpedThisSpawn = true;
-};
+//   this.jump(17);
+//   this.hasJumpedThisSpawn = true;
+// };
