@@ -150,7 +150,7 @@ World.prototype.spawnChonk = function () {
   let helperChonk = new Chonk(2425, -110, true);
   helperChonk.otherDirection = true;
   this.reverseSpeed(helperChonk);
-  SoundManager.playOne(SoundManager.CHICKEN_SPAWN_1);
+  SoundManager.playOne(SoundManager.CHICKEN_SPAWN_1, 1, 0.1);
   this.level.enemies.push(helperChonk);
 };
 
@@ -163,7 +163,7 @@ World.prototype.spawnChicken = function (i = 0) {
   let x = bossPositionX + 150 + 25 * i;
   let y = bossPositionY + 175;
   let minionChicken = new Chicken(x, y, true, 0.8);
-  SoundManager.playOne(SoundManager.CHICKEN_SPAWN_1);
+  SoundManager.playOne(SoundManager.CHICKEN_SPAWN_1, 1, 0.1);
   this.level.enemies.push(minionChicken);
 };
 

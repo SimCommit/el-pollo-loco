@@ -84,13 +84,12 @@ class SoundManager {
    * */
   static CHICKEN_NOISE = new Audio("assets/audio/chicken/noise_1.mp3");
 
-    /**
+  /**
    * Chicken spawn sound
    * @type {HTMLAudioElement}
    *
    * */
   static CHICKEN_SPAWN_1 = new Audio("assets/audio/chicken/spawn-1.mp3");
-
 
   /**
    * Frying sound played when the boss dies
@@ -140,6 +139,13 @@ class SoundManager {
    *
    * */
   static BOTTLE_COLLECT = new Audio("assets/audio/salsa_bottle/collect_1.mp3");
+
+  /**
+   * Sound played when a bottle drops into sand
+   * @type {HTMLAudioElement}
+   *
+   * */
+  static BOTTLE_DROP = new Audio("assets/audio/salsa_bottle/drop-into-sand-1.mp3");
 
   /**
    * Sound played when the player collects a coin
@@ -215,6 +221,7 @@ class SoundManager {
 
     SoundManager.BOTTLE_BREAK,
     SoundManager.BOTTLE_COLLECT,
+    SoundManager.BOTTLE_DROP,
     SoundManager.COIN_COLLECT,
     SoundManager.COIN_BAR_FILLED_UP,
 
