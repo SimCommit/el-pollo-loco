@@ -28,9 +28,9 @@ class Character extends MovableObject {
    * @type {string[]}
    */
   IMAGES_HURT = [
-    "assets/img/2_character_pepe/4_hurt/H-41.png",
-    "assets/img/2_character_pepe/4_hurt/H-42.png",
-    "assets/img/2_character_pepe/4_hurt/H-43.png",
+    "assets/img/2_character_pepe/4_hurt/H-41-1.png",
+    "assets/img/2_character_pepe/4_hurt/H-42-1.png",
+    "assets/img/2_character_pepe/4_hurt/H-43-1.png",
   ];
 
   /**
