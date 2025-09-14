@@ -13,6 +13,8 @@ class World {
    */
   character = new Character();
 
+  characterShadow = new ObjectShadow(this.character.x);
+
   /**
    * The current level configuration loaded into the world.
    * @type {Level}
@@ -180,6 +182,7 @@ class World {
    */
   setWorld() {
     this.character.setWorld(this);
+    this.characterShadow.setWorld(this);
     this.level.bosses[0].setWorld(this);
   }
 
@@ -238,6 +241,7 @@ class World {
     // --- Space for movable objects ---
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.collectibleObjects);
+    this.addToMap(this.characterShadow);
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.obstacles);
     this.addObjectsToMap(this.level.enemies);
