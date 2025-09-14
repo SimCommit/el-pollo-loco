@@ -14,7 +14,7 @@ Character.prototype.animate = function () {
     this.world.preventLeavingBoundaries();
     this.world.cameraX = -this.x + 100;
     this.updateVerticalHistory();
-  }, 1000 / 30);
+  }, 1000 / 60);
 };
 
 /**
@@ -97,7 +97,11 @@ Character.prototype.handleFrozen = function () {
  */
 Character.prototype.handleHurt = function () {
   if (this.currentState === "hurt") {
-    this.playAnimation(this.IMAGES_HURT);
+    if (this.skipFrame % this.frameDelay.hurt === 0) {
+      this.playAnimation(this.IMAGES_HURT);
+    }
+
+    this.skipFrame += 1;
     SoundManager.playOne(SoundManager.CHARACTER_HURT, 1, 0.4, 1500);
   }
 };
@@ -111,7 +115,11 @@ Character.prototype.handleHurt = function () {
  */
 Character.prototype.handleWalking = function () {
   if (this.currentState === "walking") {
-    this.playAnimation(this.IMAGES_WALKING);
+    if (this.skipFrame % this.frameDelay.walking === 0) {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
+
+    this.skipFrame += 1;
     this.handleHorizontalMovement(true);
     this.handleJumpInput();
     this.handleWalkingSound();

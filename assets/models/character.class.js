@@ -117,10 +117,12 @@ class Character extends MovableObject {
    * @type {{ dead: number, jumping: number, longIdle: number, idle: number }}
    */
   frameDelay = {
-    dead: 5,
-    jumping: 6,
-    longIdle: 12,
-    idle: 10,
+    dead: 5 * 2,
+    jumping: 6 * 2,
+    longIdle: 12 * 2,
+    idle: 10 * 2,
+    walking: 1 * 2,
+    hurt: 3,
   };
 
   /**
@@ -128,8 +130,8 @@ class Character extends MovableObject {
    *
    * @type {number}
    */
-  // x = 110;
-  x = 3000;
+  x = 110;
+  // x = 3000;
 
 
   /**
@@ -182,7 +184,7 @@ class Character extends MovableObject {
    *
    * @type {number}
    */
-  speed = 8;
+  speed = 8 / 2;
 
   /**
    * Vertical movement speed (positive = falling, negative = jumping).
