@@ -4,7 +4,7 @@ class ObjectShadow extends MovableObject {
    *
    * @type {string[]}
    */
-  IMAGES_SHADOW = ["assets/img/2_character_pepe/pepes-shadow-3.png"];
+  IMAGES_SHADOW = ["assets/img/2_character_pepe/pepes-shadow-5.png"];
 
   /**
    * The width of the shadow in pixels.
@@ -18,10 +18,10 @@ class ObjectShadow extends MovableObject {
    *
    * @type {number}
    */
-  height = 32;
+  height = 38;
 
-  constructor(objectX, y = 396) {
-    super().loadImage("assets/img/2_character_pepe/pepes-shadow-3.png");
+  constructor(objectX, y = 395) {
+    super().loadImage("assets/img/2_character_pepe/pepes-shadow-5.png");
     this.loadImages(this.IMAGES_SHADOW);
     this.x = objectX;
     this.y = y;
@@ -35,12 +35,12 @@ class ObjectShadow extends MovableObject {
 
   animate() {
     setStoppableInterval(() => {
-      this.x = this.world.character.x;
       this.handleShadow();
     }, 1000 / 60);
   }
 
   handleShadow() {
+    this.x = this.world.character.x;
     this.playAnimation(this.IMAGES_SHADOW);
   }
 }
