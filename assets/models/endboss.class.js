@@ -24,16 +24,16 @@ class Endboss extends MovableObject {
    * @type {{ dead: number, hurt: number, alert: number, prepare: number, attack: number, flying: number, landing: number, walking: number, intro1: number }}
    */
   frameDelay = {
-    dead: 7,
-    hurt: 3,
-    alert: 9,
-    prepare: 6,
-    attack: 8,
-    flying: 5,
-    landing: 5,
-    walking: 5,
-    intro1: 10,
-    intro2: 6
+    dead: 7 * 2,
+    hurt: 3 * 2,
+    alert: 9 * 2,
+    prepare: 6 * 2,
+    attack: 8 * 2,
+    flying: 5 * 2,
+    landing: 5 * 2,
+    walking: 4 * 2,
+    intro1: 5 * 2,
+    intro2: 6 * 2
   };
 
   /**
@@ -77,7 +77,7 @@ class Endboss extends MovableObject {
    * Movement speed of the boss.
    * @type {number}
    */
-  speed = 7;
+  speed = 7 / 2;
 
   /**
    * Timestamp when the boss entered the "prepare" state (ms since epoch).
@@ -120,8 +120,6 @@ class Endboss extends MovableObject {
   isRecovering = false;
 
   isSpawningMinions = false;
-
-  isGettingInPosition = false;
 
   /**
    * Whether free walking between minX/maxX is allowed (outside attack/recover locks).

@@ -75,7 +75,7 @@ class EndbossHealthBar extends StatusBar {
   animate() {
     setStoppableInterval(() => {
       this.stickToBoss();
-    }, 1000 / 30);
+    }, 1000 / 60);
   }
 
   /**
