@@ -55,10 +55,27 @@
             <div class="start-screen-content">
                 <h1>El Pollo Loco</h1>
 
-                <button class="btn btn-start" onclick="startGame(), hideElementById('start-screen')">START GAME</button>
+                <div class="btn-wrapper">
+                    <button class="btn btn-start" onclick="startGame(), hideElementById('start-screen')">
+                        START GAME
+                    </button>
+                    <button id="btn-info-controls" class="btn btn-start" onclick="toggleInfoAndControls()">
+                        GAME INFO
+                    </button>
+                </div>
 
-                <img id="input-instructions" src="./assets/img/ui/keyboard-controls-stardos-stencil.png"
-                    alt="Keyboard Controls" class="keyboard-controls" />
+                <div id="info-and-controls-container">
+                    <img id="input-instructions" src="./assets/img/ui/keyboard-controls-stardos-stencil.png"
+                        alt="Keyboard Controls" class="keyboard-controls"/>
+
+                    <p id="info" class="d-flex d-none">
+                        <strong>El Pollo Loco is a fun little platformer.</strong>
+                        <br>
+                        Join Pepe on his quest to battle chickens, overcome obstacles, collect coins and salsa bottles,
+                        and take down the mighty Endboss.
+                    </p>
+
+                </div>
             </div>
             <div class="legal-links">
                 <a href="./legal-notice.html">Legal Notice</a>
@@ -75,7 +92,6 @@
 
 
         <section id="fullscreen" class="fullscreen-content">
-            <!-- <div class="canvas-spacer"></div> -->
 
             <canvas id="canvas" width="720" height="480">
             </canvas>

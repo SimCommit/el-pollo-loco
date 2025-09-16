@@ -1,5 +1,7 @@
 // ui-screens.js
 
+let controlsAreDisplayed = true;
+
 /**
  * Resets the user interface to the default gameplay view.
  * - Shows game menu buttons
@@ -55,6 +57,32 @@ function updateMuteButtonState() {
   } else {
     button.classList.remove("btn-muted");
   }
+}
+
+function toggleInfoAndControls() {
+  button = getElementByIdHelper("btn-info-controls");
+  infoP = getElementByIdHelper("info"); 
+  controls = getElementByIdHelper("input-instructions"); 
+
+  if (controlsAreDisplayed) {
+    hideInstructions();
+  } else {
+    showInstruction();
+  }
+}
+
+function showInstruction() {
+    button.innerHTML = "GAME INFO";
+    infoP.classList.add("d-none");
+    controls.classList.remove("d-none");
+    controlsAreDisplayed = true;
+}
+
+function hideInstructions() {
+      button.innerHTML = "CONTROLS";
+    infoP.classList.remove("d-none");
+    controls.classList.add("d-none");
+    controlsAreDisplayed = false;
 }
 
 /**

@@ -131,6 +131,7 @@ function quitGame() {
   showElementById("start-screen");
   resetUi();
   blurButton(".btn");
+  showInstruction();
 }
 
 /**

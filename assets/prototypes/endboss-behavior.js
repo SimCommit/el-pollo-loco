@@ -258,7 +258,6 @@ Endboss.prototype.handleRetreat = function () {
  * Locks walking until `setDelayFlags` re-enables it.
  */
 Endboss.prototype.endRecoverState = function () {
-  console.log("end of recover");
   this.isRecovering = false;
   this.isAllowedToWalk = false;
 };
@@ -295,7 +294,6 @@ Endboss.prototype.updateState = function () {
   let newState = this.resolveState();
 
   if (newState !== this.currentState) {
-    console.log(newState);
 
     if (newState === "attack") {
       this.hasJumpedThisAttack = false;
