@@ -60,29 +60,25 @@ function updateMuteButtonState() {
 }
 
 function toggleInfoAndControls() {
-  button = getElementByIdHelper("btn-info-controls");
-  infoP = getElementByIdHelper("info"); 
-  controls = getElementByIdHelper("input-instructions"); 
-
   if (controlsAreDisplayed) {
     hideInstructions();
   } else {
-    showInstruction();
+    showInstructions();
   }
 }
 
-function showInstruction() {
-    button.innerHTML = "GAME INFO";
-    infoP.classList.add("d-none");
-    controls.classList.remove("d-none");
-    controlsAreDisplayed = true;
+function showInstructions() {
+  getElementByIdHelper("btn-info-controls").innerHTML = "GAME INFO";
+  getElementByIdHelper("info").classList.add("d-none");
+  getElementByIdHelper("input-instructions").classList.remove("d-none");
+  controlsAreDisplayed = true;
 }
 
 function hideInstructions() {
-      button.innerHTML = "CONTROLS";
-    infoP.classList.remove("d-none");
-    controls.classList.add("d-none");
-    controlsAreDisplayed = false;
+  getElementByIdHelper("btn-info-controls").innerHTML = "CONTROLS";
+  getElementByIdHelper("info").classList.remove("d-none");
+  getElementByIdHelper("input-instructions").classList.add("d-none");
+  controlsAreDisplayed = false;
 }
 
 /**
