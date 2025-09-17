@@ -5,7 +5,7 @@
  * Updates the animation state, handles character behavior based on state,
  * and tracks Y-position history for smooth motion.
  *
- * Runs at a fixed interval of 30 FPS.
+ * Runs at a fixed interval of 60 FPS.
  */
 Character.prototype.animate = function () {
   setStoppableInterval(() => {

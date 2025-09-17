@@ -88,7 +88,7 @@ function intiLevel() {
 
       new Bottle(2700, 370),
 
-      new Bottle(2900, 370),
+      new Bottle(2920, 370),
 
       new Bottle(3100, 370),
       new Bottle(3200, 370),
@@ -147,11 +147,9 @@ function intiLevel() {
 
       new Coin(2650, 100),
 
-      new Coin(2900, 340),
-      new Coin(2950, 340),
-      new Coin(3000, 340),
-      new Coin(3050, 340),
-      new Coin(3100, 340),
+      new Coin(2950, 330),
+      new Coin(3000, 330),
+      new Coin(3050, 330),
     ],
     [
       new Obstacle("assets/img/0_obstacles/obstacle_1.png", -255, 210, 264, 264, 20, 95, 0, 95),

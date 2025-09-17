@@ -50,15 +50,18 @@ class Chicken extends MovableObject {
    */
   height = 50;
 
-  // /**
-  //  * Vertical position of the chicken on the canvas (from top).
-  //  * Typically aligned with the ground level.
-  //  * @type {number}
-  //  */
-  // y = 375;
-
+  /**
+   * Initial vertical velocity for jumps.
+   * Negative values move upward.
+   * @type {number}
+   */
   speedY = -5;
 
+  /**
+   * Rate at which vertical speed changes.
+   * Used for gravity calculations.
+   * @type {number}
+   */
   acceleration = 1;
 
   /**
@@ -82,13 +85,21 @@ class Chicken extends MovableObject {
    */
   isMarkedForDespawn = false;
 
+  /**
+   * Tracks the last objects this chicken had contact with.
+   * Used to prevent multiple collision responses.
+   * @type {Object.<string, Object>}
+   */
   lastContactWith = {};
 
   /**
    * Creates a new chicken enemy at the specified x-position.
    * Loads all images and starts the animation loop.
    *
-   * @param {number} x - Horizontal starting position of the chicken.
+   * @param {number} x - Horizontal starting position of the chicken
+   * @param {number} [y=375] - Vertical starting position of the chicken
+   * @param {boolean} [isMinion=false] - Whether this chicken is spawned by the endboss
+   * @param {number} [speed=0.4] - Movement speed of the chicken
    */
   constructor(x, y = 375, isMinion = false, speed = 0.4) {
     super().loadImage("assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
@@ -102,6 +113,11 @@ class Chicken extends MovableObject {
      */
     this.x = x;
 
+    /**
+     * Vertical position of the chicken on the canvas.
+     * Default is 375 (ground level).
+     * @type {number}
+     */
     this.y = y;
 
     /**
@@ -111,6 +127,11 @@ class Chicken extends MovableObject {
      */
     this.speed = speed;
 
+    /**
+     * Indicates if this chicken is a minion spawned by the endboss.
+     * Affects behavior and despawn logic.
+     * @type {boolean}
+     */
     this.isMinion = isMinion;
 
     this.applyGravity();

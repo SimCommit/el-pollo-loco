@@ -4,7 +4,7 @@
  * Starts the animation loop for the Endboss.
  * Updates the animation state and handles behavior based on the current state.
  *
- * Runs at a fixed interval of 30 FPS.
+ * Runs at a fixed interval of 60 FPS.
  */
 Endboss.prototype.animate = function () {
   setStoppableInterval(() => {
@@ -171,6 +171,7 @@ Endboss.prototype.endAttackstate = function () {
  * - First flies right while vulnerable
  * - Plays landing animation
  * - Ends the recover state after a short delay
+ * - Controls timing for spawning minions
  */
 Endboss.prototype.handleRecover = function () {
   if (this.currentState === "recover") {
@@ -178,19 +179,7 @@ Endboss.prototype.handleRecover = function () {
     let timePassed = this.secondsSince(this.recoverStart);
 
     if (timePassed < 1.55) {
-      this.canTakeDamage = true;
-      this.jumpRecover();
-      this.moveRight(7 / 2);
-      this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
-      if (this.world.bottleAmmo <= 1) {
-        if (timePassed > 0.1 && timePassed < 0.2 && this.world.countMinionsAlive() === 0) {
-          this.world.spawnChicken(0);
-        } else if (timePassed > 0.3 && timePassed < 0.4 && this.world.countMinionsAlive() === 1) {
-          this.world.spawnChicken(1);
-        } else if (timePassed > 0.5 && timePassed < 0.6 && this.world.countMinionsAlive() === 2) {
-          this.world.spawnChicken(2);
-        }
-      }
+      this.handleRecoveryMovement(timePassed);
     } else if (timePassed < 1.8) {
       this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
     } else {
@@ -199,45 +188,36 @@ Endboss.prototype.handleRecover = function () {
   }
 };
 
-Endboss.prototype.handlePositioning = function () {
-  if (this.currentState === "positioning") {
-    this.canTakeDamage = true;
-    this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
-
-    if (this.x > 3400) {
-      this.moveLeft();
-    } else if (this.x < 3350 && this.world.isCloseToCharacter(this, 200)) {
-      this.moveRight();
-    } else {
-      this.isSpawningMinions = true;
+/**
+ * Handles the recovery movement phase and minion spawning logic.
+ * - Executes jump recovery movement
+ * - Moves the boss to the right
+ * - Plays flying animation
+ * - Spawns minion chickens if player has low ammo
+ *
+ * @param {number} timePassed - Time elapsed since recovery started
+ */
+Endboss.prototype.handleRecoveryMovement = function (timePassed) {
+  this.canTakeDamage = true;
+  this.jumpRecover();
+  this.moveRight(7 / 2);
+  this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
+  if (this.world.bottleAmmo <= 1) {
+    if (timePassed > 0.1 && timePassed < 0.2 && this.world.countMinionsAlive() === 0) {
+      this.world.spawnChicken(0);
+    } else if (timePassed > 0.3 && timePassed < 0.4 && this.world.countMinionsAlive() === 1) {
+      this.world.spawnChicken(1);
+    } else if (timePassed > 0.5 && timePassed < 0.6 && this.world.countMinionsAlive() === 2) {
+      this.world.spawnChicken(2);
     }
   }
 };
 
-Endboss.prototype.handleSpawningMinions = function () {
-  if (this.currentState === "spawning") {
-    this.canTakeDamage = false;
-    let timePassed = this.secondsSince(this.spawningStart);
-    this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
-
-    if (timePassed < 1.5) {
-      this.jumpSpwan();
-      this.moveRight(8 / 2);
-      if (timePassed > 0.1 && timePassed < 0.2 && this.world.countMinionsAlive() === 0) {
-        this.world.spawnChicken(0);
-      } else if (timePassed > 0.25 && timePassed < 0.4 && this.world.countMinionsAlive() === 1) {
-        this.world.spawnChicken(1);
-      } else if (timePassed > 0.45 && timePassed < 0.6 && this.world.countMinionsAlive() === 2) {
-        this.world.spawnChicken(2);
-      }
-
-    } else if (timePassed > 2) {
-      this.isSpawningMinions = false;
-      this.hasRecentlySpawned = true;
-    }
-  }
-};
-
+/**
+ * Handles the boss retreat behavior.
+ * Makes the boss move away from the character when minions are present
+ * and sets appropriate flags after retreat completion.
+ */
 Endboss.prototype.handleRetreat = function () {
   if (this.currentState === "retreat") {
     this.canTakeDamage = true;
@@ -288,13 +268,16 @@ Endboss.prototype.handleWalking = function () {
 
 /**
  * Updates the current state of the Endboss based on behavior logic.
- * If the state has changed, resets animation tracking and sets relevant timestamps.
+ * When state changes:
+ * - Resets attack jump flags
+ * - Manages state-specific cooldowns and timers
+ * - Updates animation counters and timestamps
+ * - Handles hurt state attack cancellation
  */
 Endboss.prototype.updateState = function () {
   let newState = this.resolveState();
 
   if (newState !== this.currentState) {
-
     if (newState === "attack") {
       this.hasJumpedThisAttack = false;
     }
@@ -304,24 +287,43 @@ Endboss.prototype.updateState = function () {
     }
 
     if (newState === "spawning") {
-      this.hasJumpedThisSpawn = false;
-      setTimeout(() => {
-        this.hasRecentlySpawned = false;
-      }, 6000);
+      this.setSpawningFlags();
     }
 
     if (newState === "retreat") {
-      setTimeout(() => {
-        this.hasRecentlyRetreated = false;
-      }, 8000);
+      this.setRetreatFlags();
     }
+
     if (this.currentState === "hurt") {
       this.hasRecentlyAttacked = false;
     }
+    
     this.resetAnimationAndTimestamps(newState);
   }
 
   this.currentState = newState;
+};
+
+/**
+ * Initializes spawning state flags and cooldown.
+ * - Resets the spawn jump tracking flag
+ * - Sets a 6-second timer to re-enable spawning
+ */
+Endboss.prototype.setSpawningFlags = function () {
+  this.hasJumpedThisSpawn = false;
+  setTimeout(() => {
+    this.hasRecentlySpawned = false;
+  }, 6000);
+};
+
+/**
+ * Manages the retreat state cooldown timer.
+ * Sets an 8-second cooldown before allowing another retreat.
+ */
+Endboss.prototype.setRetreatFlags = function () {
+  setTimeout(() => {
+    this.hasRecentlyRetreated = false;
+  }, 8000);
 };
 
 /**
@@ -409,17 +411,14 @@ Endboss.prototype.canStartAttack = function () {
   }
 };
 
-
+/**
+ * Checks if the boss should retreat based on minion presence.
+ * Boss retreats when minions are alive and retreat is not on cooldown.
+ *
+ * @returns {boolean} True if retreat conditions are met, false otherwise.
+ */
 Endboss.prototype.canRetreat = function () {
   return this.world.countMinionsAlive() > 0 && !this.hasRecentlyRetreated;
-};
-
-Endboss.prototype.isLockedToPositioning = function () {
-  return this.isGettingInPosition && !this.hasRecentlySpawned;
-};
-
-Endboss.prototype.isLockedToMinionSpawn = function () {
-  return this.isSpawningMinions && !this.hasRecentlySpawned;
 };
 
 /**
@@ -449,4 +448,3 @@ Endboss.prototype.jumpRecover = function () {
   this.jump(24);
   this.hasJumpedThisAttack = true;
 };
-

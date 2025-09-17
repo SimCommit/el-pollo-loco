@@ -24,16 +24,16 @@ class Endboss extends MovableObject {
    * @type {{ dead: number, hurt: number, alert: number, prepare: number, attack: number, flying: number, landing: number, walking: number, intro1: number }}
    */
   frameDelay = {
-    dead: 7 * 2,
-    hurt: 3 * 2,
-    alert: 9 * 2,
-    prepare: 6 * 2,
-    attack: 8 * 2,
-    flying: 5 * 2,
-    landing: 5 * 2,
-    walking: 4 * 2,
-    intro1: 5 * 2,
-    intro2: 6 * 2
+    dead: 14,
+    hurt: 6,
+    alert: 18,
+    prepare: 12,
+    attack: 16,
+    flying: 10,
+    landing: 10,
+    walking: 8,
+    intro1: 10,
+    intro2: 12
   };
 
   /**
@@ -97,8 +97,16 @@ class Endboss extends MovableObject {
    */
   recoverStart = 0;
 
+  /**
+   * Timestamp when boss starts spawning minion chickens (ms since epoch).
+   * @type {number}
+   */
   spawningStart = 0;
 
+  /**
+   * Timestamp when boss starts retreating (ms since epoch).
+   * @type {number}
+   */
   retreatStart = 0;
 
   /**
@@ -119,8 +127,6 @@ class Endboss extends MovableObject {
    */
   isRecovering = false;
 
-  isSpawningMinions = false;
-
   /**
    * Whether free walking between minX/maxX is allowed (outside attack/recover locks).
    * @type {boolean}
@@ -139,8 +145,16 @@ class Endboss extends MovableObject {
    */
   hasRecentlyAttacked = false;
 
+  /**
+   * Cooldown flag: prevents immediately spawning new minions after the last spawn.
+   * @type {boolean}
+   */
   hasRecentlySpawned = false;
 
+  /**
+   * Cooldown flag: prevents immediately retreating after the last retreat.
+   * @type {boolean}
+   */
   hasRecentlyRetreated = false;
 
   /**
@@ -168,6 +182,11 @@ class Endboss extends MovableObject {
    */
   acceleration = 1.2;
 
+  /**
+   * Whether the boss can currently take damage.
+   * Used to implement invulnerability phases.
+   * @type {boolean}
+   */
   canTakeDamage = true;
 
   /**
@@ -213,10 +232,6 @@ class Endboss extends MovableObject {
    * @type {string[]}
    */
   IMAGES_INTRO2 = [
-    // "assets/img/4_enemie_boss_chicken/2_alert/G5.png",
-    // "assets/img/4_enemie_boss_chicken/2_alert/G6.png",
-    // "assets/img/4_enemie_boss_chicken/2_alert/G7.png",
-    // "assets/img/4_enemie_boss_chicken/2_alert/G8.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G9.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G10.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G11.png",

@@ -75,7 +75,7 @@ class MovableObject extends DrawableObject {
   /**
    * Applies gravity to the object by continuously updating its vertical position.
    * Gravity affects the object only when it is in the air or falling.
-   * Called at a fixed interval (25 FPS).
+   * Called at a fixed interval (60 FPS).
    */
   applyGravity() {
     setStoppableInterval(() => {
@@ -89,7 +89,7 @@ class MovableObject extends DrawableObject {
   /**
    * Applies horizontal force to the object based on its current speed and direction.
    * Used for knockback or sliding effects. Gradually slows down due to acceleration.
-   * Called at a fixed interval (25 FPS).
+   * Called at a fixed interval (30 FPS).
    */
   applyHorizontalForce() {
     setStoppableInterval(() => {

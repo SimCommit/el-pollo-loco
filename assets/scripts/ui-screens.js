@@ -20,6 +20,13 @@ function resetUi() {
   }
 }
 
+/**
+ * Initializes the mute state based on localStorage settings.
+ * - Checks for stored mute state in localStorage
+ * - If no stored state exists, mutes all sounds and saves the state
+ * - If state exists, loads it and applies the appropriate mute setting
+ * - Updates the mute button visual state to match current settings
+ */
 function initMuteDefaultUsingStorage() {
   const stored = localStorage.getItem("muteState");
 
@@ -59,6 +66,10 @@ function updateMuteButtonState() {
   }
 }
 
+/**
+ * Toggles between displaying game info and control instructions.
+ * Uses the controlsAreDisplayed flag to determine which view to show.
+ */
 function toggleInfoAndControls() {
   if (controlsAreDisplayed) {
     hideInstructions();
@@ -67,6 +78,13 @@ function toggleInfoAndControls() {
   }
 }
 
+/**
+ * Shows the control instructions and hides the game info.
+ * - Updates the toggle button text to "GAME INFO"
+ * - Hides the info section
+ * - Shows the input instructions
+ * - Sets controlsAreDisplayed flag to true
+ */
 function showInstructions() {
   getElementByIdHelper("btn-info-controls").innerHTML = "GAME INFO";
   getElementByIdHelper("info").classList.add("d-none");
@@ -74,6 +92,13 @@ function showInstructions() {
   controlsAreDisplayed = true;
 }
 
+/**
+ * Shows the game info and hides the control instructions.
+ * - Updates the toggle button text to "CONTROLS"
+ * - Shows the info section
+ * - Hides the input instructions
+ * - Sets controlsAreDisplayed flag to false
+ */
 function hideInstructions() {
   getElementByIdHelper("btn-info-controls").innerHTML = "CONTROLS";
   getElementByIdHelper("info").classList.remove("d-none");
