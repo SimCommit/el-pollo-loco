@@ -66,7 +66,6 @@ class World {
   // bottleAmmo = 4;
   bottleAmmo = 0;
 
-
   /**
    * Current number of coins the player is holding.
    * This value increases with each collected coin and resets when coins are converted into health
@@ -122,14 +121,14 @@ class World {
   /**
    * Collection of status bars that are always displayed in the UI.
    * Typically includes the health bar, coin bar, and bottle bar.
- * @type {Array<HealthBar|CoinBar|BottleBar>}
+   * @type {Array<HealthBar|CoinBar|BottleBar>}
    */
   statusBars = [this.healthBar, this.coinBar, this.bottleBar];
 
   /**
    * Collection of health bars for bosses, shown during boss fights.
    * Empty if no boss is active.
- * @type {Array<BossHealthBar>}
+   * @type {Array<BossHealthBar>}
    */
   bossHealthBars = [];
 
@@ -161,19 +160,147 @@ class World {
   minion2IsAlive = false;
   minion3IsAlive = false;
 
-  /**
-   * Creates a new game world instance and initializes rendering, entities, and game loop.
-   *
-   * @param {HTMLCanvasElement} canvas - The HTML canvas element used for rendering the game.
-   * @param {Keyboard} keyboard - The keyboard input handler for player controls.
-   */
+  // /**
+  //  * Creates a new game world instance and initializes rendering, entities, and game loop.
+  //  *
+  //  * @param {HTMLCanvasElement} canvas - The HTML canvas element used for rendering the game.
+  //  * @param {Keyboard} keyboard - The keyboard input handler for player controls.
+  //  */
+  // constructor(canvas, keyboard) {
+  //   this.ctx = canvas.getContext("2d");
+  //   this.canvas = canvas;
+  //   this.keyboard = keyboard;
+  //   this.setWorld();
+  //   this.draw();
+  //   this.run();
+  // }
+
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.setWorld();
-    this.draw();
+
+    // DeltaTime-Testobjekte (beide sollen ca. 200px/s erreichen)
+    this.squareRequest = { x: 50, y: 100, size: 30, speed: 200 }; // speed in px/s
+    this.squareInterval = { x: 50, y: 300, size: 30, speed: 200 };
+
+    this.squareNoDeltaRequest = { x: 50, y: 200, size: 30, speed: 3.3 };
+    this.squareNoDeltaInterval = { x: 50, y: 400, size: 30, speed: 3.3 }; // ~200px/s bei 60fps
+
+    this.lastFrameTime = performance.now();
+    this.lastFrameTime2 = performance.now();
+
+
+    this.loopRequest();
+    this.loopInterval();
     this.run();
+  }
+
+  // --- Loop für DeltaTime-Objekt ---
+  loopRequest() {
+    const now = performance.now();
+    const deltaTime = (now - this.lastFrameTime) / 1000;
+    this.lastFrameTime = now;
+
+    // Update nur für DeltaTime-Objekt
+    this.squareRequest.x += this.squareRequest.speed * deltaTime;
+
+    if (this.squareRequest.x > 800) {
+      this.squareRequest.x = 0;
+    }
+
+    this.squareNoDeltaRequest.x += this.squareNoDeltaRequest.speed;
+
+    if (this.squareNoDeltaRequest.x > 800) {
+      this.squareNoDeltaRequest.x = 0;
+    }
+
+    // Draw nur den oberen Bereich
+    this.drawRequest();
+
+    requestAnimationFrame(() => this.loopRequest());
+  }
+
+  // --- Loop für fixed-frame-Objekt ---
+  loopInterval() {
+    setStoppableInterval(() => {
+      const now = performance.now();
+      const deltaTime = (now - this.lastFrameTime2) / 1000;
+      this.lastFrameTime2 = now;
+
+      // Update nur für fixed-frame-Objekt
+      this.squareInterval.x += this.squareInterval.speed * deltaTime;
+
+      if (this.squareInterval.x > 800) {
+        this.squareInterval.x = 0;
+      }
+
+      this.squareNoDeltaInterval.x += this.squareNoDeltaInterval.speed;
+
+      if (this.squareNoDeltaInterval.x > 800) {
+        this.squareNoDeltaInterval.x = 0;
+      }
+
+      // Draw nur den unteren Bereich
+      this.drawInterval();
+    }, 1000 / 60);
+  }
+
+  drawRequest() {
+    // oberen Bereich löschen
+    this.ctx.clearRect(0, 0, this.canvas.width, 250);
+
+    // Quadrat mit DeltaTime (oben, blau)
+    this.ctx.fillStyle = "blue";
+    this.ctx.fillRect(
+      this.squareRequest.x,
+      this.squareRequest.y,
+      this.squareRequest.size,
+      this.squareRequest.size
+    );
+    this.ctx.fillStyle = "green";
+    this.ctx.fillRect(
+      this.squareNoDeltaRequest.x,
+      this.squareNoDeltaRequest.y,
+      this.squareNoDeltaRequest.size,
+      this.squareNoDeltaRequest.size
+    );
+
+    // Label
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText("Mit DeltaTime via requestAnimationFrame (blau)", 20, 90);
+
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText("Ohne DeltaTime via requestAnimationFrame (grün)", 20, 190);
+  }
+
+  drawInterval() {
+    // unteren Bereich löschen
+    this.ctx.clearRect(0, 250, this.canvas.width, 250);
+
+    // Quadrat ohne DeltaTime (unten, rot)
+    this.ctx.fillStyle = "red";
+    this.ctx.fillRect(
+      this.squareInterval.x,
+      this.squareInterval.y,
+      this.squareInterval.size,
+      this.squareInterval.size
+    );
+    this.ctx.fillStyle = "yellow";
+    this.ctx.fillRect(
+      this.squareNoDeltaInterval.x,
+      this.squareNoDeltaInterval.y,
+      this.squareNoDeltaInterval.size,
+      this.squareNoDeltaInterval.size
+    );
+
+    // Label
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText("Mit DeltaTime via Interval 1000 / 60 (rot)", 20, 290);
+
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText("Ohne DeltaTime via Interval 1000 / 60 (gelb)", 20, 390);
   }
 
   /**
@@ -226,44 +353,44 @@ class World {
     }
   }
 
-  /**
-   * Renders all visual elements of the world onto the canvas.
-   * Clears the canvas, applies camera translations, draws background and movable objects,
-   * then renders fixed UI elements and schedules the next frame via `requestAnimationFrame`.
-   */
-  draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  // /**
+  //  * Renders all visual elements of the world onto the canvas.
+  //  * Clears the canvas, applies camera translations, draws background and movable objects,
+  //  * then renders fixed UI elements and schedules the next frame via `requestAnimationFrame`.
+  //  */
+  // draw() {
+  //   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.ctx.translate(this.cameraX, 0);
-    // --- Space for background objects ---
-    this.addObjectsToMap(this.level.backgroundObjects);
+  //   this.ctx.translate(this.cameraX, 0);
+  //   // --- Space for background objects ---
+  //   this.addObjectsToMap(this.level.backgroundObjects);
 
-    // --- Space for movable objects ---
-    this.addObjectsToMap(this.level.clouds);
-    this.addObjectsToMap(this.level.collectibleObjects);
-    this.addToMap(this.characterShadow);
-    this.addToMap(this.character);
-    this.addObjectsToMap(this.level.obstacles);
-    this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.level.bosses);
-    this.addObjectsToMap(this.throwableObjects);
-    this.addObjectsToMap(this.bossHealthBars);
+  //   // --- Space for movable objects ---
+  //   this.addObjectsToMap(this.level.clouds);
+  //   this.addObjectsToMap(this.level.collectibleObjects);
+  //   this.addToMap(this.characterShadow);
+  //   this.addToMap(this.character);
+  //   this.addObjectsToMap(this.level.obstacles);
+  //   this.addObjectsToMap(this.level.enemies);
+  //   this.addObjectsToMap(this.level.bosses);
+  //   this.addObjectsToMap(this.throwableObjects);
+  //   this.addObjectsToMap(this.bossHealthBars);
 
-    // back
-    this.ctx.translate(-this.cameraX, 0);
+  //   // back
+  //   this.ctx.translate(-this.cameraX, 0);
 
-    // --- Space for fixed objects ---
-    this.addObjectsToMap(this.statusBars);
-    this.addObjectsToMap(this.endscreenObjects);
+  //   // --- Space for fixed objects ---
+  //   this.addObjectsToMap(this.statusBars);
+  //   this.addObjectsToMap(this.endscreenObjects);
 
-    // forwards
-    this.ctx.translate(this.cameraX, 0);
-    this.ctx.translate(-this.cameraX, 0);
+  //   // forwards
+  //   this.ctx.translate(this.cameraX, 0);
+  //   this.ctx.translate(-this.cameraX, 0);
 
-    requestAnimationFrame(() => {
-      this.draw();
-    });
-  }
+  //   requestAnimationFrame(() => {
+  //     this.draw();
+  //   });
+  // }
 
   /**
    * Draws all given drawable objects onto the canvas.
