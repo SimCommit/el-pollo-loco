@@ -12,7 +12,7 @@ Character.prototype.animate = function () {
     this.updateState();
     this.handleCurrentState();
     this.world.preventLeavingBoundaries();
-    this.world.cameraX = -this.x + 100;
+    this.world.cameraX = Math.round(-this.x + 100);
     this.updateVerticalHistory();
   // }, 1000 / 60);
 
