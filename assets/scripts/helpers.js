@@ -7,6 +7,8 @@
  */
 let intervalIds = [];
 
+let rAFIds = [];
+
 /**
  * Creates a setInterval and registers its ID for global tracking.
  * This allows all such intervals to be stopped later via stopAllIntervals().
@@ -18,6 +20,12 @@ function setStoppableInterval(fn, time) {
   let id = setInterval(fn, time);
   intervalIds.push(id);
 }
+
+function setStoppableRAF(fn) {
+  let id = requestAnimationFrame(fn);
+  rAFIds.push(id);
+}
+
 
 /**
  * Removes an object from an array, optionally after a delay.

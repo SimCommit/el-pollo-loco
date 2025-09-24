@@ -59,6 +59,7 @@ function handleImageLoad() {
   loadedImageCount++;
 
   if (loadedImageCount === REQUIRED_IMAGE_COUNT) {
+    world.character.initCharacterLoops();
     hideLoadingScreen();
     SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.04, 0, true);
   }
@@ -140,6 +141,7 @@ function quitGame() {
  */
 function stopAllIntervals() {
   intervalIds.forEach(clearInterval);
+  rAFIds.forEach(cancelAnimationFrame);
 }
 
 /**

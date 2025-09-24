@@ -233,6 +233,9 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_LONG_IDLE);
+  }
+
+  initCharacterLoops() {
     this.applyGravity();
     this.applyHorizontalForce();
     this.currentState = "idle";

@@ -145,18 +145,20 @@ class Chicken extends MovableObject {
    * (e.g. walking animation or death handling) 60 times per second.
    */
   animate() {
-    setStoppableInterval(() => {
-      this.updateState();
+    // setStoppableInterval(() => {
+    this.updateState();
 
-      switch (this.currentState) {
-        case "dead":
-          this.handleDeadChicken();
-          break;
-        case "walking":
-          this.handleWalkingChicken();
-          break;
-      }
-    }, 1000 / 60);
+    switch (this.currentState) {
+      case "dead":
+        this.handleDeadChicken();
+        break;
+      case "walking":
+        this.handleWalkingChicken();
+        break;
+    }
+    // }, 1000 / 60);
+
+    setStoppableRAF(() => this.animate());
   }
 
   /**

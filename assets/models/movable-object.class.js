@@ -92,7 +92,7 @@ class MovableObject extends DrawableObject {
    * Called at a fixed interval (30 FPS).
    */
   applyHorizontalForce() {
-    setStoppableInterval(() => {
+    // setStoppableInterval(() => {
       if (this.speedX < 0 && this.x <= this.world.getLeftBoundary() + 2) {
         this.speedX = 0;
       } else if (this.speedX > 0 && this.x >= this.world.level.level_end_x - 2) {
@@ -104,7 +104,10 @@ class MovableObject extends DrawableObject {
         this.x += this.speedX;
         this.speedX -= this.accelerationX;
       }
-    }, 1000 / 30);
+    // }, 1000 / 30);
+
+        requestAnimationFrame(() => this.applyHorizontalForce());
+
   }
 
   /**
