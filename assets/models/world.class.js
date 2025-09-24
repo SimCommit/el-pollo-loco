@@ -161,6 +161,7 @@ class World {
   minion3IsAlive = false;
 
   lastFrameTime = performance.now();
+  deltaTime = 0;
 
   /**
    * Creates a new game world instance and initializes rendering, entities, and game loop.
@@ -202,6 +203,11 @@ class World {
     this.checkCharacterDefeat();
     this.checkEnemySpawn();
     this.checkChickenSoundTrigger();
+
+    const now = performance.now();
+    this.deltaTime = (now - this.lastFrameTime) / 10;
+    this.lastFrameTime = now;
+    console.log(this.deltaTime);
 
     setStoppableRAF(() => this.run());
   }

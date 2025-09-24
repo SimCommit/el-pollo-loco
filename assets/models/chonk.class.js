@@ -90,6 +90,6 @@ class Chonk extends Chicken {
      */
     this.isHelper = isHelper;
 
-    this.animate();
+    this.initChickenLoops();
   }
 }

@@ -87,7 +87,6 @@ class MovableObject extends DrawableObject {
       this.speedY -= this.acceleration / 2;
     }
 
-
     setStoppableRAF(() => this.applyGravity());
   }
 
@@ -97,7 +96,6 @@ class MovableObject extends DrawableObject {
    * Called at a fixed interval (30 FPS).
    */
   applyHorizontalForce() {
-    // setStoppableInterval(() => {
     if (this.speedX < 0 && this.x <= this.world.getLeftBoundary() + 2) {
       this.speedX = 0;
     } else if (this.speedX > 0 && this.x >= this.world.level.level_end_x - 2) {
@@ -109,7 +107,6 @@ class MovableObject extends DrawableObject {
       this.x += this.speedX;
       this.speedX -= this.accelerationX;
     }
-    // }, 1000 / 30);
 
     requestAnimationFrame(() => this.applyHorizontalForce());
   }
@@ -345,14 +342,14 @@ class MovableObject extends DrawableObject {
    * Moves the object to the right by increasing its x position based on speed.
    */
   moveRight(speed = this.speed) {
-    this.x += speed;
+    this.x += speed * 0.58 * world.deltaTime;
   }
 
   /**
    * Moves the object to the left by decreasing its x position based on speed.
    */
   moveLeft(speed = this.speed) {
-    this.x -= speed;
+    this.x -= speed * 0.58 * world.deltaTime;
   }
 
   /**
