@@ -78,12 +78,17 @@ class MovableObject extends DrawableObject {
    * Called at a fixed interval (60 FPS).
    */
   applyGravity() {
-    setStoppableInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY / 2;
-        this.speedY -= this.acceleration / 2;
-      }
-    }, 1000 / 60);
+    // const now = performance.now();
+    // console.log(world.lastFrameTime);    
+    // const deltaTime = now - world.lastFrameTime;
+
+    if (this.isAboveGround() || this.speedY > 0) {
+      this.y -= this.speedY / 2;
+      this.speedY -= this.acceleration / 2;
+    }
+
+
+    setStoppableRAF(() => this.applyGravity());
   }
 
   /**
@@ -93,21 +98,20 @@ class MovableObject extends DrawableObject {
    */
   applyHorizontalForce() {
     // setStoppableInterval(() => {
-      if (this.speedX < 0 && this.x <= this.world.getLeftBoundary() + 2) {
-        this.speedX = 0;
-      } else if (this.speedX > 0 && this.x >= this.world.level.level_end_x - 2) {
-        this.speedX = 0;
-      } else if (this.speedX < 0) {
-        this.x += this.speedX;
-        this.speedX += this.accelerationX;
-      } else if (this.speedX > 0) {
-        this.x += this.speedX;
-        this.speedX -= this.accelerationX;
-      }
+    if (this.speedX < 0 && this.x <= this.world.getLeftBoundary() + 2) {
+      this.speedX = 0;
+    } else if (this.speedX > 0 && this.x >= this.world.level.level_end_x - 2) {
+      this.speedX = 0;
+    } else if (this.speedX < 0) {
+      this.x += this.speedX;
+      this.speedX += this.accelerationX;
+    } else if (this.speedX > 0) {
+      this.x += this.speedX;
+      this.speedX -= this.accelerationX;
+    }
     // }, 1000 / 30);
 
-        requestAnimationFrame(() => this.applyHorizontalForce());
-
+    requestAnimationFrame(() => this.applyHorizontalForce());
   }
 
   /**

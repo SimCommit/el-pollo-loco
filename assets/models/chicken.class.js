@@ -134,9 +134,18 @@ class Chicken extends MovableObject {
      */
     this.isMinion = isMinion;
 
-    this.applyGravity();
+    this.initChickenLoops();
+  }
 
-    this.animate();
+  initChickenLoops() {
+    if (!worldIsReady) {
+      setTimeout(() => {
+        this.initChickenLoops();        
+      }, 200);
+    } else {
+      this.applyGravity();
+      this.animate();
+    }
   }
 
   /**

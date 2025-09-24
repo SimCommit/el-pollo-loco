@@ -19,6 +19,7 @@ World.prototype.checkBossTrigger = function () {
  * and scheduling the boss fight start.
  */
 World.prototype.startBossEncounter = function () {
+  world.level.bosses[0].initEndbossLoops();
   this.handleBossIntroStart();
   this.handleBossFightStart();
 };
@@ -92,7 +93,7 @@ World.prototype.checkEnemyDefeat = function () {
  * Handles the item drop logic for defeated minion chickens.
  * Alternates between dropping bottles and coins based on the total number
  * of alive and despawning minions.
- * 
+ *
  * @param {Chicken} enemy - The defeated minion chicken
  */
 World.prototype.handleMinionItemDrop = function (enemy) {
@@ -110,7 +111,7 @@ World.prototype.handleMinionItemDrop = function (enemy) {
 /**
  * Handles the item drop logic for defeated Chonk enemies.
  * Drops a coin slightly offset from the Chonk's position.
- * 
+ *
  * @param {Chonk} enemy - The defeated Chonk
  */
 World.prototype.handleChonkItemDrop = function (enemy) {

@@ -39,6 +39,8 @@ let loadedImageCount = 0;
  */
 let REQUIRED_IMAGE_COUNT = 260;
 
+let worldIsReady = false;
+
 /**
  * Initializes the game by assigning the canvas element
  * and triggering the initial UI instruction toggle sequence.
@@ -59,6 +61,7 @@ function handleImageLoad() {
   loadedImageCount++;
 
   if (loadedImageCount === REQUIRED_IMAGE_COUNT) {
+    worldIsReady = true;
     world.character.initCharacterLoops();
     hideLoadingScreen();
     SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.04, 0, true);
@@ -71,6 +74,7 @@ function handleImageLoad() {
  */
 function startGame() {
   loadedImageCount = 0;
+  worldIsReady = false;
   prepareGameState();
   initializeWorld();
   initializePresentation();

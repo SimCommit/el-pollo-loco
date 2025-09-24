@@ -33,7 +33,7 @@ class Endboss extends MovableObject {
     landing: 10,
     walking: 8,
     intro1: 10,
-    intro2: 12
+    intro2: 12,
   };
 
   /**
@@ -227,7 +227,7 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
 
-    /**
+  /**
    * Image paths for the alert animation intro sequence.
    * @type {string[]}
    */
@@ -330,13 +330,16 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_LANDING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.applyGravity();
 
     /**
      * Horizontal starting position of the boss in the level.
      * @type {number}
      */
     this.x = 3800;
+  }
+
+  initEndbossLoops() {
+    this.applyGravity();
   }
 
   /**

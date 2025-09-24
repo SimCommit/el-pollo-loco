@@ -66,7 +66,6 @@ class World {
   // bottleAmmo = 4;
   bottleAmmo = 0;
 
-
   /**
    * Current number of coins the player is holding.
    * This value increases with each collected coin and resets when coins are converted into health
@@ -122,14 +121,14 @@ class World {
   /**
    * Collection of status bars that are always displayed in the UI.
    * Typically includes the health bar, coin bar, and bottle bar.
- * @type {Array<HealthBar|CoinBar|BottleBar>}
+   * @type {Array<HealthBar|CoinBar|BottleBar>}
    */
   statusBars = [this.healthBar, this.coinBar, this.bottleBar];
 
   /**
    * Collection of health bars for bosses, shown during boss fights.
    * Empty if no boss is active.
- * @type {Array<BossHealthBar>}
+   * @type {Array<BossHealthBar>}
    */
   bossHealthBars = [];
 
@@ -161,6 +160,8 @@ class World {
   minion2IsAlive = false;
   minion3IsAlive = false;
 
+  lastFrameTime = performance.now();
+
   /**
    * Creates a new game world instance and initializes rendering, entities, and game loop.
    *
@@ -174,6 +175,7 @@ class World {
     this.setWorld();
     this.draw();
     this.run();
+    this.lastFrameTime = performance.now();
   }
 
   /**
@@ -184,6 +186,7 @@ class World {
     this.character.setWorld(this);
     this.characterShadow.setWorld(this);
     this.level.bosses[0].setWorld(this);
+    this.worldIsReady = true;
   }
 
   /**
@@ -191,16 +194,16 @@ class World {
    * Includes object throwing, collision detection, event triggers, and spawning.
    */
   run() {
-    setStoppableInterval(() => {
-      this.checkThrowObjects();
-      this.checkCollisions();
-      this.checkBossTrigger();
-      this.checkEnemyDefeat();
-      this.checkBossDefeat();
-      this.checkCharacterDefeat();
-      this.checkEnemySpawn();
-      this.checkChickenSoundTrigger();
-    }, 1000 / 60);
+    this.checkThrowObjects();
+    this.checkCollisions();
+    this.checkBossTrigger();
+    this.checkEnemyDefeat();
+    this.checkBossDefeat();
+    this.checkCharacterDefeat();
+    this.checkEnemySpawn();
+    this.checkChickenSoundTrigger();
+
+    setStoppableRAF(() => this.run());
   }
 
   /**
