@@ -78,12 +78,8 @@ class MovableObject extends DrawableObject {
    * Called at a fixed interval (60 FPS).
    */
   applyGravity() {
-    // const now = performance.now();
-    // console.log(world.lastFrameTime);    
-    // const deltaTime = now - world.lastFrameTime;
-
     if (this.isAboveGround() || this.speedY > 0) {
-      this.y -= this.speedY / 2;
+      this.y -= (this.speedY / 2) * 0.6 * world.deltaTime;
       this.speedY -= this.acceleration / 2;
     }
 
@@ -417,12 +413,18 @@ class MovableObject extends DrawableObject {
     this.setThrowValues();
     SoundManager.playOne(SoundManager.CHARACTER_THROW, 1, 0.2, 500);
     this.applyGravity();
+
     if (world.character.otherDirection) {
       this.speedX = this.speedX * -1;
     }
-    setStoppableInterval(() => {
-      this.x += this.speedX;
-    }, 25);
+
+    this.setHorizontalMovement();
+  }
+
+  setHorizontalMovement() {
+    this.x += this.speedX * 0.45 * world.deltaTime;
+
+    setStoppableRAF(() => this.setHorizontalMovement());
   }
 
   /**

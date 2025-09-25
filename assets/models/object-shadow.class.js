@@ -36,7 +36,9 @@ class ObjectShadow extends MovableObject {
     this.loadImages(this.IMAGES_SHADOW);
     this.x = objectX;
     this.y = y;
+  }
 
+  initShadowLoops() {
     this.animate();
   }
 
@@ -52,9 +54,9 @@ class ObjectShadow extends MovableObject {
    * Starts the animation loop for the shadow.
    */
   animate() {
-    setStoppableInterval(() => {
-      this.handleShadow();
-    }, 1000 / 60);
+    this.handleShadow();
+
+    setStoppableRAF(() => this.animate());
   }
 
   /**

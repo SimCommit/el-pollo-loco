@@ -8,13 +8,11 @@
  * Runs at a fixed interval of 60 FPS.
  */
 Character.prototype.animate = function () {
-  // setStoppableInterval(() => {
     this.updateState();
     this.handleCurrentState();
     this.world.preventLeavingBoundaries();
     this.world.cameraX = Math.round(-this.x + 100);
     this.updateVerticalHistory();
-  // }, 1000 / 60);
 
   setStoppableRAF(() => this.animate());
 };

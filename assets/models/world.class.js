@@ -207,7 +207,7 @@ class World {
     const now = performance.now();
     this.deltaTime = (now - this.lastFrameTime) / 10;
     this.lastFrameTime = now;
-    console.log(this.deltaTime);
+    // console.log(this.deltaTime);
 
     setStoppableRAF(() => this.run());
   }

@@ -55,11 +55,6 @@ class Coin extends CollectibleObject {
    * Starts the animation loop for the coin.
    * Plays through all available images in the IMAGES array at 5 FPS.
    */
-  // animate() {
-  //   setStoppableInterval(() => {
-  //     this.playAnimation(this.IMAGES);
-  //   }, 1000 / 5);
-  // }
 
   animate() {
     this.playAnimation(this.IMAGES);

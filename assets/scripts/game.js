@@ -63,6 +63,7 @@ function handleImageLoad() {
   if (loadedImageCount === REQUIRED_IMAGE_COUNT) {
     worldIsReady = true;
     world.character.initCharacterLoops();
+    world.characterShadow.initShadowLoops();
     hideLoadingScreen();
     SoundManager.playOne(SoundManager.MUSIC_BACKGROUND, 1, 0.04, 0, true);
   }

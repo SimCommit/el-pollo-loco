@@ -69,12 +69,10 @@ class Cloud extends MovableObject {
    * Once it moves off-screen, it wraps around to the right side.
    */
   animate() {
-    // setStoppableInterval(() => {
     if (this.x < -750) {
       this.x = 4950;
     }
     this.moveLeft();
-    // }, 1000 / 60);
 
     setStoppableRAF(() => this.animate());
   }

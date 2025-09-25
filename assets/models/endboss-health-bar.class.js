@@ -73,9 +73,9 @@ class EndbossHealthBar extends StatusBar {
    * Continuously updates (with 60 FPS) the position to stay attached to the Endboss.
    */
   animate() {
-    setStoppableInterval(() => {
-      this.stickToBoss();
-    }, 1000 / 60);
+    this.stickToBoss();
+
+    setStoppableRAF(() => this.animate());
   }
 
   /**

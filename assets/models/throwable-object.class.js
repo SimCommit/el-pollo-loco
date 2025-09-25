@@ -102,7 +102,6 @@ class ThrowableObject extends MovableObject {
    * Runs at 12 frames per second.
    */
   animate() {
-    setStoppableInterval(() => {
       this.updateState();
 
       switch (this.currentState) {
@@ -113,7 +112,9 @@ class ThrowableObject extends MovableObject {
           this.handleThrown();
           break;
       }
-    }, 1000 / 12);
+
+  setStoppableRAF(() => this.animate());
+    
   }
 
   /**

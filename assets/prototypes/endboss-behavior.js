@@ -7,11 +7,11 @@
  * Runs at a fixed interval of 60 FPS.
  */
 Endboss.prototype.animate = function () {
-  setStoppableInterval(() => {
-    this.updateState();
-    this.handleCurrentState();
-    this.preventBossLeavingBoundaries();
-  }, 1000 / 60);
+  this.updateState();
+  this.handleCurrentState();
+  this.preventBossLeavingBoundaries();
+
+  setStoppableRAF(() => this.animate());
 };
 
 /**
@@ -297,7 +297,7 @@ Endboss.prototype.updateState = function () {
     if (this.currentState === "hurt") {
       this.hasRecentlyAttacked = false;
     }
-    
+
     this.resetAnimationAndTimestamps(newState);
   }
 
