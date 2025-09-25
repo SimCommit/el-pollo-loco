@@ -260,18 +260,28 @@ class SoundManager {
     currentTime = 0
   ) {
     if (SoundManager.cooldowns.get(sound)) return;
+    // if (sound.readyState !== 4) sound.load();
     if (sound.readyState == 4) {
       SoundManager.configureSound(sound, playbackRate, volume, loop, currentTime);
       SoundManager.volumes.set(sound, sound.volume);
       if (SoundManager.isMuted) {
         sound.volume = 0;
       }
+
+      // console.log(sound.readyState);
       sound.play();
 
       SoundManager.cooldowns.set(sound, true);
       setTimeout(() => {
         SoundManager.cooldowns.set(sound, false);
       }, cooldown);
+
+      const soundReloadInterval = setInterval(() => {
+        if (sound.ended) {
+          sound.load();
+          clearInterval(soundReloadInterval);
+        }
+      }, 100);
     }
   }
 
