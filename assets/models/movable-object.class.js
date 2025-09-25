@@ -72,6 +72,8 @@ class MovableObject extends DrawableObject {
    */
   SIDE_COLLISION_IGNORE_HEIGHT = 30;
 
+  frameCount = 0;
+
   /**
    * Applies gravity to the object by continuously updating its vertical position.
    * Gravity affects the object only when it is in the air or falling.
@@ -92,18 +94,23 @@ class MovableObject extends DrawableObject {
    * Called at a fixed interval (30 FPS).
    */
   applyHorizontalForce() {
-    if (this.speedX < 0 && this.x <= this.world.getLeftBoundary() + 2) {
-      this.speedX = 0;
-    } else if (this.speedX > 0 && this.x >= this.world.level.level_end_x - 2) {
-      this.speedX = 0;
-    } else if (this.speedX < 0) {
-      this.x += this.speedX;
-      this.speedX += this.accelerationX;
-    } else if (this.speedX > 0) {
-      this.x += this.speedX;
-      this.speedX -= this.accelerationX;
+    const updateEvery = 2;
+
+    if (this.frameCount === 0) {
+      if (this.speedX < 0 && this.x <= this.world.getLeftBoundary() + 2) {
+        this.speedX = 0;
+      } else if (this.speedX > 0 && this.x >= this.world.level.level_end_x - 2) {
+        this.speedX = 0;
+      } else if (this.speedX < 0) {
+        this.x += this.speedX;
+        this.speedX += this.accelerationX;
+      } else if (this.speedX > 0) {
+        this.x += this.speedX;
+        this.speedX -= this.accelerationX;
+      }
     }
 
+    this.frameCount = (this.frameCount + 1) % updateEvery;
     requestAnimationFrame(() => this.applyHorizontalForce());
   }
 

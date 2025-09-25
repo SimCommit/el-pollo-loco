@@ -37,6 +37,8 @@ class Coin extends CollectibleObject {
    */
   height = 70;
 
+  frameCount = 0;
+
   /**
    * Creates a new coin instance at the specified position.
    * Loads all required images and starts the animation loop.
@@ -57,8 +59,14 @@ class Coin extends CollectibleObject {
    */
 
   animate() {
-    this.playAnimation(this.IMAGES);
+    const updateEvery = 10;
 
+    if (this.frameCount === 0) {
+      this.playAnimation(this.IMAGES);
+    }
+    
+    this.frameCount = (this.frameCount + 1) % updateEvery;
     requestAnimationFrame(() => this.animate());
   }
 }
+

@@ -68,6 +68,8 @@ class ThrowableObject extends MovableObject {
    */
   damage = 50;
 
+  frameCount = 0;
+
   /**
    * Creates a new throwable bottle at the specified position.
    * Loads all necessary images, sets position, and initiates throw and animation.
@@ -102,6 +104,9 @@ class ThrowableObject extends MovableObject {
    * Runs at 12 frames per second.
    */
   animate() {
+    const updateEvery = 3;
+
+    if (this.frameCount === 0) {
       this.updateState();
 
       switch (this.currentState) {
@@ -112,9 +117,10 @@ class ThrowableObject extends MovableObject {
           this.handleThrown();
           break;
       }
+    }
 
-  setStoppableRAF(() => this.animate());
-    
+    this.frameCount = (this.frameCount + 1) % updateEvery;
+    setStoppableRAF(() => this.animate());
   }
 
   /**
