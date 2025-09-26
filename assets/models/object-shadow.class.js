@@ -38,6 +38,10 @@ class ObjectShadow extends MovableObject {
     this.y = y;
   }
 
+  /**
+   * Initializes the shadow's animation loop.
+   * Should be called after the shadow is fully constructed and world is set.
+   */
   initShadowLoops() {
     this.animate();
   }
@@ -52,6 +56,8 @@ class ObjectShadow extends MovableObject {
 
   /**
    * Starts the animation loop for the shadow.
+   * Updates shadow position and animation each frame,
+   * synchronized with the display refresh rate.
    */
   animate() {
     this.handleShadow();

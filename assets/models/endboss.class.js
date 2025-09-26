@@ -5,6 +5,7 @@
  *
  * Represents the final boss enemy in the game.
  * Inherits movement and physics from MovableObject.
+ * Uses frame-based animations synchronized with display refresh rate.
  */
 class Endboss extends MovableObject {
   /**
@@ -338,6 +339,10 @@ class Endboss extends MovableObject {
     this.x = 3800;
   }
 
+  /**
+   * Initializes the boss's physics and animation systems.
+   * Sets up gravity effects synchronized with display refresh rate.
+   */
   initEndbossLoops() {
     this.applyGravity();
   }
@@ -356,9 +361,8 @@ class Endboss extends MovableObject {
 
   /**
    * Draws the boss on the provided 2D canvas context.
-   * - If hurt: applies hue shift and calls {@link drawHurtIndicator}.
-   * - If vulnerable and not in endscreen: applies blink effect via {@link drawVulnerableIndicator}.
-   * - Otherwise: draws normally without filters.
+   * Updates visual effects based on state (hurt/vulnerable) and timing.
+   * Animation updates are synchronized with frame timing.
    *
    * @param {CanvasRenderingContext2D} ctx - The 2D rendering context.
    */

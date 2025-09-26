@@ -70,7 +70,7 @@ class EndbossHealthBar extends StatusBar {
 
   /**
    * Starts the animation loop for the health bar.
-   * Continuously updates (with 60 FPS) the position to stay attached to the Endboss.
+   * Uses requestAnimationFrame for smooth rendering and optimal performance.
    */
   animate() {
     this.stickToBoss();

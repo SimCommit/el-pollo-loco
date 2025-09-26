@@ -13,6 +13,10 @@ class World {
    */
   character = new Character();
 
+  /**
+   * The shadow effect that follows the character.
+   * @type {ObjectShadow}
+   */
   characterShadow = new ObjectShadow(this.character.x);
 
   /**
@@ -63,7 +67,6 @@ class World {
    * Current number of bottles (ammunition) available to the player.
    * @type {number}
    */
-  // bottleAmmo = 4;
   bottleAmmo = 0;
 
   /**
@@ -156,16 +159,46 @@ class World {
    */
   INTRO_LENGTH = 4000;
 
+  /**
+   * Flags indicating whether specific minion enemies are currently alive.
+   * Used to track minion state during boss fights.
+   * @type {boolean}
+   */
   minion1IsAlive = false;
   minion2IsAlive = false;
   minion3IsAlive = false;
 
+  /**
+   * Timestamp of the last frame for delta time calculation.
+   * @type {number}
+   */
   lastFrameTime = performance.now();
+
+  /**
+   * Timestamp of the last frame that exceeded minimum frame time.
+   * @type {number}
+   */
   lastFrameMax = performance.now();
 
+  /**
+   * Time elapsed since the last frame in normalized units (delta time).
+   * Used for frame-rate independent animations and updates.
+   * @type {number}
+   */
   deltaTime = 0;
+
+  /**
+   * Maximum delta time between frames that exceeded minimum frame time.
+   * Used for synchronization checks.
+   * @type {number}
+   */
   animationDeltaMax = 0;
 
+  /**
+   * Minimum frame time threshold in milliseconds.
+   * Used to determine if animations are in sync.
+   * @type {number}
+   */
   FRAME_TIME_MIN = 1.5;
 
   /**
@@ -181,7 +214,6 @@ class World {
     this.setWorld();
     this.draw();
     this.run();
-    this.lastFrameTime = performance.now();
   }
 
   /**
@@ -196,8 +228,13 @@ class World {
   }
 
   /**
-   * Starts the main game loop, executed at 60 FPS, handling core game logic updates.
-   * Includes object throwing, collision detection, event triggers, and spawning.
+   * Starts the main game loop, synchronized with the display refresh rate via requestAnimationFrame.
+   * Handles core game logic updates including:
+   * - Object throwing mechanics
+   * - Collision detection
+   * - Event triggers
+   * - Enemy spawning
+   * - Frame timing and synchronization
    */
   run() {
     this.checkThrowObjects();
@@ -214,6 +251,10 @@ class World {
     setStoppableRAF(() => this.run());
   }
 
+  /**
+   * Updates delta time values for frame-rate independent animations.
+   * Calculates both regular delta time and maximum animation delta time.
+   */
   setDeltas() {
     const now = performance.now();
     this.deltaTime = (now - this.lastFrameTime) / 10;
@@ -223,9 +264,12 @@ class World {
     if (this.animationDeltaMax > this.FRAME_TIME_MIN) {
       this.lastFrameMax = now;
     }
-
   }
 
+  /**
+   * Checks if the game animations are running in sync with the desired frame rate.
+   * @returns {boolean} True if animations are in sync, false otherwise.
+   */
   isInSync() {
     return this.animationDeltaMax > this.FRAME_TIME_MIN;
   }

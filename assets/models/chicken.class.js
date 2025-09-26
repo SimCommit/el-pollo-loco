@@ -137,6 +137,11 @@ class Chicken extends MovableObject {
     this.initChickenLoops();
   }
 
+  /**
+   * Initializes the chicken's animation and physics loops.
+   * Waits for world initialization before starting animations.
+   * Uses recursive setTimeout for initialization retry.
+   */
   initChickenLoops() {
     if (!worldIsReady) {
       setTimeout(() => {
@@ -150,8 +155,8 @@ class Chicken extends MovableObject {
 
   /**
    * Starts the chicken's animation loop.
-   * Updates the character state and triggers the corresponding behavior
-   * (e.g. walking animation or death handling) 60 times per second.
+   * Updates the character state and triggers the corresponding behavior.
+   * Synchronized with display refresh rate via requestAnimationFrame.
    */
   animate() {
     this.updateState();
@@ -179,8 +184,8 @@ class Chicken extends MovableObject {
 
   /**
    * Handles the behavior of the chicken in the "walking" state.
-   * Moves the chicken to the left and plays walking animation
-   * with frame skipping logic for performance-controlled animation speed.
+   * Moves the chicken to the left and plays walking animation.
+   * Animation updates are synchronized with world timing for consistent speed.
    */
   handleWalkingChicken() {
     if (!this.isAboveGround()) {

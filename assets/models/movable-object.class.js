@@ -72,12 +72,17 @@ class MovableObject extends DrawableObject {
    */
   SIDE_COLLISION_IGNORE_HEIGHT = 30;
 
+  /**
+   * Counter for frame-based animation timing and update control.
+   * Used to synchronize updates with display refresh rate.
+   * @type {number}
+   */
   frameCount = 0;
 
   /**
    * Applies gravity to the object by continuously updating its vertical position.
    * Gravity affects the object only when it is in the air or falling.
-   * Called at a fixed interval (60 FPS).
+   * Synchronized with display refresh rate via requestAnimationFrame.
    */
   applyGravity() {
     if (this.isAboveGround() || this.speedY > 0) {
@@ -90,8 +95,9 @@ class MovableObject extends DrawableObject {
 
   /**
    * Applies horizontal force to the object based on its current speed and direction.
-   * Used for knockback or sliding effects. Gradually slows down due to acceleration.
-   * Called at a fixed interval (30 FPS).
+   * Used for knockback or sliding effects. Updates every second frame to control motion smoothness.
+   * Movement speed is scaled by deltaTime for consistent motion across different frame rates.
+   * Stops movement at level boundaries and gradually reduces speed through acceleration.
    */
   applyHorizontalForce() {
     const updateEvery = 2;
@@ -102,11 +108,11 @@ class MovableObject extends DrawableObject {
       } else if (this.speedX > 0 && this.x >= this.world.level.level_end_x - 2) {
         this.speedX = 0;
       } else if (this.speedX < 0) {
-        this.x += this.speedX;
-        this.speedX += this.accelerationX;
+        this.x += this.speedX * 0.58 * world.deltaTime;
+        this.speedX += this.accelerationX * 0.58 * world.deltaTime;
       } else if (this.speedX > 0) {
-        this.x += this.speedX;
-        this.speedX -= this.accelerationX;
+        this.x += this.speedX * 0.58 * world.deltaTime;
+        this.speedX -= this.accelerationX * 0.58 * world.deltaTime;
       }
     }
 
@@ -413,7 +419,7 @@ class MovableObject extends DrawableObject {
   /**
    * Executes the throwing behavior of the object.
    * Initializes size and speed, applies direction, gravity and plays sound.
-   * Starts horizontal movement via interval.
+   * Movement is synchronized with display refresh rate.
    */
   throw() {
     if (world.endscreenTriggered) return;
@@ -428,6 +434,10 @@ class MovableObject extends DrawableObject {
     this.setHorizontalMovement();
   }
 
+  /**
+   * Updates horizontal position of a thrown object.
+   * Movement is synchronized with display refresh rate for smooth animation.
+   */
   setHorizontalMovement() {
     this.x += this.speedX * 0.45 * world.deltaTime;
 

@@ -2,16 +2,21 @@
 
 /**
  * Stores all interval IDs created via setStoppableInterval.
- * Used by stopAllIntervals() to clear all game-related intervals at once.
+ * Used to manage and clear all game intervals when needed.
  * @type {number[]}
  */
 let intervalIds = [];
 
+/**
+ * Stores all requestAnimationFrame IDs created via setStoppableRAF.
+ * Used to manage and cancel all animation frames when needed.
+ * @type {number[]}
+ */
 let rAFIds = [];
 
 /**
  * Creates a setInterval and registers its ID for global tracking.
- * This allows all such intervals to be stopped later via stopAllIntervals().
+ * This allows all such intervals to be stopped later via stopAllLoops().
  *
  * @param {Function} fn - The function to execute repeatedly.
  * @param {number} time - The interval delay in milliseconds.
@@ -21,11 +26,17 @@ function setStoppableInterval(fn, time) {
   intervalIds.push(id);
 }
 
+/**
+ * Creates a requestAnimationFrame call and registers its ID for global tracking.
+ * This allows all animation frames to be cancelled when needed.
+ *
+ * @param {Function} fn - The function to execute on the next animation frame.
+ * @returns {void}
+ */
 function setStoppableRAF(fn) {
   let id = requestAnimationFrame(fn);
   rAFIds.push(id);
 }
-
 
 /**
  * Removes an object from an array, optionally after a delay.

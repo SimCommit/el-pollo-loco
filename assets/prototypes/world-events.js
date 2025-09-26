@@ -62,7 +62,7 @@ World.prototype.checkCharacterDefeat = function () {
     this.endscreenTriggered = true;
     setTimeout(() => {
       this.showEndscreen(false);
-      stopAllIntervals();
+      stopAllLoops();
     }, 2000);
   }
 };
@@ -135,7 +135,7 @@ World.prototype.checkBossDefeat = function () {
     }, 3400);
     setTimeout(() => {
       this.showEndscreen(true);
-      stopAllIntervals();
+      stopAllLoops();
     }, 4000);
   }
 };

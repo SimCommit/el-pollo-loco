@@ -68,6 +68,11 @@ class ThrowableObject extends MovableObject {
    */
   damage = 50;
 
+  /**
+   * Counter for frame-based animation timing and update control.
+   * Used to synchronize updates with display refresh rate.
+   * @type {number}
+   */
   frameCount = 0;
 
   /**
@@ -101,7 +106,8 @@ class ThrowableObject extends MovableObject {
   /**
    * Starts the animation loop for the throwable object.
    * Updates the current state and triggers corresponding animation logic.
-   * Runs at 12 frames per second.
+   * Synchronized with display refresh rate via requestAnimationFrame.
+   * Updates state and animations every third frame when in sync.
    */
   animate() {
     const updateEvery = 3;

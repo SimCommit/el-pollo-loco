@@ -131,7 +131,6 @@ class Character extends MovableObject {
    * @type {number}
    */
   x = 110;
-  // x = 3000;
 
   /**
    * The current vertical position of the character.
@@ -222,9 +221,8 @@ class Character extends MovableObject {
   world;
 
   /**
-   * Creates a new Character instance and initializes its animation states.
-   * Loads all relevant image sequences, applies gravity and movement,
-   * and sets the initial state to "idle".
+   * Creates a new Character instance and initializes its base image.
+   * Loads all animation sequences for different character states.
    */
   constructor() {
     super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
@@ -236,6 +234,11 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_LONG_IDLE);
   }
 
+  /**
+   * Initializes the character's core gameplay loops and physics.
+   * Sets up gravity, horizontal movement, and animation cycles.
+   * Should be called after the character is fully constructed and world is set.
+   */
   initCharacterLoops() {
     this.applyGravity();
     this.applyHorizontalForce();

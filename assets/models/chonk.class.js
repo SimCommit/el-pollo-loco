@@ -6,6 +6,8 @@
  *
  * Represents a smaller variant of the chicken enemy.
  * Uses different sprites and a more compact hitbox.
+ * Inherits animation and movement behavior from Chicken class,
+ * synchronized with display refresh rate.
  */
 class Chonk extends Chicken {
   /**
@@ -59,7 +61,8 @@ class Chonk extends Chicken {
 
   /**
    * Creates a new Chonk instance at the specified position.
-   * Loads all required images and starts animation.
+   * Loads all required images and initializes animation loops
+   * after world initialization is complete.
    *
    * @param {number} x - Horizontal start position of Chonk.
    * @param {number} [y=328] - Vertical start position (default ground level for Chonk).

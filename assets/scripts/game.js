@@ -39,6 +39,11 @@ let loadedImageCount = 0;
  */
 let REQUIRED_IMAGE_COUNT = 260;
 
+/**
+ * Flag indicating whether the world is fully initialized and ready for animation loops.
+ * Used to synchronize the start of various animation and game loops.
+ * @type {boolean}
+ */
 let worldIsReady = false;
 
 /**
@@ -89,7 +94,7 @@ function prepareGameState() {
   showLoadingScreen();
   loadFromLocalStorage();
   SoundManager.stopAll();
-  stopAllIntervals();
+  stopAllLoops();
 }
 
 /**
@@ -133,7 +138,7 @@ function quitDuringPlay() {
  */
 function quitGame() {
   SoundManager.stopAll();
-  stopAllIntervals();
+  stopAllLoops();
   showElementById("start-screen");
   resetUi();
   blurButton(".btn");
@@ -141,10 +146,11 @@ function quitGame() {
 }
 
 /**
- * Clears all active intervals that were stored in the global interval list.
- * Used to fully stop game-related update loops (e.g. animation, movement).
+ * Clears all active animation frames and intervals.
+ * Cancels both setInterval-based timers and requestAnimationFrame loops
+ * to ensure clean game state transitions.
  */
-function stopAllIntervals() {
+function stopAllLoops() {
   intervalIds.forEach(clearInterval);
   rAFIds.forEach(cancelAnimationFrame);
 }

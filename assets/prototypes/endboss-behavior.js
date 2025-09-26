@@ -3,8 +3,7 @@
 /**
  * Starts the animation loop for the Endboss.
  * Updates the animation state and handles behavior based on the current state.
- *
- * Runs at a fixed interval of 60 FPS.
+ * Synchronized with display refresh rate via requestAnimationFrame.
  */
 Endboss.prototype.animate = function () {
   this.updateState();
@@ -17,6 +16,7 @@ Endboss.prototype.animate = function () {
 /**
  * Executes the main behavior logic based on the current state.
  * Delegates handling to the corresponding `handle<State>` method.
+ * All state handlers synchronize their animations with world timing.
  */
 Endboss.prototype.handleCurrentState = function () {
   switch (this.currentState) {
@@ -64,8 +64,8 @@ Endboss.prototype.preventBossLeavingBoundaries = function () {
 
 /**
  * Handles the Endboss behavior during the "dead" state.
- * Plays the death animation and triggers sound effects.
- * Once the animation is complete, the hitbox is disabled.
+ * Plays the death animation synchronized with frame timing
+ * and triggers sound effects when animation frames change.
  */
 Endboss.prototype.handleDead = function () {
   if (this.currentState === "dead") {
@@ -87,7 +87,8 @@ Endboss.prototype.handleDead = function () {
 
 /**
  * Handles the Endboss behavior during the "intro" state.
- * Plays walking, then alert animation with timing gates.
+ * Plays walking and alert animations with timing gates,
+ * synchronized with world frame timing via isInSync().
  */
 Endboss.prototype.handleIntro = function () {
   this.canTakeDamage = false;

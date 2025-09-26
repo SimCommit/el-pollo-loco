@@ -41,7 +41,7 @@ class Coin extends CollectibleObject {
 
   /**
    * Creates a new coin instance at the specified position.
-   * Loads all required images and starts the animation loop.
+   * Loads all required images and initializes animation after world is ready.
    *
    * @param {number} x - Horizontal position of the coin on the canvas.
    * @param {number} y - Vertical position of the coin on the canvas.
@@ -53,7 +53,11 @@ class Coin extends CollectibleObject {
     this.initCoinLoops();
   }
 
-    initCoinLoops() {
+  /**
+   * Initializes the coin's animation loop once the world is ready.
+   * Uses a recursive setTimeout to wait for world initialization.
+   */
+  initCoinLoops() {
     if (!worldIsReady) {
       setTimeout(() => {
         this.initCoinLoops();        
@@ -64,8 +68,9 @@ class Coin extends CollectibleObject {
   }
 
   /**
-   * Starts the animation loop for the coin.
-   * Plays through all available images in the IMAGES array at 5 FPS.
+   * Starts the animation loop for the coin, synchronized with the display refresh rate.
+   * Updates the coin's animation every 10 frames when in sync with world timing.
+   * Uses requestAnimationFrame for smooth rendering and optimal performance.
    */
   animate() {
     const updateEvery = 10;

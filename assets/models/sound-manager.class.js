@@ -243,6 +243,7 @@ class SoundManager {
    * Plays a sound once with specified settings.
    * Handles playback rate, volume, cooldown prevention, loop state, and starting time.
    * Skips playback if the sound is currently on cooldown.
+   * After playback ends, automatically reloads the sound to prepare it for next use. (Fix for Firefox and Safari)
    *
    * @param {HTMLAudioElement} sound - The sound to play.
    * @param {number} [playbackRate=1] - Speed multiplier for the sound (e.g. 0.5 = slower, 2 = faster).
@@ -260,7 +261,6 @@ class SoundManager {
     currentTime = 0
   ) {
     if (SoundManager.cooldowns.get(sound)) return;
-    // if (sound.readyState !== 4) sound.load();
     if (sound.readyState == 4) {
       SoundManager.configureSound(sound, playbackRate, volume, loop, currentTime);
       SoundManager.volumes.set(sound, sound.volume);
@@ -268,7 +268,6 @@ class SoundManager {
         sound.volume = 0;
       }
 
-      // console.log(sound.readyState);
       sound.play();
 
       SoundManager.cooldowns.set(sound, true);

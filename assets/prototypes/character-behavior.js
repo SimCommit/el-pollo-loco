@@ -1,11 +1,10 @@
 // character-behavior.js
 
 /**
- * Starts the animation loop for the character.
+ * Starts the animation loop for the character, synchronized with the display refresh rate.
  * Updates the animation state, handles character behavior based on state,
  * and tracks Y-position history for smooth motion.
- *
- * Runs at a fixed interval of 60 FPS.
+ * Uses requestAnimationFrame for optimal performance and smooth animations.
  */
 Character.prototype.animate = function () {
   this.updateState();
@@ -20,6 +19,7 @@ Character.prototype.animate = function () {
 /**
  * Executes the handler corresponding to the character's current state.
  * Uses a switch statement to call the appropriate behavior method.
+ * Each handler is synchronized with the display refresh rate and frame timing.
  */
 Character.prototype.handleCurrentState = function () {
   switch (this.currentState) {
@@ -114,10 +114,9 @@ Character.prototype.handleHurt = function () {
 
 /**
  * Handles the walking state of the character.
- * Plays the walking animation, moves the character based on keyboard input,
- * allows jumping, and plays footstep sounds.
- *
- * Movement is restricted by map boundaries and blocking objects.
+ * Plays the walking animation synchronized with frame timing,
+ * processes horizontal movement with direction updates,
+ * enables jumping, and manages walking sound effects.
  */
 Character.prototype.handleWalking = function () {
   if (this.currentState === "walking") {
@@ -183,7 +182,7 @@ Character.prototype.handleWalkingSound = function () {
 
 /**
  * Handles the jumping state of the character.
- * Plays the jumping animation at the configured frame delay and
+ * Plays the jumping animation synchronized with frame timing and
  * allows horizontal movement while airborne if the path is not blocked.
  */
 Character.prototype.handleJumping = function () {
@@ -300,3 +299,4 @@ Character.prototype.isblockedLeft = function () {
 Character.prototype.isOnTop = function () {
   return this.world.level.obstacles.some((obstacle) => this.isTouchingFromTop(obstacle));
 };
+
