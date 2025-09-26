@@ -8,11 +8,11 @@
  * Runs at a fixed interval of 60 FPS.
  */
 Character.prototype.animate = function () {
-    this.updateState();
-    this.handleCurrentState();
-    this.world.preventLeavingBoundaries();
-    this.world.cameraX = Math.round(-this.x + 100);
-    this.updateVerticalHistory();
+  this.updateState();
+  this.handleCurrentState();
+  this.world.preventLeavingBoundaries();
+  this.world.cameraX = Math.round(-this.x + 100);
+  this.updateVerticalHistory();
 
   setStoppableRAF(() => this.animate());
 };
@@ -65,15 +65,17 @@ Character.prototype.updateVerticalHistory = function () {
  */
 Character.prototype.handleDead = function () {
   if (this.currentState === "dead") {
-    if (this.currentImage < this.IMAGES_DYING.length) {
-      SoundManager.playOne(SoundManager.CHARACTER_DEAD, 1, 0.3, 2000);
-      if (this.skipFrame % this.frameDelay.dead === 0) {
-        this.playAnimation(this.IMAGES_DYING);
+    if (this.world.isInSync()) {
+      if (this.currentImage < this.IMAGES_DYING.length) {
+        SoundManager.playOne(SoundManager.CHARACTER_DEAD, 1, 0.3, 2000);
+        if (this.skipFrame % this.frameDelay.dead === 0) {
+          this.playAnimation(this.IMAGES_DYING);
+        }
+      } else {
+        this.img = this.imageCache["assets/img/2_character_pepe/5_dead/D-57.png"];
       }
-    } else {
-      this.img = this.imageCache["assets/img/2_character_pepe/5_dead/D-57.png"];
+      this.skipFrame += 1;
     }
-    this.skipFrame += 1;
   }
 };
 
@@ -83,11 +85,13 @@ Character.prototype.handleDead = function () {
  */
 Character.prototype.handleFrozen = function () {
   if (this.currentState === "frozen") {
-    if (this.skipFrame % this.frameDelay.idle === 0) {
-      this.playAnimation(this.IMAGES_IDLE);
-    }
+    if (this.world.isInSync()) {
+      if (this.skipFrame % this.frameDelay.idle === 0) {
+        this.playAnimation(this.IMAGES_IDLE);
+      }
 
-    this.skipFrame += 1;
+      this.skipFrame += 1;
+    }
   }
 };
 
@@ -97,11 +101,13 @@ Character.prototype.handleFrozen = function () {
  */
 Character.prototype.handleHurt = function () {
   if (this.currentState === "hurt") {
-    if (this.skipFrame % this.frameDelay.hurt === 0) {
-      this.playAnimation(this.IMAGES_HURT);
-    }
+    if (this.world.isInSync()) {
+      if (this.skipFrame % this.frameDelay.hurt === 0) {
+        this.playAnimation(this.IMAGES_HURT);
+      }
 
-    this.skipFrame += 1;
+      this.skipFrame += 1;
+    }
     SoundManager.playOne(SoundManager.CHARACTER_HURT, 1, 0.4, 1500);
   }
 };
@@ -115,11 +121,13 @@ Character.prototype.handleHurt = function () {
  */
 Character.prototype.handleWalking = function () {
   if (this.currentState === "walking") {
-    if (this.skipFrame % this.frameDelay.walking === 0) {
-      this.playAnimation(this.IMAGES_WALKING);
+    if (this.world.isInSync()) {
+      if (this.skipFrame % this.frameDelay.walking === 0) {
+        this.playAnimation(this.IMAGES_WALKING);
+      }
+      this.skipFrame += 1;
     }
 
-    this.skipFrame += 1;
     this.handleHorizontalMovement(true);
     this.handleJumpInput();
     this.handleWalkingSound();
@@ -180,12 +188,14 @@ Character.prototype.handleWalkingSound = function () {
  */
 Character.prototype.handleJumping = function () {
   if (this.currentState === "jumping") {
-    if (this.skipFrame % this.frameDelay.jumping === 0) {
-      this.playAnimation(this.IMAGES_JUMPING);
+    if (this.world.isInSync()) {
+      if (this.skipFrame % this.frameDelay.jumping === 0) {
+        this.playAnimation(this.IMAGES_JUMPING);
+      }
+      this.skipFrame += 1;
     }
 
     this.handleHorizontalMovement(false);
-    this.skipFrame += 1;
   }
 };
 
@@ -196,13 +206,14 @@ Character.prototype.handleJumping = function () {
  */
 Character.prototype.handleLongIdle = function () {
   if (this.currentState === "long_idle") {
-    if (this.skipFrame % this.frameDelay.longIdle === 0) {
-      this.playAnimation(this.IMAGES_LONG_IDLE);
-      SoundManager.playOne(SoundManager.CHARACTER_LONG_IDLE, 1, 0.3, 3700);
+    if (this.world.isInSync()) {
+      if (this.skipFrame % this.frameDelay.longIdle === 0) {
+        this.playAnimation(this.IMAGES_LONG_IDLE);
+        SoundManager.playOne(SoundManager.CHARACTER_LONG_IDLE, 1, 0.3, 3700);
+      }
+      this.skipFrame += 1;
     }
-
     this.handleJumpInput();
-    this.skipFrame += 1;
   }
 };
 
@@ -213,12 +224,14 @@ Character.prototype.handleLongIdle = function () {
  */
 Character.prototype.handleIdle = function () {
   if (this.currentState === "idle") {
-    if (this.skipFrame % this.frameDelay.idle === 0) {
-      this.playAnimation(this.IMAGES_IDLE);
+    if (this.world.isInSync()) {
+      if (this.skipFrame % this.frameDelay.idle === 0) {
+        this.playAnimation(this.IMAGES_IDLE);
+      }
+      this.skipFrame += 1;
     }
 
     this.handleJumpInput();
-    this.skipFrame += 1;
   }
 };
 

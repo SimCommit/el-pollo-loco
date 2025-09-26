@@ -66,7 +66,7 @@ class Coin extends CollectibleObject {
     }
     
     this.frameCount = (this.frameCount + 1) % updateEvery;
-    requestAnimationFrame(() => this.animate());
+    setStoppableRAF(() => this.animate());
   }
 }
 

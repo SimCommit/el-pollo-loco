@@ -161,7 +161,12 @@ class World {
   minion3IsAlive = false;
 
   lastFrameTime = performance.now();
+  lastFrameMax = performance.now();
+
   deltaTime = 0;
+  animationDeltaMax = 0;
+
+  FRAME_TIME_MIN = 1.5;
 
   /**
    * Creates a new game world instance and initializes rendering, entities, and game loop.
@@ -204,12 +209,28 @@ class World {
     this.checkEnemySpawn();
     this.checkChickenSoundTrigger();
 
+    this.setDeltas();
+
+    setStoppableRAF(() => this.run());
+  }
+
+  setDeltas() {
     const now = performance.now();
     this.deltaTime = (now - this.lastFrameTime) / 10;
     this.lastFrameTime = now;
-    // console.log(this.deltaTime);
+    console.log(this.deltaTime);
 
-    setStoppableRAF(() => this.run());
+    this.animationDeltaMax = (now - this.lastFrameMax) / 10;
+
+    if (this.animationDeltaMax > this.FRAME_TIME_MIN) {
+      this.lastFrameMax = now;
+    }
+
+    // console.log(this.animationDeltaMax);
+  }
+
+  isInSync() {
+    return this.animationDeltaMax > this.FRAME_TIME_MIN;
   }
 
   /**
