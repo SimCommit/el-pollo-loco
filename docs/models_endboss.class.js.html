@@ -33,6 +33,7 @@
  *
  * Represents the final boss enemy in the game.
  * Inherits movement and physics from MovableObject.
+ * Uses frame-based animations synchronized with display refresh rate.
  */
 class Endboss extends MovableObject {
   /**
@@ -52,15 +53,16 @@ class Endboss extends MovableObject {
    * @type {{ dead: number, hurt: number, alert: number, prepare: number, attack: number, flying: number, landing: number, walking: number, intro1: number }}
    */
   frameDelay = {
-    dead: 7,
-    hurt: 3,
-    alert: 9,
-    prepare: 6,
-    attack: 8,
-    flying: 5,
-    landing: 5,
-    walking: 5,
+    dead: 14,
+    hurt: 6,
+    alert: 18,
+    prepare: 12,
+    attack: 16,
+    flying: 10,
+    landing: 10,
+    walking: 8,
     intro1: 10,
+    intro2: 12,
   };
 
   /**
@@ -104,7 +106,7 @@ class Endboss extends MovableObject {
    * Movement speed of the boss.
    * @type {number}
    */
-  speed = 7;
+  speed = 7 / 2;
 
   /**
    * Timestamp when the boss entered the "prepare" state (ms since epoch).
@@ -123,6 +125,18 @@ class Endboss extends MovableObject {
    * @type {number}
    */
   recoverStart = 0;
+
+  /**
+   * Timestamp when boss starts spawning minion chickens (ms since epoch).
+   * @type {number}
+   */
+  spawningStart = 0;
+
+  /**
+   * Timestamp when boss starts retreating (ms since epoch).
+   * @type {number}
+   */
+  retreatStart = 0;
 
   /**
    * Timestamp when the boss intro sequence started (ms since epoch).
@@ -161,6 +175,18 @@ class Endboss extends MovableObject {
   hasRecentlyAttacked = false;
 
   /**
+   * Cooldown flag: prevents immediately spawning new minions after the last spawn.
+   * @type {boolean}
+   */
+  hasRecentlySpawned = false;
+
+  /**
+   * Cooldown flag: prevents immediately retreating after the last retreat.
+   * @type {boolean}
+   */
+  hasRecentlyRetreated = false;
+
+  /**
    * Current on/off state for the vulnerable blink overlay.
    * @type {boolean}
    */
@@ -170,7 +196,7 @@ class Endboss extends MovableObject {
    * Interval between blink toggles in milliseconds.
    * @type {number}
    */
-  blinkIntervalMs = 210;
+  blinkIntervalMs = 150;
 
   /**
    * Timestamp of the last blink toggle (ms since epoch).
@@ -183,8 +209,13 @@ class Endboss extends MovableObject {
    *
    * @type {number}
    */
-  acceleration = 1;
+  acceleration = 1.2;
 
+  /**
+   * Whether the boss can currently take damage.
+   * Used to implement invulnerability phases.
+   * @type {boolean}
+   */
   canTakeDamage = true;
 
   /**
@@ -221,6 +252,23 @@ class Endboss extends MovableObject {
     "assets/img/4_enemie_boss_chicken/2_alert/G8.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G9.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G10.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
+  ];
+
+  /**
+   * Image paths for the alert animation intro sequence.
+   * @type {string[]}
+   */
+  IMAGES_INTRO2 = [
+    "assets/img/4_enemie_boss_chicken/2_alert/G9.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G10.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
+    "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G11.png",
     "assets/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
@@ -304,18 +352,27 @@ class Endboss extends MovableObject {
     super().loadImage(this.IMAGES_ALERT[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ALERT);
+    this.loadImages(this.IMAGES_INTRO2);
     this.loadImages(this.IMAGES_PREPARE);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_FLYING);
     this.loadImages(this.IMAGES_LANDING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.applyGravity();
+
     /**
      * Horizontal starting position of the boss in the level.
      * @type {number}
      */
     this.x = 3800;
+  }
+
+  /**
+   * Initializes the boss's physics and animation systems.
+   * Sets up gravity effects synchronized with display refresh rate.
+   */
+  initEndbossLoops() {
+    this.applyGravity();
   }
 
   /**
@@ -332,9 +389,8 @@ class Endboss extends MovableObject {
 
   /**
    * Draws the boss on the provided 2D canvas context.
-   * - If hurt: applies hue shift and calls {@link drawHurtIndicator}.
-   * - If vulnerable and not in endscreen: applies blink effect via {@link drawVulnerableIndicator}.
-   * - Otherwise: draws normally without filters.
+   * Updates visual effects based on state (hurt/vulnerable) and timing.
+   * Animation updates are synchronized with frame timing.
    *
    * @param {CanvasRenderingContext2D} ctx - The 2D rendering context.
    */
@@ -347,7 +403,7 @@ class Endboss extends MovableObject {
       return;
     }
 
-    if (this.canTakeDamage &amp;&amp; !endscreenOn) {
+    if (!this.canTakeDamage &amp;&amp; !endscreenOn &amp;&amp; this.world.introPlayed) {
       this.drawVulnerableIndicator(ctx, now);
       return;
     }
@@ -389,7 +445,7 @@ class Endboss extends MovableObject {
     ctx.save();
 
     if (this.blinkOn) {
-      ctx.filter = "grayscale(30%) saturate(70%)";
+      ctx.filter = "invert(100%)";
     }
 
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -403,7 +459,8 @@ class Endboss extends MovableObject {
   setMaxX() {
     this.maxX = this.world.level.level_end_x - 214;
   }
-}</code></pre>
+}
+</code></pre>
         </article>
     </section>
 
@@ -413,13 +470,13 @@ class Endboss extends MovableObject {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="BottleBar.html">BottleBar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Chonk.html">Chonk</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinBar.html">CoinBar</a></li><li><a href="CollectibleObject.html">CollectibleObject</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="EndbossHealthBar.html">EndbossHealthBar</a></li><li><a href="HealthBar.html">HealthBar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="Obstacle.html">Obstacle</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="UiObject.html">UiObject</a></li><li><a href="World.html">World</a></li></ul><h3>Global</h3><ul><li><a href="global.html#REQUIRED_IMAGE_COUNT">REQUIRED_IMAGE_COUNT</a></li><li><a href="global.html#blurButton">blurButton</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#despawnObject">despawnObject</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#getElementByIdHelper">getElementByIdHelper</a></li><li><a href="global.html#handleImageLoad">handleImageLoad</a></li><li><a href="global.html#hideControlButtons">hideControlButtons</a></li><li><a href="global.html#hideElementById">hideElementById</a></li><li><a href="global.html#hideEndscreenButtons">hideEndscreenButtons</a></li><li><a href="global.html#hideGameMenuButtons">hideGameMenuButtons</a></li><li><a href="global.html#hideLoadingScreen">hideLoadingScreen</a></li><li><a href="global.html#hideStartScreen">hideStartScreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializePresentation">initializePresentation</a></li><li><a href="global.html#initializeWorld">initializeWorld</a></li><li><a href="global.html#intervalIds">intervalIds</a></li><li><a href="global.html#intiLevel">intiLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#lastInput">lastInput</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadFromLocalStorage">loadFromLocalStorage</a></li><li><a href="global.html#loadedImageCount">loadedImageCount</a></li><li><a href="global.html#prepareGameState">prepareGameState</a></li><li><a href="global.html#quitDuringPlay">quitDuringPlay</a></li><li><a href="global.html#quitGame">quitGame</a></li><li><a href="global.html#removeFromArray">removeFromArray</a></li><li><a href="global.html#resetUi">resetUi</a></li><li><a href="global.html#restartDuringPlay">restartDuringPlay</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#setStoppableInterval">setStoppableInterval</a></li><li><a href="global.html#shouldShowTouchControls">shouldShowTouchControls</a></li><li><a href="global.html#showControlButtons">showControlButtons</a></li><li><a href="global.html#showElementById">showElementById</a></li><li><a href="global.html#showEndscreenButtons">showEndscreenButtons</a></li><li><a href="global.html#showGameMenuButtons">showGameMenuButtons</a></li><li><a href="global.html#showKeyboardInstructions">showKeyboardInstructions</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#showTouchInstructions">showTouchInstructions</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#stopAllIntervals">stopAllIntervals</a></li><li><a href="global.html#toggleFullscreen">toggleFullscreen</a></li><li><a href="global.html#toggleInstructions">toggleInstructions</a></li><li><a href="global.html#updateMuteButtonState">updateMuteButtonState</a></li><li><a href="global.html#world">world</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="BottleBar.html">BottleBar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Chonk.html">Chonk</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinBar.html">CoinBar</a></li><li><a href="CollectibleObject.html">CollectibleObject</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="EndbossHealthBar.html">EndbossHealthBar</a></li><li><a href="HealthBar.html">HealthBar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="ObjectShadow.html">ObjectShadow</a></li><li><a href="Obstacle.html">Obstacle</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="UiObject.html">UiObject</a></li><li><a href="World.html">World</a></li></ul><h3>Global</h3><ul><li><a href="global.html#REQUIRED_IMAGE_COUNT">REQUIRED_IMAGE_COUNT</a></li><li><a href="global.html#blurButton">blurButton</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#despawnObject">despawnObject</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#getElementByIdHelper">getElementByIdHelper</a></li><li><a href="global.html#handleImageLoad">handleImageLoad</a></li><li><a href="global.html#hideControlButtons">hideControlButtons</a></li><li><a href="global.html#hideElementById">hideElementById</a></li><li><a href="global.html#hideEndscreenButtons">hideEndscreenButtons</a></li><li><a href="global.html#hideGameMenuButtons">hideGameMenuButtons</a></li><li><a href="global.html#hideInstructions">hideInstructions</a></li><li><a href="global.html#hideLoadingScreen">hideLoadingScreen</a></li><li><a href="global.html#hideStartScreen">hideStartScreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initMuteDefaultUsingStorage">initMuteDefaultUsingStorage</a></li><li><a href="global.html#initializePresentation">initializePresentation</a></li><li><a href="global.html#initializeWorld">initializeWorld</a></li><li><a href="global.html#intervalIds">intervalIds</a></li><li><a href="global.html#intiLevel">intiLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#lastInput">lastInput</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadFromLocalStorage">loadFromLocalStorage</a></li><li><a href="global.html#loadedImageCount">loadedImageCount</a></li><li><a href="global.html#prepareGameState">prepareGameState</a></li><li><a href="global.html#quitDuringPlay">quitDuringPlay</a></li><li><a href="global.html#quitGame">quitGame</a></li><li><a href="global.html#rAFIds">rAFIds</a></li><li><a href="global.html#removeFromArray">removeFromArray</a></li><li><a href="global.html#resetUi">resetUi</a></li><li><a href="global.html#restartDuringPlay">restartDuringPlay</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#setStoppableInterval">setStoppableInterval</a></li><li><a href="global.html#setStoppableRAF">setStoppableRAF</a></li><li><a href="global.html#shouldShowTouchControls">shouldShowTouchControls</a></li><li><a href="global.html#showControlButtons">showControlButtons</a></li><li><a href="global.html#showElementById">showElementById</a></li><li><a href="global.html#showEndscreenButtons">showEndscreenButtons</a></li><li><a href="global.html#showGameMenuButtons">showGameMenuButtons</a></li><li><a href="global.html#showInstructions">showInstructions</a></li><li><a href="global.html#showKeyboardInstructions">showKeyboardInstructions</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#showTouchInstructions">showTouchInstructions</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#stopAllLoops">stopAllLoops</a></li><li><a href="global.html#toggleFullscreen">toggleFullscreen</a></li><li><a href="global.html#toggleInfoAndControls">toggleInfoAndControls</a></li><li><a href="global.html#toggleInstructions">toggleInstructions</a></li><li><a href="global.html#updateMuteButtonState">updateMuteButtonState</a></li><li><a href="global.html#world">world</a></li><li><a href="global.html#worldIsReady">worldIsReady</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Aug 14 2025 13:57:19 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Fri Sep 26 2025 16:12:04 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

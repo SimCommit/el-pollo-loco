@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: MovableObject</title>
+    <title>JSDoc: Class: ObjectShadow</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: MovableObject</h1>
+    <h1 class="page-title">Class: ObjectShadow</h1>
 
     
 
@@ -28,7 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>MovableObject<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>ObjectShadow<span class="signature">(objectX, y<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">Represents a shadow object that follows a character or object in the game.</div>
         
     
 </header>
@@ -39,12 +41,20 @@
         
 
     
-
-    
-    <h4 class="name" id="MovableObject"><span class="type-signature"></span>new MovableObject<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h2>Constructor</h2>
     
 
     
+    <h4 class="name" id="ObjectShadow"><span class="type-signature"></span>new ObjectShadow<span class="signature">(objectX, y<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates a new shadow object.
+</div>
 
 
 
@@ -54,6 +64,108 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>objectX</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The initial X coordinate of the shadow</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    395
+                
+                </td>
+            
+
+            <td class="description last">The Y coordinate of the shadow, defaults to 395</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -89,7 +201,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line3">line 3</a>
+        <a href="models_object-shadow.class.js.html">models/object-shadow.class.js</a>, <a href="models_object-shadow.class.js.html#line7">line 7</a>
     </li></ul></dd>
     
 
@@ -129,7 +241,7 @@
 
 
     <ul>
-        <li><a href="DrawableObject.html">DrawableObject</a></li>
+        <li><a href="MovableObject.html">MovableObject</a></li>
     </ul>
 
 
@@ -147,6 +259,78 @@
 
     
         <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="IMAGES_SHADOW"><span class="type-signature"></span>IMAGES_SHADOW<span class="type-signature"> :Array.&lt;string></span></h4>
+
+
+
+
+<div class="description">
+    Image sequence for shadow animation.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array.&lt;string></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_object-shadow.class.js.html">models/object-shadow.class.js</a>, <a href="models_object-shadow.class.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 
         
             
@@ -183,6 +367,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#SIDE_COLLISION_IGNORE_HEIGHT">MovableObject#SIDE_COLLISION_IGNORE_HEIGHT</a>
+    </li></ul></dd>
     
 
     
@@ -256,6 +445,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#TOP_COLLISION_MARGIN">MovableObject#TOP_COLLISION_MARGIN</a>
+    </li></ul></dd>
+    
 
     
 
@@ -327,6 +521,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#accelerationX">MovableObject#accelerationX</a>
+    </li></ul></dd>
     
 
     
@@ -402,7 +601,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="DrawableObject.html#currentImage">DrawableObject#currentImage</a>
+        <a href="MovableObject.html#currentImage">MovableObject#currentImage</a>
     </li></ul></dd>
     
 
@@ -477,6 +676,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#frameCount">MovableObject#frameCount</a>
+    </li></ul></dd>
+    
 
     
 
@@ -549,6 +753,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#health">MovableObject#health</a>
+    </li></ul></dd>
+    
 
     
 
@@ -570,6 +779,78 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="height"><span class="type-signature"></span>height<span class="type-signature"> :number</span></h4>
+
+
+
+
+<div class="description">
+    The height of the shadow in pixels.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_object-shadow.class.js.html">models/object-shadow.class.js</a>, <a href="models_object-shadow.class.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -620,6 +901,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#hitOnCooldown">MovableObject#hitOnCooldown</a>
+    </li></ul></dd>
     
 
     
@@ -691,12 +977,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#imageCache">DrawableObject#imageCache</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#imageCache">MovableObject#imageCache</a>
+    </li></ul></dd>
     
 
     
@@ -771,12 +1057,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#img">DrawableObject#img</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#img">MovableObject#img</a>
+    </li></ul></dd>
     
 
     
@@ -850,6 +1136,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#invincibleTime">MovableObject#invincibleTime</a>
+    </li></ul></dd>
+    
 
     
 
@@ -921,6 +1212,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#invincibleTrigger">MovableObject#invincibleTrigger</a>
+    </li></ul></dd>
     
 
     
@@ -994,6 +1290,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#lastHit">MovableObject#lastHit</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1066,6 +1367,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#longIdleThreshold">MovableObject#longIdleThreshold</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1136,12 +1442,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#offset">DrawableObject#offset</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#offset">MovableObject#offset</a>
+    </li></ul></dd>
     
 
     
@@ -1213,12 +1519,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#otherDirection">DrawableObject#otherDirection</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#otherDirection">MovableObject#otherDirection</a>
+    </li></ul></dd>
     
 
     
@@ -1292,6 +1598,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#skipFrame">MovableObject#skipFrame</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1329,10 +1640,170 @@
 
 
         
+            
+<h4 class="name" id="width"><span class="type-signature"></span>width<span class="type-signature"> :number</span></h4>
+
+
+
+
+<div class="description">
+    The width of the shadow in pixels.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_object-shadow.class.js.html">models/object-shadow.class.js</a>, <a href="models_object-shadow.class.js.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
     
 
     
         <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="animate"><span class="type-signature"></span>animate<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Starts the animation loop for the shadow.Updates shadow position and animation each frame,synchronized with the display refresh rate.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_object-shadow.class.js.html">models/object-shadow.class.js</a>, <a href="models_object-shadow.class.js.html#line62">line 62</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
@@ -1371,6 +1842,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#applyGravity">MovableObject#applyGravity</a>
+    </li></ul></dd>
     
 
     
@@ -1460,6 +1936,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#applyHorizontalForce">MovableObject#applyHorizontalForce</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1547,6 +2028,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#disableHitbox">MovableObject#disableHitbox</a>
+    </li></ul></dd>
     
 
     
@@ -1683,12 +2169,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#draw">DrawableObject#draw</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#draw">MovableObject#draw</a>
+    </li></ul></dd>
     
 
     
@@ -1825,12 +2311,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#drawFrame">DrawableObject#drawFrame</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#drawFrame">MovableObject#drawFrame</a>
+    </li></ul></dd>
     
 
     
@@ -1918,12 +2404,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#getHitboxBorderBottom">DrawableObject#getHitboxBorderBottom</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#getHitboxBorderBottom">MovableObject#getHitboxBorderBottom</a>
+    </li></ul></dd>
     
 
     
@@ -2033,12 +2519,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#getHitboxBorderLeft">DrawableObject#getHitboxBorderLeft</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#getHitboxBorderLeft">MovableObject#getHitboxBorderLeft</a>
+    </li></ul></dd>
     
 
     
@@ -2148,12 +2634,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#getHitboxBorderRight">DrawableObject#getHitboxBorderRight</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#getHitboxBorderRight">MovableObject#getHitboxBorderRight</a>
+    </li></ul></dd>
     
 
     
@@ -2263,12 +2749,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#getHitboxBorderTop">DrawableObject#getHitboxBorderTop</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#getHitboxBorderTop">MovableObject#getHitboxBorderTop</a>
+    </li></ul></dd>
     
 
     
@@ -2380,6 +2866,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#handleHitCooldown">MovableObject#handleHitCooldown</a>
+    </li></ul></dd>
+    
 
     
 
@@ -2401,6 +2892,94 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line182">line 182</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleShadow"><span class="type-signature"></span>handleShadow<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Updates the shadow position to match the character's position and plays the shadow animation.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_object-shadow.class.js.html">models/object-shadow.class.js</a>, <a href="models_object-shadow.class.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -2611,6 +3190,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#hit">MovableObject#hit</a>
+    </li></ul></dd>
+    
 
     
 
@@ -2632,6 +3216,94 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line155">line 155</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="initShadowLoops"><span class="type-signature"></span>initShadowLoops<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Initializes the shadow's animation loop.Should be called after the shadow is fully constructed and world is set.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_object-shadow.class.js.html">models/object-shadow.class.js</a>, <a href="models_object-shadow.class.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -2698,6 +3370,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isAboveGround">MovableObject#isAboveGround</a>
+    </li></ul></dd>
     
 
     
@@ -2856,12 +3533,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#isColliding">DrawableObject#isColliding</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isColliding">MovableObject#isColliding</a>
+    </li></ul></dd>
     
 
     
@@ -2973,6 +3650,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isDead">MovableObject#isDead</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3082,6 +3764,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isFalling">MovableObject#isFalling</a>
+    </li></ul></dd>
     
 
     
@@ -3242,6 +3929,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isHigher">MovableObject#isHigher</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3351,6 +4043,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isHurt">MovableObject#isHurt</a>
+    </li></ul></dd>
     
 
     
@@ -3462,6 +4159,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isInvincible">MovableObject#isInvincible</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3571,6 +4273,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isLongIdle">MovableObject#isLongIdle</a>
+    </li></ul></dd>
     
 
     
@@ -3731,6 +4438,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isTouchingFromLeft">MovableObject#isTouchingFromLeft</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3890,6 +4602,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isTouchingFromRight">MovableObject#isTouchingFromRight</a>
+    </li></ul></dd>
+    
 
     
 
@@ -4048,6 +4765,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#isTouchingFromTop">MovableObject#isTouchingFromTop</a>
+    </li></ul></dd>
     
 
     
@@ -4228,6 +4950,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#jump">MovableObject#jump</a>
+    </li></ul></dd>
+    
 
     
 
@@ -4363,12 +5090,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#loadImage">DrawableObject#loadImage</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#loadImage">MovableObject#loadImage</a>
+    </li></ul></dd>
     
 
     
@@ -4505,12 +5232,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#loadImages">DrawableObject#loadImages</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#loadImages">MovableObject#loadImages</a>
+    </li></ul></dd>
     
 
     
@@ -4600,6 +5327,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#moveLeft">MovableObject#moveLeft</a>
+    </li></ul></dd>
+    
 
     
 
@@ -4687,6 +5419,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#moveRight">MovableObject#moveRight</a>
+    </li></ul></dd>
     
 
     
@@ -4823,12 +5560,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="DrawableObject.html#playAnimation">DrawableObject#playAnimation</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#playAnimation">MovableObject#playAnimation</a>
+    </li></ul></dd>
     
 
     
@@ -4989,6 +5726,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#playStateAnimation">MovableObject#playStateAnimation</a>
+    </li></ul></dd>
     
 
     
@@ -5221,6 +5963,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#rebound">MovableObject#rebound</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5308,6 +6055,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#resetCurrentImage">MovableObject#resetCurrentImage</a>
+    </li></ul></dd>
     
 
     
@@ -5418,6 +6170,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#resetSkipFrame">MovableObject#resetSkipFrame</a>
+    </li></ul></dd>
     
 
     
@@ -5578,6 +6335,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#secondsSince">MovableObject#secondsSince</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5688,6 +6450,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#setHorizontalMovement">MovableObject#setHorizontalMovement</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5776,6 +6543,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#setThrowValues">MovableObject#setThrowValues</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5797,6 +6569,143 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line450">line 450</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setWorld"><span class="type-signature"></span>setWorld<span class="signature">(world)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sets the world reference for the shadow object.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>world</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="World.html">World</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The game world instance</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_object-shadow.class.js.html">models/object-shadow.class.js</a>, <a href="models_object-shadow.class.js.html#line53">line 53</a>
     </li></ul></dd>
     
 
@@ -5913,6 +6822,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#takeDamage">MovableObject#takeDamage</a>
+    </li></ul></dd>
+    
 
     
 
@@ -6001,6 +6915,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#throw">MovableObject#throw</a>
+    </li></ul></dd>
+    
 
     
 
@@ -6088,6 +7007,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="MovableObject.html#updateHitTimestamps">MovableObject#updateHitTimestamps</a>
+    </li></ul></dd>
     
 
     

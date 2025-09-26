@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: BottleBar</title>
+    <title>JSDoc: Source: models/object-shadow.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,338 +17,93 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: BottleBar</h1>
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2><span class="attribs"><span class="type-signature"></span></span>BottleBar<span class="signature">(percentage)</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description">BottleBarA status bar that displays the current amount of bottles (ammo).Extends the StatusBar class and uses orange bottle images.</div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-    <h2>Constructor</h2>
-    
-
-    
-    <h4 class="name" id="BottleBar"><span class="type-signature"></span>new BottleBar<span class="signature">(percentage)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Creates a new BottleBar instance and sets the initial percentage.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>percentage</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The initial percentage to be displayed (0–100).</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_bottle-bar.class.js.html">models/bottle-bar.class.js</a>, <a href="models_bottle-bar.class.js.html#line8">line 8</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="IMAGES"><span class="type-signature"></span>IMAGES<span class="type-signature"> :Array.&lt;string></span></h4>
-
-
-
-
-<div class="description">
-    Paths to the images representing different bottle levels.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Array.&lt;string></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_bottle-bar.class.js.html">models/bottle-bar.class.js</a>, <a href="models_bottle-bar.class.js.html#line15">line 15</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="y"><span class="type-signature"></span>y<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    The vertical position of the bottle bar on the screen.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_bottle-bar.class.js.html">models/bottle-bar.class.js</a>, <a href="models_bottle-bar.class.js.html#line29">line 29</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">Source: models/object-shadow.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// object-shadow.class.js
+
+/**
+ * Represents a shadow object that follows a character or object in the game.
+ * @extends MovableObject
+ */
+class ObjectShadow extends MovableObject {
+  /**
+   * Image sequence for shadow animation.
+   *
+   * @type {string[]}
+   */
+  IMAGES_SHADOW = ["assets/img/2_character_pepe/pepes-shadow-5.png"];
+
+  /**
+   * The width of the shadow in pixels.
+   *
+   * @type {number}
+   */
+  width = 100;
+
+  /**
+   * The height of the shadow in pixels.
+   *
+   * @type {number}
+   */
+  height = 38;
+
+  /**
+   * Creates a new shadow object.
+   * @param {number} objectX - The initial X coordinate of the shadow
+   * @param {number} [y=395] - The Y coordinate of the shadow, defaults to 395
+   */
+  constructor(objectX, y = 395) {
+    super().loadImage("assets/img/2_character_pepe/pepes-shadow-5.png");
+    this.loadImages(this.IMAGES_SHADOW);
+    this.x = objectX;
+    this.y = y;
+  }
+
+  /**
+   * Initializes the shadow's animation loop.
+   * Should be called after the shadow is fully constructed and world is set.
+   */
+  initShadowLoops() {
+    this.animate();
+  }
+
+  /**
+   * Sets the world reference for the shadow object.
+   * @param {World} world - The game world instance
+   */
+  setWorld(world) {
+    this.world = world;
+  }
+
+  /**
+   * Starts the animation loop for the shadow.
+   * Updates shadow position and animation each frame,
+   * synchronized with the display refresh rate.
+   */
+  animate() {
+    this.handleShadow();
+
+    setStoppableRAF(() => this.animate());
+  }
+
+  /**
+   * Updates the shadow position to match the character's position and plays the shadow animation.
+   */
+  handleShadow() {
+    this.x = this.world.character.x;
+    this.playAnimation(this.IMAGES_SHADOW);
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
