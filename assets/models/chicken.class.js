@@ -140,7 +140,7 @@ class Chicken extends MovableObject {
   initChickenLoops() {
     if (!worldIsReady) {
       setTimeout(() => {
-        this.initChickenLoops();        
+        this.initChickenLoops();
       }, 200);
     } else {
       this.applyGravity();
@@ -187,10 +187,12 @@ class Chicken extends MovableObject {
       this.moveLeft();
     }
 
-    if (this.skipFrame % this.frameDelayWalking === 0) {
-      this.playAnimation(this.IMAGES_WALKING);
+    if (world.isInSync()) {
+      if (this.skipFrame % this.frameDelayWalking === 0) {
+        this.playAnimation(this.IMAGES_WALKING);
+      }
+      this.skipFrame += 1;
     }
-    this.skipFrame += 1;
   }
 
   /**

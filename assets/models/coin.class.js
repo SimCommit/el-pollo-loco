@@ -50,23 +50,34 @@ class Coin extends CollectibleObject {
     super(x, y);
     this.loadImage(this.IMAGES[0]);
     this.loadImages(this.IMAGES);
-    this.animate();
+    this.initCoinLoops();
+  }
+
+    initCoinLoops() {
+    if (!worldIsReady) {
+      setTimeout(() => {
+        this.initCoinLoops();        
+      }, 200);
+    } else {
+      this.animate();
+    }
   }
 
   /**
    * Starts the animation loop for the coin.
    * Plays through all available images in the IMAGES array at 5 FPS.
    */
-
   animate() {
     const updateEvery = 10;
 
-    if (this.frameCount === 0) {
-      this.playAnimation(this.IMAGES);
+    if (world.isInSync()) {
+      if (this.frameCount === 0) {
+        this.playAnimation(this.IMAGES);
+      }
+
+      this.frameCount = (this.frameCount + 1) % updateEvery;
     }
-    
-    this.frameCount = (this.frameCount + 1) % updateEvery;
+
     setStoppableRAF(() => this.animate());
   }
 }
-

@@ -106,20 +106,23 @@ class ThrowableObject extends MovableObject {
   animate() {
     const updateEvery = 3;
 
-    if (this.frameCount === 0) {
-      this.updateState();
+    if (world.isInSync()) {
+      if (this.frameCount === 0) {
+        this.updateState();
 
-      switch (this.currentState) {
-        case "broken":
-          this.handleBroken();
-          break;
-        case "thrown":
-          this.handleThrown();
-          break;
+        switch (this.currentState) {
+          case "broken":
+            this.handleBroken();
+            break;
+          case "thrown":
+            this.handleThrown();
+            break;
+        }
       }
-    }
 
-    this.frameCount = (this.frameCount + 1) % updateEvery;
+      this.frameCount = (this.frameCount + 1) % updateEvery;
+    }
+    
     setStoppableRAF(() => this.animate());
   }
 

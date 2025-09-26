@@ -94,12 +94,16 @@ Endboss.prototype.handleIntro = function () {
   let timePassed = this.secondsSince(this.introStart);
 
   if (timePassed < 1.8) {
-    this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.intro1);
+    if (world.isInSync()) {
+      this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.intro1);
+    }
     this.moveLeft();
   }
 
   if (timePassed >= 1.8 && timePassed < 2.5) {
-    this.playStateAnimation(this.IMAGES_INTRO2, this.frameDelay.intro2);
+    if (world.isInSync()) {
+      this.playStateAnimation(this.IMAGES_INTRO2, this.frameDelay.intro2);
+    }
   }
 };
 
@@ -110,7 +114,9 @@ Endboss.prototype.handleIntro = function () {
 Endboss.prototype.handleHurt = function () {
   if (this.currentState === "hurt") {
     this.canTakeDamage = false;
-    this.playStateAnimation(this.IMAGES_HURT, this.frameDelay.hurt);
+    if (world.isInSync()) {
+      this.playStateAnimation(this.IMAGES_HURT, this.frameDelay.hurt);
+    }
     SoundManager.playOne(SoundManager.BOSS_HURT_2, 1, 0.7, 2000);
     SoundManager.playOne(SoundManager.BOSS_HURT, 1, 0.3, 3000);
   }
@@ -124,7 +130,9 @@ Endboss.prototype.handlePrepare = function () {
   if (this.currentState === "prepare") {
     this.canTakeDamage = true;
     let timePassed = this.secondsSince(this.prepareStart);
-    this.playStateAnimation(this.IMAGES_PREPARE, this.frameDelay.prepare);
+    if (world.isInSync()) {
+      this.playStateAnimation(this.IMAGES_PREPARE, this.frameDelay.prepare);
+    }
 
     if (timePassed > 0.7) {
       this.isAttacking = true;
@@ -145,11 +153,15 @@ Endboss.prototype.handleAttack = function () {
     this.canTakeDamage = false;
 
     if (timePassed < 1.4 && this.x > 2740) {
-      this.playStateAnimation(this.IMAGES_ATTACK, this.frameDelay.attack);
+      if (world.isInSync()) {
+        this.playStateAnimation(this.IMAGES_ATTACK, this.frameDelay.attack);
+      }
       SoundManager.playOne(SoundManager.BOSS_ATTACK, 1, 0.3, 2000);
       this.moveLeft(8 / 2);
     } else if (timePassed < 1.7 || (this.x === 2740 && timePassed < 1.7)) {
-      this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
+      if (world.isInSync()) {
+        this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
+      }
     } else {
       this.endAttackstate();
     }
@@ -181,7 +193,9 @@ Endboss.prototype.handleRecover = function () {
     if (timePassed < 1.55) {
       this.handleRecoveryMovement(timePassed);
     } else if (timePassed < 1.8) {
-      this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
+      if (world.isInSync()) {
+        this.playStateAnimation(this.IMAGES_LANDING, this.frameDelay.landing);
+      }
     } else {
       this.endRecoverState();
     }
@@ -201,7 +215,9 @@ Endboss.prototype.handleRecoveryMovement = function (timePassed) {
   this.canTakeDamage = true;
   this.jumpRecover();
   this.moveRight(7 / 2);
-  this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
+  if (world.isInSync()) {
+    this.playStateAnimation(this.IMAGES_FLYING, this.frameDelay.flying);
+  }
   if (this.world.bottleAmmo <= 1) {
     if (timePassed > 0.1 && timePassed < 0.2 && this.world.countMinionsAlive() === 0) {
       this.world.spawnChicken(0);
@@ -223,7 +239,9 @@ Endboss.prototype.handleRetreat = function () {
     this.canTakeDamage = true;
     this.isAllowedToWalk = false;
     let timePassed = this.secondsSince(this.retreatStart);
-    this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
+    if (world.isInSync()) {
+      this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
+    }
     if (timePassed < 2 && this.x < 3800) {
       this.moveRight(7 / 2);
     } else {
@@ -248,7 +266,9 @@ Endboss.prototype.endRecoverState = function () {
  */
 Endboss.prototype.handleAlert = function () {
   this.canTakeDamage = true;
-  this.playStateAnimation(this.IMAGES_ALERT, this.frameDelay.alert);
+  if (world.isInSync()) {
+    this.playStateAnimation(this.IMAGES_ALERT, this.frameDelay.alert);
+  }
 };
 
 /**
@@ -257,7 +277,9 @@ Endboss.prototype.handleAlert = function () {
  */
 Endboss.prototype.handleWalking = function () {
   this.canTakeDamage = true;
-  this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
+  if (world.isInSync()) {
+    this.playStateAnimation(this.IMAGES_WALKING, this.frameDelay.walking);
+  }
 
   if (this.x > this.minX) {
     this.moveLeft(4 / 2);

@@ -65,7 +65,7 @@ Character.prototype.updateVerticalHistory = function () {
  */
 Character.prototype.handleDead = function () {
   if (this.currentState === "dead") {
-    if (this.world.isInSync()) {
+    if (world.isInSync()) {
       if (this.currentImage < this.IMAGES_DYING.length) {
         SoundManager.playOne(SoundManager.CHARACTER_DEAD, 1, 0.3, 2000);
         if (this.skipFrame % this.frameDelay.dead === 0) {
@@ -85,7 +85,7 @@ Character.prototype.handleDead = function () {
  */
 Character.prototype.handleFrozen = function () {
   if (this.currentState === "frozen") {
-    if (this.world.isInSync()) {
+    if (world.isInSync()) {
       if (this.skipFrame % this.frameDelay.idle === 0) {
         this.playAnimation(this.IMAGES_IDLE);
       }
@@ -101,7 +101,7 @@ Character.prototype.handleFrozen = function () {
  */
 Character.prototype.handleHurt = function () {
   if (this.currentState === "hurt") {
-    if (this.world.isInSync()) {
+    if (world.isInSync()) {
       if (this.skipFrame % this.frameDelay.hurt === 0) {
         this.playAnimation(this.IMAGES_HURT);
       }
@@ -121,7 +121,7 @@ Character.prototype.handleHurt = function () {
  */
 Character.prototype.handleWalking = function () {
   if (this.currentState === "walking") {
-    if (this.world.isInSync()) {
+    if (world.isInSync()) {
       if (this.skipFrame % this.frameDelay.walking === 0) {
         this.playAnimation(this.IMAGES_WALKING);
       }
@@ -188,7 +188,7 @@ Character.prototype.handleWalkingSound = function () {
  */
 Character.prototype.handleJumping = function () {
   if (this.currentState === "jumping") {
-    if (this.world.isInSync()) {
+    if (world.isInSync()) {
       if (this.skipFrame % this.frameDelay.jumping === 0) {
         this.playAnimation(this.IMAGES_JUMPING);
       }
@@ -206,7 +206,7 @@ Character.prototype.handleJumping = function () {
  */
 Character.prototype.handleLongIdle = function () {
   if (this.currentState === "long_idle") {
-    if (this.world.isInSync()) {
+    if (world.isInSync()) {
       if (this.skipFrame % this.frameDelay.longIdle === 0) {
         this.playAnimation(this.IMAGES_LONG_IDLE);
         SoundManager.playOne(SoundManager.CHARACTER_LONG_IDLE, 1, 0.3, 3700);
@@ -224,7 +224,7 @@ Character.prototype.handleLongIdle = function () {
  */
 Character.prototype.handleIdle = function () {
   if (this.currentState === "idle") {
-    if (this.world.isInSync()) {
+    if (world.isInSync()) {
       if (this.skipFrame % this.frameDelay.idle === 0) {
         this.playAnimation(this.IMAGES_IDLE);
       }

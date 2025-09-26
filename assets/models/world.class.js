@@ -217,16 +217,13 @@ class World {
   setDeltas() {
     const now = performance.now();
     this.deltaTime = (now - this.lastFrameTime) / 10;
-    this.lastFrameTime = now;
-    console.log(this.deltaTime);
-
     this.animationDeltaMax = (now - this.lastFrameMax) / 10;
+    this.lastFrameTime = now;
 
     if (this.animationDeltaMax > this.FRAME_TIME_MIN) {
       this.lastFrameMax = now;
     }
 
-    // console.log(this.animationDeltaMax);
   }
 
   isInSync() {
