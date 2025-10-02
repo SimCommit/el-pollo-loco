@@ -1,5 +1,7 @@
 # El Pollo Loco
 
+![El Pollo Loco Cover](https://simon-fuchs.net/assets/img/portfolio/project/el-pollo-loco.png)
+
 A 2D object-oriented jump’n’run game rendered with HTML5 Canvas.
 
 The project was originally created in April/May 2025 as part of my Frontend Intensive Course at Developer Akademie. 
