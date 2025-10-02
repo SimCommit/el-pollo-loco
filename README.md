@@ -1,6 +1,6 @@
 # El Pollo Loco
 
-![El Pollo Loco Cover](https://simon-fuchs.net/assets/img/portfolio/project/el-pollo-loco.png)
+![El Pollo Loco Cover](https://github.com/SimCommit/el-pollo-loco/blob/main/thumbnail-11.png)
 
 A 2D object-oriented jump’n’run game rendered with HTML5 Canvas.
 
