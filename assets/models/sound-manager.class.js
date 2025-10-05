@@ -26,175 +26,275 @@ class SoundManager {
    * @type {HTMLAudioElement}
    *
    * */
-  static CHARACTER_DEAD = new Audio("assets/audio/character/dead_1.mp3");
+  static CHARACTER_DEAD = (() => {
+    const sound = new Audio("assets/audio/character/dead_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound when the character gets hurt
    * @type {HTMLAudioElement}
    *
    * */
-  static CHARACTER_HURT = new Audio("assets/audio/character/hurt_2.mp3");
+  static CHARACTER_HURT = (() => {
+    const sound = new Audio("assets/audio/character/hurt_2.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound when the character jumps
    * @type {HTMLAudioElement}
    *
    * */
-  static CHARACTER_JUMP = new Audio("assets/audio/character/jump_2.mp3");
+  static CHARACTER_JUMP = (() => {
+    const sound = new Audio("assets/audio/character/jump_2.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound for walking steps
    * @type {HTMLAudioElement}
    *
    * */
-  static CHARACTER_WALK = new Audio("assets/audio/character/walk_2.mp3");
+  static CHARACTER_WALK = (() => {
+    const sound = new Audio("assets/audio/character/walk_2.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Snoring sound played during a long idle animation
    * @type {HTMLAudioElement}
    *
    * */
-  static CHARACTER_LONG_IDLE = new Audio("assets/audio/character/long_idle_1.mp3");
+  static CHARACTER_LONG_IDLE = (() => {
+    const sound = new Audio("assets/audio/character/long_idle_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound played when the character throws a bottle
    * @type {HTMLAudioElement}
    *
    * */
-  static CHARACTER_THROW = new Audio("assets/audio/character/throw_1.mp3");
+  static CHARACTER_THROW = (() => {
+    const sound = new Audio("assets/audio/character/throw_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound for low bounce effect
    * @type {HTMLAudioElement}
    *
    * */
-  static CHARACTER_BOUNCE_LOW = new Audio("assets/audio/character/bounce_1.mp3");
+  static CHARACTER_BOUNCE_LOW = (() => {
+    const sound = new Audio("assets/audio/character/bounce_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound for high bounce effect
    * @type {HTMLAudioElement}
    *
    * */
-  static CHARACTER_BOUNCE_HIGH = new Audio("assets/audio/character/bounce_2.mp3");
+  static CHARACTER_BOUNCE_HIGH = (() => {
+    const sound = new Audio("assets/audio/character/bounce_2.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Random chicken clucking sound
    * @type {HTMLAudioElement}
    *
    * */
-  static CHICKEN_NOISE = new Audio("assets/audio/chicken/noise_1.mp3");
+  static CHICKEN_NOISE = (() => {
+    const sound = new Audio("assets/audio/chicken/noise_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Chicken spawn sound
    * @type {HTMLAudioElement}
    *
    * */
-  static CHICKEN_SPAWN_1 = new Audio("assets/audio/chicken/spawn-1.mp3");
+  static CHICKEN_SPAWN_1 = (() => {
+    const sound = new Audio("assets/audio/chicken/spawn-1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Frying sound played when the boss dies
    * @type {HTMLAudioElement}
    *
    * */
-  static BOSS_DEAD = new Audio("assets/audio/endboss/dead_3.mp3");
+  static BOSS_DEAD = (() => {
+    const sound = new Audio("assets/audio/endboss/dead_3.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound played when the boss takes damage
    * @type {HTMLAudioElement}
    *
    * */
-  static BOSS_HURT = new Audio("assets/audio/endboss/hurt_1.mp3");
+  static BOSS_HURT = (() => {
+    const sound = new Audio("assets/audio/endboss/hurt_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound played when the boss takes damage
    * @type {HTMLAudioElement}
    *
    * */
-  static BOSS_HURT_2 = new Audio("assets/audio/endboss/dead_2.mp3");
+  static BOSS_HURT_2 = (() => {
+    const sound = new Audio("assets/audio/endboss/dead_2.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound played when the boss performs an attack
    * @type {HTMLAudioElement}
    *
    * */
-  static BOSS_ATTACK = new Audio("assets/audio/endboss/attack_1.mp3");
+  static BOSS_ATTACK = (() => {
+    const sound = new Audio("assets/audio/endboss/attack_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Intro sound played when the boss is triggered
    * @type {HTMLAudioElement}
    *
    * */
-  static BOSS_INTRO = new Audio("assets/audio/endboss/intro_1.mp3");
+  static BOSS_INTRO = (() => {
+    const sound = new Audio("assets/audio/endboss/intro_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Glass shattering sound played when the character throws a bottle
    * @type {HTMLAudioElement}
    *
    * */
-  static BOTTLE_BREAK = new Audio("assets/audio/salsa_bottle/break_1.mp3");
+  static BOTTLE_BREAK = (() => {
+    const sound = new Audio("assets/audio/salsa_bottle/break_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound played when the player collects a bottle
    * @type {HTMLAudioElement}
    *
    * */
-  static BOTTLE_COLLECT = new Audio("assets/audio/salsa_bottle/collect_1.mp3");
+  static BOTTLE_COLLECT = (() => {
+    const sound = new Audio("assets/audio/salsa_bottle/collect_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound played when a bottle drops into sand
    * @type {HTMLAudioElement}
    *
    * */
-  static BOTTLE_DROP = new Audio("assets/audio/salsa_bottle/drop-into-sand-1.mp3");
+  static BOTTLE_DROP = (() => {
+    const sound = new Audio("assets/audio/salsa_bottle/drop-into-sand-1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound played when the player collects a coin
    * @type {HTMLAudioElement}
    *
    * */
-  static COIN_COLLECT = new Audio("assets/audio/coin/collect_1.mp3");
+  static COIN_COLLECT = (() => {
+    const sound = new Audio("assets/audio/coin/collect_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Sound played when the coin bar is full and a reward is triggered
    * @type {HTMLAudioElement}
    *
    * */
-  static COIN_BAR_FILLED_UP = new Audio("assets/audio/coin/bar_filled_up_1.mp3");
+  static COIN_BAR_FILLED_UP = (() => {
+    const sound = new Audio("assets/audio/coin/bar_filled_up_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Looping background music for regular gameplay
    * @type {HTMLAudioElement}
    *
    * */
-  static MUSIC_BACKGROUND = new Audio("assets/audio/music/background_loop_1.mp3");
+  static MUSIC_BACKGROUND = (() => {
+    const sound = new Audio("assets/audio/music/background_loop_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Intro music played before the boss fight begins
    * @type {HTMLAudioElement}
    *
    * */
-  static MUSIC_BOSS_INTRO = new Audio("assets/audio/music/boss_intro_1.mp3");
+  static MUSIC_BOSS_INTRO = (() => {
+    const sound = new Audio("assets/audio/music/boss_intro_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Music played during the boss fight
    * @type {HTMLAudioElement}
    *
    * */
-  static MUSIC_BOSS_FIGHT = new Audio("assets/audio/music/boss_7.mp3");
+  static MUSIC_BOSS_FIGHT = (() => {
+    const sound = new Audio("assets/audio/music/boss_7.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Music played on game over screen
    * @type {HTMLAudioElement}
    *
    * */
-  static MUSIC_GAME_OVER = new Audio("assets/audio/music/game_over_1.mp3");
+  static MUSIC_GAME_OVER = (() => {
+    const sound = new Audio("assets/audio/music/game_over_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Music played during game victory screen
    * @type {HTMLAudioElement}
    *
    * */
-  static MUSIC_GAME_WON = new Audio("assets/audio/music/credits_1.mp3");
+  static MUSIC_GAME_WON = (() => {
+    const sound = new Audio("assets/audio/music/credits_1.mp3");
+    sound.muted = SoundManager.isMuted;
+    return sound;
+  })();
 
   /**
    * Collection of all defined sound objects in the game.
@@ -264,11 +364,11 @@ class SoundManager {
     if (sound.readyState == 4) {
       SoundManager.configureSound(sound, playbackRate, volume, loop, currentTime);
       SoundManager.volumes.set(sound, sound.volume);
-      if (SoundManager.isMuted) {
-        sound.volume = 0;
-      }
+      sound.muted = SoundManager.isMuted;
 
-      sound.play();
+      sound.play().catch((error) => {
+        console.log('Audio konnte nicht abgespielt werden:', error);
+      });
 
       SoundManager.cooldowns.set(sound, true);
       setTimeout(() => {
@@ -343,7 +443,7 @@ class SoundManager {
   static muteAll() {
     SoundManager.allSounds.forEach((sound) => {
       SoundManager.volumes.set(sound, sound.volume);
-      sound.volume = 0;
+      sound.muted = true;
     });
     SoundManager.isMuted = true;
   }
@@ -354,6 +454,7 @@ class SoundManager {
    */
   static unmuteAll() {
     SoundManager.allSounds.forEach((sound) => {
+      sound.muted = false;
       const savedVolume = SoundManager.volumes.get(sound);
       if (typeof savedVolume === "number" && isFinite(savedVolume)) {
         sound.volume = savedVolume;
