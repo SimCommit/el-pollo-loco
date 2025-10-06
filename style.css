@@ -256,7 +256,8 @@ canvas {
 
 #input-instructions {
   margin: 0;
-  width: 100%;
+  max-width: 100%;
+  width: clamp(19rem, 84.474vh + 2.105rem, 39.063rem);
   height: 100%;
 }
 
