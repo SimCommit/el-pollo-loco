@@ -268,15 +268,17 @@ canvas {
   text-align: justify;
   padding: 24px;
   color: black;
-  font-family: "Stardos Stencil";
+  font-family: "Stardos Stencil", Times, serif;
   font-size: 20px;
   background-color: var(--light-brown);
   height: var(--height-instructions);
   width: auto;
 }
 
-strong {
-  font-size: 24px;
+aside {
+  margin-top: 10px;
+  font-style: italic;
+  font-size: 16px;
 }
 
 .legal-links {
@@ -420,6 +422,10 @@ strong {
 
   .btn-overlay {
     width: 100%;
+  }
+
+  #info {
+    font-size: 18px;
   }
 }
 
