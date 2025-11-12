@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Pollo Loco</title>
+    <title>setInterval vs. requestAnimationFrame</title>
 
     <script src="./assets/scripts/helpers.js"></script>
     <script src="./assets/scripts/ui-screens.js"></script>
@@ -49,11 +49,11 @@
 
 <body onload="init()">
     <main>
-        <h2>El Pollo Loco</h2>
+        <h2>Chrome</h2>
 
         <section id="start-screen" class="start-screen">
             <div class="start-screen-content">
-                <h1>El Pollo Loco</h1>
+                <h1>Chrome</h1>
 
                 <div class="btn-wrapper">
                     <button class="btn btn-start" onclick="startGame(), hideElementById('start-screen')">
@@ -100,7 +100,7 @@
                 <div class="game-menu-wrapper">
                     <div class="game-menu">
                         <div class="game-menu-content">
-                            <button id="mute-btn" class="btn btn-mute" onclick="SoundManager.toggleMuteAll()">
+                            <button style="display: none;" id="mute-btn" class="btn btn-mute" onclick="SoundManager.toggleMuteAll()">
                                 <img src="assets/img/ui/mute-icon-1.png" alt="Mute Icon">
                             </button>
                             <button id="restart" class="btn btn-restart" onclick="restartDuringPlay()">

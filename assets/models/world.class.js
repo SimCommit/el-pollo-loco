@@ -182,15 +182,14 @@ class World {
     this.setWorld();
 
     // DeltaTime-Testobjekte (beide sollen ca. 200px/s erreichen)
-    this.squareRequest = { x: 50, y: 100, size: 30, speed: 200 }; // speed in px/s
-    this.squareInterval = { x: 50, y: 300, size: 30, speed: 200 };
+    this.squareRequest = { x: 50, y: 400, size: 30, speed: 200 }; // speed in px/s
+    this.squareInterval = { x: 50, y: 200, size: 30, speed: 200 };
 
-    this.squareNoDeltaRequest = { x: 50, y: 200, size: 30, speed: 3.3 };
-    this.squareNoDeltaInterval = { x: 50, y: 400, size: 30, speed: 3.3 }; // ~200px/s bei 60fps
+    this.squareNoDeltaRequest = { x: 50, y: 300, size: 30, speed: 3.3 };
+    this.squareNoDeltaInterval = { x: 50, y: 100, size: 30, speed: 3.3 }; // ~200px/s bei 60fps
 
     this.lastFrameTime = performance.now();
     this.lastFrameTime2 = performance.now();
-
 
     this.loopRequest();
     this.loopInterval();
@@ -248,8 +247,8 @@ class World {
   }
 
   drawRequest() {
-    // oberen Bereich löschen
-    this.ctx.clearRect(0, 0, this.canvas.width, 250);
+    // unteren Bereich löschen
+    this.ctx.clearRect(0, 250, this.canvas.width, 250);
 
     // Quadrat mit DeltaTime (oben, blau)
     this.ctx.fillStyle = "blue";
@@ -268,16 +267,19 @@ class World {
     );
 
     // Label
-    this.ctx.fillStyle = "white";
-    this.ctx.fillText("Mit DeltaTime via requestAnimationFrame (blau)", 20, 90);
 
+    this.ctx.font = "20px Inter";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText("Ohne DeltaTime via requestAnimationFrame (grün)", 20, 190);
+    this.ctx.fillText("requestAnimationFrame: mit DeltaTime (blau)", 20, 390);
+
+    this.ctx.font = "20px Inter";
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText("requestAnimationFrame: ohne DeltaTime via (grün)", 20, 290);
   }
 
   drawInterval() {
-    // unteren Bereich löschen
-    this.ctx.clearRect(0, 250, this.canvas.width, 250);
+        // oberen Bereich löschen
+    this.ctx.clearRect(0, 0, this.canvas.width, 250);
 
     // Quadrat ohne DeltaTime (unten, rot)
     this.ctx.fillStyle = "red";
@@ -296,11 +298,13 @@ class World {
     );
 
     // Label
+    this.ctx.font = "20px Inter";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText("Mit DeltaTime via Interval 1000 / 60 (rot)", 20, 290);
+    this.ctx.fillText("Interval: 60 mal pro Sekunde mit DeltaTime (rot)", 20, 190);
 
+    this.ctx.font = "20px Inter";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText("Ohne DeltaTime via Interval 1000 / 60 (gelb)", 20, 390);
+    this.ctx.fillText("Interval: 60 mal pro Sekunde ohne DeltaTime (gelb)", 20, 90);
   }
 
   /**
