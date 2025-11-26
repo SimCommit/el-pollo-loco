@@ -11,6 +11,9 @@ Character.prototype.animate = function () {
   this.handleCurrentState();
   this.world.preventLeavingBoundaries();
   this.world.cameraX = Math.round(-this.x + 100);
+
+  console.log(-this.x + 100); //test
+
   this.updateVerticalHistory();
 
   setStoppableRAF(() => this.animate());
@@ -144,13 +147,13 @@ Character.prototype.handleHorizontalMovement = function (updateFacing = false) {
   if (
     this.world.keyboard.RIGHT &&
     this.x < this.world.level.level_end_x &&
-    !this.isblockedRight()
+    !this.isBlockedRight()
   ) {
     if (updateFacing) this.otherDirection = false;
     this.moveRight();
   }
 
-  if (this.world.keyboard.LEFT && this.x > -200 && !this.isblockedLeft()) {
+  if (this.world.keyboard.LEFT && this.x > -200 && !this.isBlockedLeft()) {
     if (updateFacing) this.otherDirection = true;
     this.moveLeft();
   }
@@ -278,7 +281,7 @@ Character.prototype.resolveState = function () {
  *
  * @returns {boolean} True if an obstacle is touching the character from the left.
  */
-Character.prototype.isblockedRight = function () {
+Character.prototype.isBlockedRight = function () {
   return this.world.level.obstacles.some((obstacle) => this.isTouchingFromLeft(obstacle));
 };
 
@@ -287,7 +290,7 @@ Character.prototype.isblockedRight = function () {
  *
  * @returns {boolean} True if an obstacle is touching the character from the right.
  */
-Character.prototype.isblockedLeft = function () {
+Character.prototype.isBlockedLeft = function () {
   return this.world.level.obstacles.some((obstacle) => this.isTouchingFromRight(obstacle));
 };
 

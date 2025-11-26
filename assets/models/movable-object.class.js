@@ -87,7 +87,7 @@ class MovableObject extends DrawableObject {
   applyGravity() {
     if (this.isAboveGround() || this.speedY > 0) {
       this.y -= (this.speedY / 2) * 0.6 * world.deltaTime;
-      this.speedY -= this.acceleration / 2 * 0.58 * world.deltaTime;
+      this.speedY -= (this.acceleration / 2) * 0.58 * world.deltaTime;
     }
 
     setStoppableRAF(() => this.applyGravity());
@@ -110,9 +110,15 @@ class MovableObject extends DrawableObject {
       } else if (this.speedX < 0) {
         this.x += this.speedX * 0.58 * world.deltaTime;
         this.speedX += this.accelerationX * 0.58 * world.deltaTime;
+        if (this.speedX > -1) {
+          this.speedX = 0;
+        }
       } else if (this.speedX > 0) {
         this.x += this.speedX * 0.58 * world.deltaTime;
         this.speedX -= this.accelerationX * 0.58 * world.deltaTime;
+        if (this.speedX < 1) {
+          this.speedX = 0;
+        }
       }
     }
 
