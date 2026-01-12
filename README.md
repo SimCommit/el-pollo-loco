@@ -5,10 +5,10 @@
 A 2D object-oriented platformer rendered with HTML5 Canvas.
 
 ## Live Demo
-Play the game: https://el-pollo-loco.simon-fuchs.net/
+🎮 [Play the Game](https://el-pollo-loco.simon-fuchs.net/)
 
 ## Documentation
-📖 [Project Documentation](https://simcommit.github.io/el-pollo-loco/)
+📖 [View the Documentation](https://simcommit.github.io/el-pollo-loco/)
 
 ## Gameplay & Features
 - Side-scrolling platformer with jumping and combat mechanics
