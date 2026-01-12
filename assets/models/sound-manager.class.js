@@ -366,10 +366,6 @@ class SoundManager {
       SoundManager.volumes.set(sound, sound.volume);
       sound.muted = SoundManager.isMuted;
 
-      sound.play().catch((error) => {
-        console.log('Audio konnte nicht abgespielt werden:', error);
-      });
-
       SoundManager.cooldowns.set(sound, true);
       setTimeout(() => {
         SoundManager.cooldowns.set(sound, false);

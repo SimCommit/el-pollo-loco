@@ -11,9 +11,6 @@ Character.prototype.animate = function () {
   this.handleCurrentState();
   this.world.preventLeavingBoundaries();
   this.world.cameraX = Math.round(-this.x + 100);
-
-  console.log(-this.x + 100); //test
-
   this.updateVerticalHistory();
 
   setStoppableRAF(() => this.animate());
