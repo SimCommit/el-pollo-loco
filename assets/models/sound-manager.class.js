@@ -358,13 +358,16 @@ class SoundManager {
     volume = 0.2,
     cooldown = 0,
     loop = false,
-    currentTime = 0
+    currentTime = 0,
   ) {
     if (SoundManager.cooldowns.get(sound)) return;
     if (sound.readyState == 4) {
       SoundManager.configureSound(sound, playbackRate, volume, loop, currentTime);
       SoundManager.volumes.set(sound, sound.volume);
       sound.muted = SoundManager.isMuted;
+      sound.play().catch((error) => {
+        console.log("Could not play audio: ", error);
+      });
 
       SoundManager.cooldowns.set(sound, true);
       setTimeout(() => {
