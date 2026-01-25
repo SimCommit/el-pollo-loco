@@ -1,12 +1,31 @@
 # El Pollo Loco
 
-![El Pollo Loco Cover](https://github.com/SimCommit/el-pollo-loco/blob/main/thumbnail-11.png)
+![El Pollo Loco Cover](./thumbnail-11.png)
 
-A 2D object-oriented jump’n’run game rendered with HTML5 Canvas.
+A 2D object-oriented platformer rendered with HTML5 Canvas.
 
-The project was originally created in April/May 2025 as part of my Frontend Intensive Course at Developer Akademie. 
-A basic concept for the game loop and project structure, as well as some assets, were provided. 
-I designed the gameplay, levels, and overall user experience myself.
-After completing the course, I picked the project back up to implement additional ideas and improvements.
+## Live Demo
+🎮 [Play the Game](https://el-pollo-loco.simon-fuchs.net/)
 
-📖 [Project Documentation](https://simcommit.github.io/el-pollo-loco/)
+## Documentation
+📖 [View the Documentation](https://simcommit.github.io/el-pollo-loco/)
+
+## Gameplay & Features
+- Side-scrolling platformer with jumping and combat mechanics
+- Collectable items:
+  - Coins
+  - Salsa bottles (used as throwable weapons)
+- Health system:
+  - Taking damage from enemies and environmental hazards
+  - Restoring health by collecting coins
+- Multiple enemy types with distinct behaviors
+- Boss fight in a dedicated arena
+- Some enemies can be used to the player's advantage
+
+![El Pollo Loco Gameplay](./docs/screenshots/el-pollo-loco-screenshot-gameplay-2.png)
+
+## Controls & Platforms
+- Desktop: keyboard controls
+- Mobile devices: touch controls
+
+![El Pollo Loco Menu Controls](./docs/screenshots/el-pollo-loco-screenshot-menu-1.png)
